@@ -1319,5 +1319,5 @@ export default function HomePage() {
       <Insights />
       <CtaBanner />
     </>
-  )
-}
+  ) 
+} 
