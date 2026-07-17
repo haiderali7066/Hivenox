@@ -981,7 +981,7 @@ function Specialists() {
                       fill
                       priority={i < 3}
                       sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover transition-transform duration-700 "
                     />
 
                     {/* Grid Pattern */}
@@ -989,7 +989,7 @@ function Specialists() {
 
                     {/* Content */}
                     <div className="relative flex h-full flex-col justify-between p-5">
-                      <div className="flex items-start justify-between">
+                      {/* <div className="flex items-start justify-between">
                         <span className="flex size-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white backdrop-blur-md">
                           <Icon className="size-5" />
                         </span>
@@ -999,9 +999,9 @@ function Specialists() {
                             Add-on
                           </span>
                         )}
-                      </div>
+                      </div> */}
 
-                      <div>
+                      {/* <div>
                         <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/70">
                           {s.code}
                         </p>
@@ -1013,7 +1013,7 @@ function Specialists() {
                         <p className="mt-1 text-xs text-white/80">
                           {s.tagline}
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 
@@ -1072,11 +1072,11 @@ function Specialists() {
 
         {/* Enterprise Banner */}
         <Reveal delay={200} direction="scale">
-          <div className="relative mt-10 overflow-hidden rounded-3xl border border-violet-200/50 bg-gradient-to-br from-violet-50 via-white to-blue-50 p-8 sm:grid sm:grid-cols-[1.3fr_1fr] sm:items-center sm:gap-10">
+          <div className="relative mt-10 overflow-hidden rounded-3xl border border-violet-200/50 bg-gradient-to-br from-blue-50 via-white to-blue-50 p-8 sm:grid sm:grid-cols-[1.3fr_1fr] sm:items-center sm:gap-10">
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-200/30 blur-3xl" />
             <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-blue-200/30 blur-3xl" />
             <div className="relative">
-              <span className="inline-flex items-center rounded-full bg-violet-100 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-violet-700">
+              <span className="inline-flex items-center rounded-full bg-blue-100 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-blue-700">
                 07 · Enterprise Growth OS
               </span>
               <h3 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
@@ -1088,19 +1088,19 @@ function Specialists() {
               <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                 {enterpriseFeatures.map((f) => (
                   <li key={f} className="flex gap-2 text-[13px] text-slate-600">
-                    <FiCheck className="mt-0.5 size-3.5 shrink-0 text-violet-600" />
+                    <FiCheck className="mt-0.5 size-3.5 shrink-0 text-blue-600" />
                     {f}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="relative mt-8 text-center sm:mt-0">
-              <p className="text-4xl font-bold tracking-tight text-violet-600 sm:text-5xl">From $2,999</p>
+              <p className="text-4xl font-bold tracking-tight text-blue-600 sm:text-5xl">From $2,999</p>
               <p className="mt-1 text-xs font-bold uppercase tracking-wide text-slate-400">AUD / month · ex. GST</p>
               <Link
                 href="/contact"
                 className={cn(
-                  'mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/40 hover:scale-[1.02] sm:w-auto',
+                  'mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-900 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-[1.02] sm:w-auto',
                   focusRing,
                 )}
               >
