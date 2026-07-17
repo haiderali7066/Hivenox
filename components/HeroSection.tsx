@@ -178,7 +178,7 @@ export default function HeroSection() {
             <span className="relative whitespace-nowrap block mt-2">
               <span className="absolute -inset-1 block -skew-y-2 bg-blue-600 rounded-lg"></span>
               <span className="relative bg-gradient-to-r from-white via-blue-300 to-white bg-clip-text text-transparent animate-gradient-x bg-[length:200%_auto]">
-                entire business.
+                Entire Business.
               </span>
             </span>
           </motion.h1>
@@ -209,7 +209,7 @@ export default function HeroSection() {
             </Link>
             
             <Link 
-              href="/book-demo"
+              href="/contact#form"
               className="group w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-4 text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
             >
               <PlayCircle className="h-4 w-4 text-blue-600 transition-transform group-hover:scale-110" />

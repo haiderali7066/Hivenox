@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
+import SmoothScroll from '../components/SmoothScroll'
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -56,6 +57,7 @@ export default function RootLayout({
     >
       <body className="antialiased font-sans">
         <SiteHeader />
+        <SmoothScroll />
         <main>{children}</main>
         <SiteFooter />
         {process.env.NODE_ENV === 'production' && <Analytics />}

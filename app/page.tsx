@@ -19,6 +19,8 @@ import {
 import { FaPinterest, FaThreads, FaXTwitter } from 'react-icons/fa6'
 import Image from 'next/image'
 import HeroSection from '@/components/HeroSection'
+import { Cpu, Database, RefreshCw, Share2, Users, Zap } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 /* ── Utilities ───────────────────────────────────────────────────── */
 function cn(...classes: Array<string | false | null | undefined>) {
@@ -372,101 +374,167 @@ function EverythingConnected() {
 }
 
 /* ── 2. Platform advantage — DARK SECTION ────────────────────────── */
+
+
+// --- Mock Data (Replace with your actual content if needed) ---
 const advantageBenefits = [
   {
-    title: 'Shared data across every product',
-    description: 'A new lead in CRM instantly updates SalesFlow, Books, Analytics, and AI Workers.',
-    icon: FiDatabase,
+    title: "Single Source of Truth",
+    description: "Say goodbye to scattered spreadsheets. Every department pulls from the exact same live data seamlessly.",
+    icon: Database,
   },
   {
-    title: 'Native bilingual platform',
-    description: 'Every dashboard, report, workflow, and AI conversation works seamlessly in Arabic and English.',
-    icon: FiGlobe,
+    title: "Zero Integrations Required",
+    description: "Stop paying for costly API bridges. Hivenox products are natively connected out of the box.",
+    icon: Zap,
   },
   {
-    title: 'AI Workers powered by real business data',
-    description: 'Unlike generic AI tools, HIVENOX Workers operate directly inside your ERP using live business information.',
-    icon: FiCpu,
+    title: "Instant Cross-Department Sync",
+    description: "When a sale closes, inventory drops, and finance updates instantly without manual data entry.",
+    icon: RefreshCw,
   },
-]
+];
 
 const architectureFlow = [
-  { label: 'AI Workers', icon: FiCpu },
-  { label: 'CRM · Finance · HR · Inventory · Operations', icon: FiGrid },
-  { label: 'One Shared Database', icon: FiDatabase },
-]
+  { label: "Data entered by Sales", icon: Users },
+  { label: "Processed by Hivenox Core", icon: Cpu },
+  { label: "Available everywhere", icon: Share2 },
+];
 
-function PlatformAdvantage() {
+export function PlatformAdvantage() {
   return (
-    <section className="relative overflow-hidden bg-slate-950 py-28">
-      <ParticleField count={40} color="rgba(99,102,241,0.12)" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(99,102,241,0.08),transparent_50%),radial-gradient(circle_at_80%_50%,rgba(139,92,246,0.08),transparent_50%)]" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-          <div>
-            <SectionHeading
-              align="left"
-              eyebrow="The platform advantage"
-              title="One database. Every department. Zero silos."
-              description="Traditional software forces businesses to purchase separate applications for sales, accounting, HR, inventory, and reporting. They rarely communicate well, creating duplicate work and costly integrations. HIVENOX is different — every product runs on one shared platform, so information entered once becomes available everywhere it's needed."
-              className="mx-0"
-              accent="blue"
-              dark
-            />
+    <section className="relative overflow-hidden bg-blue-800 py-28 w-full">
+      
+      {/* 1. Ambient Dark Theme Glows (Updated for blue-800 background) */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute left-0 top-[20%] h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-400/20 blur-[120px]" />
+        <div className="absolute right-0 bottom-[-10%] h-[600px] w-[600px] translate-x-1/3 rounded-full bg-white/10 blur-[150px]" />
+      </div>
 
-            <div className="mt-12 flex flex-col gap-7">
+      {/* 2. Content Container */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
+          
+          {/* LEFT COLUMN: Text & Benefits */}
+          <div>
+            {/* Section Heading */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-col items-start text-left"
+            >
+              <span className="mb-4 inline-flex items-center rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-cyan-200">
+                The platform advantage
+              </span>
+              <h2 className="text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+                One database. Every department.{" "}
+                <span className="bg-gradient-to-r from-cyan-300 to-white bg-clip-text text-transparent">
+                  Zero silos.
+                </span>
+              </h2>
+              <p className="mt-6 text-lg leading-relaxed text-blue-100 max-w-xl">
+                Traditional software forces businesses to purchase separate applications for sales, accounting, HR, inventory, and reporting. They rarely communicate well, creating duplicate work and costly integrations. HIVENOX is different — every product runs on one shared platform, so information entered once becomes available everywhere it's needed.
+              </p>
+            </motion.div>
+
+            {/* Benefits List */}
+            <div className="mt-12 flex flex-col gap-6">
               {advantageBenefits.map((b, i) => {
-                const Icon = b.icon
+                const Icon = b.icon;
                 return (
-                  <Reveal key={b.title} delay={i * 120} direction="left">
-                    <div className="group flex gap-5 rounded-2xl border border-white/5 bg-white/5 p-5 backdrop-blur-sm transition-all duration-500 hover:border-blue-500/30 hover:bg-white/10">
-                      <IconTile icon={Icon} accent="blue" />
-                      <div>
-                        <h3 className="text-sm font-bold text-white">{b.title}</h3>
-                        <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{b.description}</p>
-                      </div>
+                  <motion.div
+                    key={b.title}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: i * 0.15 }}
+                    className="group flex gap-5 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10 hover:shadow-[0_8px_30px_-10px_rgba(255,255,255,0.1)]"
+                  >
+                    {/* Icon Tile */}
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-cyan-200 transition-colors group-hover:bg-white/20 group-hover:text-cyan-100">
+                      <Icon className="h-6 w-6" strokeWidth={1.5} />
                     </div>
-                  </Reveal>
-                )
+                    
+                    {/* Text */}
+                    <div>
+                      <h3 className="text-base font-bold text-white transition-colors">
+                        {b.title}
+                      </h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-blue-200">
+                        {b.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
               })}
             </div>
           </div>
 
-          <Reveal delay={150} direction="scale">
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-10 shadow-2xl shadow-blue-900/20 backdrop-blur-xl">
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
-              <p className="relative text-center text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Platform Architecture</p>
-              <div className="relative mt-10 flex flex-col items-center gap-8">
-                <div className="pointer-events-none absolute bottom-14 top-14 left-1/2 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-blue-500/40 to-transparent" aria-hidden>
-                  <span className="absolute -left-[3px] top-0 size-[7px] animate-ping rounded-full bg-blue-400" />
-                  <span className="absolute -left-[3px] top-0 size-[7px] rounded-full bg-blue-400 shadow-[0_0_12px_4px_rgba(96,165,250,0.6)]" />
+          {/* RIGHT COLUMN: Interactive Architecture Flow */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+          >
+            <div className="relative overflow-hidden rounded-3xl border border-blue-700/50 bg-blue-900/40 p-10 shadow-2xl shadow-blue-950/50 backdrop-blur-xl">
+              
+              {/* Subtle grid background inside the card */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] opacity-50" />
+              
+              <p className="relative text-center text-xs font-bold uppercase tracking-[0.2em] text-blue-300">
+                Platform Architecture
+              </p>
+              
+              <div className="relative mt-12 flex flex-col items-center gap-12">
+                
+                {/* The Connecting Line */}
+                <div className="absolute bottom-10 top-10 left-1/2 w-px -translate-x-1/2 bg-blue-700/50" aria-hidden>
+                   {/* Animated Data Packet flowing down the line */}
+                   <motion.div 
+                     animate={{ top: ["0%", "100%"], opacity: [0, 1, 1, 0] }}
+                     transition={{ duration: 3, ease: "linear", repeat: Infinity }}
+                     className="absolute left-1/2 h-16 w-[2px] -translate-x-1/2 bg-gradient-to-b from-transparent via-cyan-300 to-transparent"
+                   />
                 </div>
+
+                {/* Flow Nodes */}
                 {architectureFlow.map((step, idx) => {
-                  const Icon = step.icon
+                  const Icon = step.icon;
                   return (
-                    <div key={step.label} className="relative z-10 flex flex-col items-center gap-3">
-                      <span className={cn(
-                        'flex size-16 items-center justify-center rounded-2xl border shadow-lg transition-all duration-500',
-                        idx === 0 ? 'border-violet-500/30 bg-violet-500/20 text-violet-300 shadow-violet-500/20' :
-                        idx === 1 ? 'border-blue-500/30 bg-blue-500/20 text-blue-300 shadow-blue-500/20' :
-                        'border-emerald-500/30 bg-emerald-500/20 text-emerald-300 shadow-emerald-500/20'
-                      )}>
-                        <Icon className="size-7" />
+                    <div key={step.label} className="relative z-10 flex flex-col items-center gap-4">
+                      <motion.div 
+                        whileHover={{ scale: 1.1 }}
+                        className={`flex h-16 w-16 items-center justify-center rounded-2xl border shadow-lg transition-all duration-300 backdrop-blur-md
+                          ${idx === 0 ? 'border-cyan-400/30 bg-cyan-500/20 text-cyan-200 shadow-[0_0_20px_-5px_rgba(34,211,238,0.3)]' : 
+                            idx === 1 ? 'border-white/30 bg-white/20 text-white shadow-[0_0_25px_-5px_rgba(255,255,255,0.4)] ring-2 ring-white/20' : 
+                            'border-blue-300/30 bg-blue-400/20 text-blue-200 shadow-[0_0_20px_-5px_rgba(147,197,253,0.3)]'
+                          }`}
+                      >
+                        <Icon className="h-7 w-7" strokeWidth={1.5} />
+                      </motion.div>
+                      
+                      {/* Node Label with glowing dark pill backdrop */}
+                      <span className="rounded-full border border-blue-700/50 bg-blue-900/80 px-4 py-1.5 text-center text-xs font-bold text-blue-100 shadow-sm backdrop-blur-sm">
+                        {step.label}
                       </span>
-                      <span className="max-w-[220px] text-center text-sm font-bold text-slate-200">{step.label}</span>
                     </div>
-                  )
+                  );
                 })}
               </div>
-              <p className="relative mt-10 text-center text-sm font-semibold text-slate-500">
-                No exports. No duplicate data. No disconnected systems.
+              
+              <p className="relative mt-12 text-center text-sm font-medium text-blue-300">
+                No exports. No duplicate data. <span className="text-white font-semibold">No disconnected systems.</span>
               </p>
             </div>
-          </Reveal>
+          </motion.div>
+          
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 /* ── 3. Go live in three steps — LIGHT SECTION ───────────────────── */
@@ -653,15 +721,16 @@ function WorkersComparison() {
   const [annual, setAnnual] = useState(false)
 
   return (
-    <section id="pricing" className="scroll-mt-24 relative overflow-hidden bg-slate-950 py-28">
-      <ParticleField count={25} color="rgba(99,102,241,0.08)" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.06),transparent_60%)]" />
+    <section id="pricing" className="scroll-mt-24 relative overflow-hidden bg-brand-950 py-28">
+      {/* Update ParticleField color prop to match your primary hex code if needed */}
+      <ParticleField count={25} color="#6366f1" /> 
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,theme(colors.primary.500/6%),transparent_60%)]" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="AI Workers comparison"
           title="Choose the right Worker for your team."
           description="Social publishes what you make. Content makes what you publish. Growth does both — in one login, for less than buying them apart."
-          accent="blue"
+          accent="primary"
           dark
         />
 
@@ -677,49 +746,49 @@ function WorkersComparison() {
               <Reveal key={worker.name} delay={i * 120} direction={i === 1 ? 'scale' : 'up'}>
                 <div
                   className={cn(
-                    'relative flex h-full flex-col overflow-hidden rounded-3xl border bg-slate-900/50 p-8 backdrop-blur-xl transition-all duration-500',
+                    'relative flex h-full flex-col overflow-hidden rounded-3xl border bg-brand-900/50 p-8 backdrop-blur-xl transition-all duration-500',
                     worker.featured
-                      ? 'border-blue-500/40 shadow-2xl shadow-blue-500/10 hover:shadow-blue-500/20'
+                      ? 'border-primary-500/40 shadow-2xl shadow-primary-500/10 hover:shadow-primary-500/20'
                       : 'border-white/10 hover:border-white/20 hover:shadow-xl hover:shadow-white/5'
                   )}
                 >
                   {worker.badge && (
-                    <span className="absolute -top-px left-1/2 inline-flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-b-xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-2 text-xs font-bold text-white shadow-lg">
+                    <span className="absolute -top-px left-1/2 inline-flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-b-xl bg-gradient-to-r from-primary-500 to-secondary-500 px-5 py-2 text-xs font-bold text-white shadow-lg">
                       <FiAward className="size-3.5" />
                       {worker.badge}
                     </span>
                   )}
-                  <div className="text-xs font-bold tracking-[0.15em] text-slate-500 uppercase">{worker.code}</div>
+                  <div className="text-xs font-bold tracking-[0.15em] text-brand-500 uppercase">{worker.code}</div>
                   <div className="mt-3 flex items-center gap-3">
-                    <span className="flex size-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
+                    <span className="flex size-10 items-center justify-center rounded-xl bg-primary-500/10 text-primary-400">
                       <Icon className="size-5" />
                     </span>
                     <h3 className="text-xl font-bold tracking-tight text-white">{worker.name}</h3>
                   </div>
-                  <p className="mt-3 min-h-[3rem] text-sm text-slate-400">{worker.description}</p>
+                  <p className="mt-3 min-h-[3rem] text-sm text-brand-400">{worker.description}</p>
 
                   <div className="mt-6 flex items-baseline gap-1">
-                    <span className="text-lg font-semibold text-slate-500">A$</span>
+                    <span className="text-lg font-semibold text-brand-500">A$</span>
                     <span className="text-5xl font-bold tracking-tight text-white">{fmt(price)}</span>
-                    <span className="text-sm font-medium text-slate-500">/mo</span>
+                    <span className="text-sm font-medium text-brand-500">/mo</span>
                   </div>
-                  <div className="mt-1 min-h-[1.1rem] text-xs font-bold text-emerald-400">
+                  <div className="mt-1 min-h-[1.1rem] text-xs font-bold text-accent-400">
                     {annual ? 'Billed annually · save 20%' : ' '}
                   </div>
 
-                  <div className="mt-5 inline-flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-bold text-slate-300">
-                    <FiZap className="size-3.5 text-blue-400" />
+                  <div className="mt-5 inline-flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-bold text-brand-300">
+                    <FiZap className="size-3.5 text-primary-400" />
                     {worker.credits}
                   </div>
 
                   <Link
-                    href="/signup"
+                    href="/contact"
                     className={cn(
                       'mt-7 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300',
                       worker.featured
-                        ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-[1.02]'
+                        ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/40 hover:scale-[1.02]'
                         : 'border border-white/10 bg-white/5 text-white hover:bg-white/10 hover:scale-[1.02]',
-                      focusRing
+                      focusRing // Ensure this variable is defined in your scope
                     )}
                   >
                     Start 7-day trial
@@ -728,14 +797,14 @@ function WorkersComparison() {
 
                   <ul className="mt-8 flex flex-1 flex-col gap-3">
                     {worker.features.map((f) => (
-                      <li key={f.text} className="flex gap-3 text-sm leading-relaxed text-slate-300">
+                      <li key={f.text} className="flex gap-3 text-sm leading-relaxed text-brand-300">
                         <span
                           className={cn(
                             'mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full',
-                            f.inherited ? 'bg-blue-500' : 'border border-blue-500/30 bg-blue-500/10'
+                            f.inherited ? 'bg-primary-500' : 'border border-primary-500/30 bg-primary-500/10'
                           )}
                         >
-                          <FiCheck className={cn('size-3', f.inherited ? 'text-white' : 'text-blue-400')} />
+                          <FiCheck className={cn('size-3', f.inherited ? 'text-white' : 'text-primary-400')} />
                         </span>
                         <span className={cn(f.inherited && 'font-semibold text-white')}>{f.text}</span>
                       </li>
@@ -745,8 +814,8 @@ function WorkersComparison() {
                   <div className="mt-6 flex flex-col gap-2.5 border-t border-dashed border-white/10 pt-6">
                     {worker.includes.map((row) => (
                       <div key={row.label} className="flex justify-between text-xs">
-                        <span className="text-slate-500">{row.label}</span>
-                        <span className="font-bold text-slate-300">{row.value}</span>
+                        <span className="text-brand-500">{row.label}</span>
+                        <span className="font-bold text-brand-300">{row.value}</span>
                       </div>
                     ))}
                   </div>
@@ -1062,30 +1131,49 @@ const workerCapabilities: { label: string; icon: IconType }[] = [
 
 function WorkerCapabilities() {
   return (
-    <section className="relative overflow-hidden bg-slate-950 py-28">
-      <ParticleField count={20} color="rgba(139,92,246,0.08)" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_60%)]" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Everything your Workers need"
-          title="Enterprise capabilities in every plan."
-          description="AI Workers become even more powerful because every plan includes the infrastructure to deploy AI safely, at scale."
-          accent="blue"
-          dark
-        />
+    <section className="relative w-full overflow-hidden bg-slate-950 py-28 rounded-4xl">
+      {/* 1. Premium Background Layering */}
+      {/* Base Dark Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-950 via-slate-950 to-slate-950" />
+      
+      {/* Grain/Noise Texture Overlay */}
+      <div className="absolute inset-0 opacity-[0.03]" 
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} 
+      />
 
-        <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-5">
+      {/* Ambient Radial Glows */}
+      <div className="absolute top-0 left-1/4 h-[500px] w-[500px] bg-blue-500/10 blur-[120px] rounded-full" />
+      <div className="absolute bottom-0 right-1/4 h-[500px] w-[500px] bg-cyan-500/5 blur-[120px] rounded-full" />
+
+      {/* 2. Content Container */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        <div className="text-center mb-16">
+          <h2 className="text-sm font-bold tracking-widest text-cyan-400 uppercase mb-4">Everything your Workers need</h2>
+          <p className="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">Enterprise capabilities in every plan.</p>
+          <p className="max-w-2xl mx-auto text-lg text-slate-400">AI Workers become even more powerful because every plan includes the infrastructure to deploy AI safely, at scale.</p>
+        </div>
+
+        {/* 3. Shiny Glass Grid */}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5">
           {workerCapabilities.map((c, i) => {
             const Icon = c.icon
             return (
-              <Reveal key={c.label} delay={(i % 5) * 80} direction="scale">
-                <div className="group flex h-full flex-col items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-blue-500/30 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/10">
-                  <span className="flex size-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 transition-all duration-500 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-500/30">
-                    <Icon className="size-5" />
-                  </span>
-                  <span className="text-xs font-bold text-slate-300 sm:text-sm">{c.label}</span>
-                </div>
-              </Reveal>
+              <div key={c.label} className="group relative flex h-full flex-col items-center gap-5 overflow-hidden rounded-3xl border border-white/5 bg-white/[0.02] p-8 text-center backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-cyan-500/30 hover:bg-white/[0.06] hover:shadow-[0_0_40px_-10px_rgba(6,182,212,0.3)]">
+                
+                {/* Shiny Gradient Border Effect */}
+                <div className="absolute inset-0 border border-white/10 rounded-3xl" />
+                
+                {/* Icon Container with Inner Glow */}
+                <span className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 text-cyan-400 shadow-[0_4px_10px_rgba(0,0,0,0.3)] transition-all duration-500 group-hover:scale-110 group-hover:border-cyan-400/50 group-hover:bg-cyan-500/10 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]">
+                  <Icon className="h-7 w-7" strokeWidth={1.5} />
+                </span>
+                
+                {/* Label */}
+                <span className="relative text-sm font-bold text-slate-200 transition-colors duration-300 group-hover:text-cyan-100">
+                  {c.label}
+                </span>
+              </div>
             )
           })}
         </div>
@@ -1165,33 +1253,99 @@ const platforms: { name: string; icon: IconType }[] = [
   { name: 'Google Business', icon: FaGoogle },
   { name: 'Snapchat', icon: FaSnapchatGhost },
   { name: 'Pinterest', icon: FaPinterest },
-]
+];
+
+const dynamicColors = [
+    {
+      text: "text-cyan-100",
+      icon: "text-cyan-400",
+      hover: "hover:border-cyan-400/60 hover:bg-cyan-500/20 hover:text-cyan-50 hover:shadow-[0_0_25px_-5px_rgba(34,211,238,0.4)]",
+    },
+    {
+      text: "text-fuchsia-100",
+      icon: "text-fuchsia-400",
+      hover: "hover:border-fuchsia-400/60 hover:bg-fuchsia-500/20 hover:text-fuchsia-50 hover:shadow-[0_0_25px_-5px_rgba(232,121,249,0.4)]",
+    },
+    {
+      text: "text-pink-100",
+      icon: "text-pink-400",
+      hover: "hover:border-pink-400/60 hover:bg-pink-500/20 hover:text-pink-50 hover:shadow-[0_0_25px_-5px_rgba(244,114,182,0.4)]",
+    },
+    {
+      text: "text-orange-100",
+      icon: "text-orange-400",
+      hover: "hover:border-orange-400/60 hover:bg-orange-500/20 hover:text-orange-50 hover:shadow-[0_0_25px_-5px_rgba(251,146,60,0.4)]",
+    },
+    {
+      text: "text-emerald-100",
+      icon: "text-emerald-400",
+      hover: "hover:border-emerald-400/60 hover:bg-emerald-500/20 hover:text-emerald-50 hover:shadow-[0_0_25px_-5px_rgba(52,211,153,0.4)]",
+    },
+  ];
 
 function PublishEverywhere() {
   return (
-    <section className="relative overflow-hidden bg-slate-950 py-28">
-      <ParticleField count={15} color="rgba(59,130,246,0.1)" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.06),transparent_60%)]" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+   <section className="relative w-full overflow-hidden bg-blue-800 py-28">
+      
+      {/* 1. Animated Background Gradients */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        {/* Soft Cyan Orb - Top Left */}
+        <div 
+          className="absolute -left-[10%] -top-[20%] h-[800px] w-[800px] rounded-full bg-cyan-400/20 blur-[150px] animate-pulse" 
+          style={{ animationDuration: '4s' }} 
+        />
+        {/* Vibrant Fuchsia Orb - Bottom Right */}
+        <div 
+          className="absolute -bottom-[20%] -right-[10%] h-[700px] w-[700px] rounded-full bg-fuchsia-500/20 blur-[150px] animate-pulse" 
+          style={{ animationDuration: '6s', animationDelay: '1s' }} 
+        />
+        {/* Deep Indigo Orb - Center */}
+        <div 
+          className="absolute left-[30%] top-[20%] h-[600px] w-[600px] rounded-full bg-indigo-500/20 blur-[120px] animate-pulse" 
+          style={{ animationDuration: '5s', animationDelay: '2s' }} 
+        />
+      </div>
+
+      {/* 2. Particles Overlay */}
+      <ParticleField count={25} color="rgba(255, 255, 255, 0.2)" />
+      
+      {/* Subtle grid pattern for texture */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-40" />
+
+      {/* 3. Main Content Container */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Publish everywhere"
           title="One dashboard. Every major platform."
           description="Unified scheduling, analytics, and bilingual publishing across every channel your audience is already on."
-          accent="blue"
+          accent="cyan"
           dark
         />
 
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-4">
+        {/* 4. Colorful Platform Buttons Grid */}
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-4 sm:gap-5">
           {platforms.map((item, i) => {
-            const Icon = item.icon
+            const Icon = item.icon;
+            
+            // Assign a color theme based on the index to ensure vibrant variety
+            const colorTheme = dynamicColors[i % dynamicColors.length];
+
             return (
               <Reveal key={item.name} delay={(i % 5) * 80} direction="scale">
-                <div className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-bold text-slate-300 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-300 hover:shadow-lg hover:shadow-blue-500/20">
-                  <Icon className="size-4 text-blue-400 transition-transform duration-500 group-hover:scale-125" />
-                  {item.name}
-                </div>
+                <button 
+                  className={`group relative flex items-center gap-3 overflow-hidden rounded-full border border-white/10 bg-white/5 px-7 py-3.5 text-sm font-bold shadow-lg backdrop-blur-md transition-all duration-500 hover:-translate-y-1 ${colorTheme.text} ${colorTheme.hover}`}
+                >
+                  {/* Subtle inner shine effect on hover */}
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:animate-[shimmer_1.5s_infinite]" />
+                  
+                  {/* Icon */}
+                  <Icon className={`size-5 transition-transform duration-500 group-hover:scale-125 ${colorTheme.icon}`} />
+                  
+                  {/* Name */}
+                  <span className="relative z-10 tracking-wide">{item.name}</span>
+                </button>
               </Reveal>
-            )
+            );
           })}
         </div>
       </div>
@@ -1254,48 +1408,156 @@ const successMetrics = [
   { value: '15+ hrs', label: 'Saved per week, per team' },
 ]
 
-function CustomerSuccess() {
+const testimonials = [
+  {
+    quote: "HIVENOX replaced five disconnected systems with one intelligent platform. Our reporting became real-time, and our team finally has time to focus on growth.",
+    author: "Sarah Jenkins",
+    role: "Operations Director",
+    company: "TechFlow Growth",
+    theme: "border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40",
+    gradient: "from-blue-400 to-white"
+  },
+  {
+    quote: "The unified dashboard changed how we handle social channels. No more switching tabs or losing data—everything is localized, bilingual, and ready to publish.",
+    author: "David Chen",
+    role: "CMO",
+    company: "GlobalReach Media",
+    theme: "border-indigo-500/20 bg-indigo-500/5 hover:border-indigo-500/40",
+    gradient: "from-indigo-400 to-white"
+  },
+  {
+    quote: "Deploying AI workers securely across our entire department used to be a compliance nightmare. Now, it’s a one-click deployment with full audit logs.",
+    author: "Elena Rodriguez",
+    role: "Head of IT",
+    company: "Nexus Financial",
+    theme: "border-violet-500/20 bg-violet-500/5 hover:border-violet-500/40",
+    gradient: "from-violet-400 to-white"
+  },
+  {
+    quote: "We consolidated our HR, Payroll, and Accounting into one flow. The automated approval workflows have literally saved us hundreds of hours this quarter.",
+    author: "Marcus Thorne",
+    role: "VP of Operations",
+    company: "Stellar Logistics",
+    theme: "border-sky-500/20 bg-sky-500/5 hover:border-sky-500/40",
+    gradient: "from-sky-400 to-white"
+  },
+  {
+    quote: "Their shared knowledge base means our support agents and sales reps are finally singing from the same hymn sheet. Absolute game-changer for brand voice.",
+    author: "Aisha Patel",
+    role: "Customer Success",
+    company: "Elevate SaaS",
+    theme: "border-emerald-500/20 bg-emerald-500/5 hover:border-emerald-500/40",
+    gradient: "from-emerald-400 to-white"
+  }
+];
+
+export function CustomerSuccess() {
+  // Duplicate array for seamless infinite scrolling
+  const scrollingTestimonials = [...testimonials, ...testimonials];
+
   return (
-    <section className="relative overflow-hidden bg-slate-950 py-28">
-      <ParticleField count={20} color="rgba(139,92,246,0.06)" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_60%)]" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    // Reduced padding and removed min-h-screen to make it tighter
+    <section className="relative w-full overflow-hidden bg-[#020617] py-16 md:py-20">
+      
+      {/* 1. Motion Gradient Background (Blue & White) */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        {/* Deep Blue Orb */}
+        <motion.div 
+          animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.2, 1] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -left-[10%] -top-[10%] h-[600px] w-[600px] rounded-full bg-blue-700/20 blur-[120px]"
+        />
+        {/* Soft White/Sky Orb */}
+        <motion.div 
+          animate={{ x: [0, -100, 0], y: [0, 100, 0], scale: [1, 1.3, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-[20%] -right-[10%] h-[700px] w-[700px] rounded-full bg-white/5 blur-[120px]"
+        />
+        {/* Bright Blue Orb */}
+        <motion.div 
+          animate={{ x: [0, 50, -50, 0], y: [0, 50, 0], scale: [1, 1.1, 1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-[40%] top-[30%] h-[500px] w-[500px] rounded-full bg-sky-500/10 blur-[120px]"
+        />
+      </div>
+
+      {/* 2. SVG Noise Filter & Grid Overlay */}
+      <div 
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.04] mix-blend-screen"
+        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}
+      />
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] opacity-40" />
+
+      {/* 3. Main Content Container */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        {/* Header */}
         <SectionHeading
           eyebrow="Customer success"
           title="Real outcomes, not just software."
           description="Businesses choose HIVENOX because it delivers measurable results — less manual work, faster reporting, and streamlined operations."
-          accent="emerald"
+          accent="blue"
           dark
         />
 
-        <Reveal direction="scale">
-          <div className="relative mx-auto mt-16 max-w-3xl overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-12 text-center backdrop-blur-xl">
-            <div className="absolute -top-20 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl" />
-            <span className="relative text-6xl leading-none text-blue-400/30" aria-hidden>
-              &ldquo;
-            </span>
-            <blockquote className="relative -mt-4 mx-auto max-w-2xl text-pretty text-xl font-medium leading-relaxed text-slate-200">
-              HIVENOX replaced five disconnected systems with one intelligent platform.
-              Our reporting became real-time, our marketing became consistent, and our
-              team finally had time to focus on growth.
-            </blockquote>
-            <p className="relative mt-6 text-sm font-bold text-slate-500">Operations Director · Multi-department growth business</p>
-          </div>
-        </Reveal>
+        {/* 4. Moving Reviews (Infinite Marquee) */}
+        <div className="relative mt-12 w-full overflow-hidden">
+          {/* Gradient Masks for smooth fade in/out on the sides */}
+          <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-20 w-16 bg-gradient-to-r from-[#020617] to-transparent md:w-32" />
+          <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-20 w-16 bg-gradient-to-l from-[#020617] to-transparent md:w-32" />
 
-        <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/5 lg:grid-cols-4">
-          {successMetrics.map((s, i) => (
-            <Reveal key={s.label} delay={i * 100} direction="up">
-              <div className="bg-slate-900/50 px-6 py-10 text-center backdrop-blur-sm transition-colors duration-500 hover:bg-slate-800/50">
-                <p className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{s.value}</p>
-                <p className="mt-2 text-sm text-slate-400">{s.label}</p>
+          {/* Marquee Track */}
+          <motion.div 
+            className="flex w-fit gap-6"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+          >
+            {scrollingTestimonials.map((testimonial, i) => (
+              <div 
+                key={`${testimonial.author}-${i}`} 
+                className={`group relative flex w-[320px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border p-6 backdrop-blur-md transition-all duration-300 md:w-[380px] ${testimonial.theme}`}
+              >
+                <div>
+                  <span className={`bg-gradient-to-br ${testimonial.gradient} bg-clip-text text-5xl leading-none text-transparent opacity-50`} aria-hidden>
+                    &ldquo;
+                  </span>
+                  <blockquote className="mt-1 whitespace-normal text-sm font-medium leading-relaxed text-blue-50 md:text-base">
+                    {testimonial.quote}
+                  </blockquote>
+                </div>
+                
+                <div className="mt-6 border-t border-white/5 pt-4">
+                  <p className="text-sm font-bold text-white">{testimonial.author}</p>
+                  <p className="mt-0.5 text-xs font-semibold tracking-wide text-blue-300">
+                    {testimonial.role} <span className="mx-1.5 text-white/20">|</span> <span className="text-blue-100">{testimonial.company}</span>
+                  </p>
+                </div>
               </div>
-            </Reveal>
-          ))}
+            ))}
+          </motion.div>
         </div>
+
+        {/* 5. Metrics Grid (Slightly smaller padding) */}
+        <div className="mt-12 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-lg">
+          <div className="grid grid-cols-2 gap-px bg-white/10 lg:grid-cols-4">
+            {successMetrics.map((s, i) => (
+              <div key={s.label} className="flex flex-col items-center justify-center bg-[#050b20] px-4 py-8 text-center transition-colors duration-300 hover:bg-[#08112b]">
+                <p className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                  <span className="bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                    {s.value}
+                  </span>
+                </p>
+                <p className="mt-2 text-xs font-medium uppercase tracking-widest text-blue-300">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
-  )
+  );
 }
 
 /* ── 11. FAQ — LIGHT SECTION ─────────────────────────────────────── */
@@ -1384,46 +1646,120 @@ function FAQ() {
 /* ── 12. Final CTA — DARK SECTION ─────────────────────────────────── */
 function FinalCta() {
   return (
-    <section className="relative overflow-hidden bg-slate-950 py-24">
-      <ParticleField count={30} color="rgba(99,102,241,0.1)" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,0.15),transparent_60%),radial-gradient(circle_at_50%_100%,rgba(59,130,246,0.1),transparent_60%)]" />
-      <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <Reveal direction="scale">
-          <h2 className="text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Ready to build your intelligent business?
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-slate-400">
-            Replace disconnected software with one platform where ERP, CRM, Finance,
-            HR, Analytics, Automation, and AI Workers work together from day one.
-          </p>
-          <p className="mt-3 text-sm font-bold uppercase tracking-[0.15em] text-blue-400">
-            One Platform · One Database · Every Department
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              href="/signup"
-              className={cn(
-                'inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 px-8 py-4 text-sm font-bold text-white shadow-xl shadow-blue-500/25 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/40 hover:scale-[1.02] sm:w-auto',
-                focusRing
-              )}
-            >
-              Start Free Trial
-              <FiArrowRight className="size-4" />
-            </Link>
-            <Link
-              href="/book-demo"
-              className={cn(
-                'inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] sm:w-auto',
-                focusRing
-              )}
-            >
-              <FiPlay className="size-4" />
-              Book a Demo
-            </Link>
-          </div>
-        </Reveal>
+   <section className="relative w-full overflow-hidden bg-[#020617] py-24 lg:py-32">
+
+  {/* 1. Glow background — plain CSS keyframes, no framer-motion */}
+  <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+    <style>{`
+      @keyframes ctaGlowTop {
+        0%, 100% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.2); opacity: 0.8; }
+      }
+      @keyframes ctaGlowBottom {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-30px) scale(1.1); }
+      }
+      @keyframes ctaTwinkle {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 0.9; }
+      }
+      @keyframes ctaShimmer {
+        from { transform: translateX(-120%); }
+        to { transform: translateX(220%); }
+      }
+      .cta-glow-top { animation: ctaGlowTop 8s ease-in-out infinite; }
+      .cta-glow-bottom { animation: ctaGlowBottom 12s ease-in-out infinite; }
+      .cta-starfield { animation: ctaTwinkle 6s ease-in-out infinite; }
+      @media (prefers-reduced-motion: reduce) {
+        .cta-glow-top, .cta-glow-bottom, .cta-starfield { animation: none; }
+      }
+    `}</style>
+
+    <div className="flex h-full items-center justify-center">
+      <div
+        className="cta-glow-top absolute -top-[30%] h-[600px] w-[800px] rounded-[100%] bg-cyan-500/15 blur-[100px]"
+        style={{ willChange: 'transform, opacity' }}
+      />
+      <div
+        className="cta-glow-bottom absolute -bottom-[40%] h-[500px] w-[800px] rounded-[100%] bg-blue-600/20 blur-[100px]"
+        style={{ willChange: 'transform' }}
+      />
+    </div>
+
+    {/* Single-layer starfield — replaces <ParticleField count={25} />,
+        one radial-gradient tile + one shared pulse instead of 25 animated nodes */}
+    <div
+      className="cta-starfield absolute inset-0 opacity-70"
+      style={{
+        backgroundImage: 'radial-gradient(rgba(34,211,238,0.35) 1px, transparent 1px)',
+        backgroundSize: '46px 46px',
+      }}
+    />
+  </div>
+
+  {/* 2. Noise + grid overlay — static, unchanged (cheap: not animated) */}
+  <div
+    className="pointer-events-none absolute inset-0 z-0 opacity-[0.04] mix-blend-screen"
+    style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}
+  />
+  <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] opacity-40" />
+
+  {/* 3. Main content */}
+  <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+    <Reveal direction="scale">
+
+      <h2 className="text-balance text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+        Ready to build your{' '}
+        <span className="bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">
+          intelligent business?
+        </span>
+      </h2>
+
+      <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-blue-100 sm:text-xl">
+        Replace disconnected software with one platform where ERP, CRM, Finance,
+        HR, Analytics, Automation, and AI Workers work together from day one.
+      </p>
+
+      <p className="mt-8 inline-flex items-center gap-3 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.15em] text-cyan-300 backdrop-blur-md">
+        One Platform <span className="text-blue-500/50">•</span> One Database <span className="text-blue-500/50">•</span> Every Department
+      </p>
+
+      {/* 4. Action buttons */}
+      <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+
+        {/* Primary button */}
+        <Link
+          href="/contact"
+          className={cn(
+            'group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 text-base font-bold text-white shadow-[0_0_40px_-10px_rgba(34,211,238,0.5)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_60px_-15px_rgba(34,211,238,0.7)] sm:w-auto',
+            focusRing
+          )}
+        >
+          {/* Shimmer — only animates on hover; the previous version referenced
+              a `shimmer` keyframe that was never defined anywhere */}
+          <span className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent group-hover:block group-hover:animate-[ctaShimmer_1.4s_ease-in-out_infinite] motion-reduce:!hidden" />
+          <span className="relative z-10 flex items-center gap-2">
+            Start Free Trial
+            <FiArrowRight className="size-5 transition-transform duration-300 group-hover:translate-x-1" />
+          </span>
+        </Link>
+
+        {/* Secondary button */}
+        <Link
+          href="/contact#form"
+          className={cn(
+            'group inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-8 py-4 text-base font-bold text-white backdrop-blur-md transition-all duration-300 hover:scale-[1.03] hover:border-cyan-400/50 hover:bg-cyan-500/10 hover:text-cyan-50 sm:w-auto',
+            focusRing
+          )}
+        >
+          <FiPlay className="size-5 text-blue-300 transition-colors duration-300 group-hover:text-cyan-300" />
+          Book a Demo
+        </Link>
+
       </div>
-    </section>
+    </Reveal>
+  </div>
+</section>
   )
 }
 
