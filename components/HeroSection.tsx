@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Link from "next/link";
 import {
   motion,
   useMotionValue,
@@ -15,57 +16,73 @@ import {
   BarChart3,
   Headset,
   UserCog,
-  Boxes,
   Bot,
-  Layers,
-  Globe2,
   ArrowRight,
   PlayCircle,
+  BookOpen,
+  TrendingUp,
+  Check,
+  Boxes,
+  Shield,
+  Cloud,
+  MessageSquare,
+  CheckSquare,
+  PieChart,
+  Store,
+  Hexagon,
+  Triangle,
+  CircleDashed,
+  Command,
+  Aperture,
+  Box,
+  Layers,
   type LucideIcon,
 } from "lucide-react";
 
-type Tile = {
+// --- Data Config ---
+
+type NodeTile = {
   label: string;
   icon: LucideIcon;
-  top: string;
-  left: string;
-  size: number;
-  depth: number;
-  rotate: number;
-  duration: number;
   highlight?: boolean;
-  delay: number;
 };
 
-// Scattered tiles with staggered entrance delays
-const tiles: Tile[] = [
-  { label: "CRM", icon: Users, top: "8%", left: "8%", size: 64, depth: 0.5, rotate: -7, duration: 5.4, delay: 0.1 },
-  { label: "HR", icon: UserCog, top: "32%", left: "4%", size: 56, depth: 0.75, rotate: 6, duration: 6.6, delay: 0.3 },
-  { label: "Inventory", icon: Package, top: "58%", left: "9%", size: 60, depth: 0.4, rotate: -5, duration: 5.9, delay: 0.5 },
-  { label: "ERP", icon: Boxes, top: "82%", left: "5%", size: 52, depth: 0.85, rotate: 8, duration: 4.9, delay: 0.7 },
-
-  { label: "Finance", icon: Wallet, top: "12%", left: "90%", size: 62, depth: 0.6, rotate: 5, duration: 6.1, delay: 0.2 },
-  { label: "Support", icon: Headset, top: "36%", left: "95%", size: 54, depth: 0.9, rotate: -8, duration: 5.1, delay: 0.4 },
-  { label: "Analytics", icon: BarChart3, top: "62%", left: "89%", size: 68, depth: 0.35, rotate: 7, duration: 7.2, delay: 0.6 },
-  {
-    label: "AI Workers",
-    icon: Bot,
-    top: "85%",
-    left: "92%",
-    size: 84,
-    depth: 0.55,
-    rotate: -4,
-    duration: 6,
-    highlight: true,
-    delay: 0.8,
-  },
+// 1st Orbit (Inner) - Clockwise
+const innerRing: NodeTile[] = [
+  { label: "CRM", icon: Users, highlight: true },
+  { label: "Finance", icon: Wallet },
+  { label: "Insights", icon: BarChart3, highlight: true },
+  { label: "AI", icon: Bot, highlight: true },
+  { label: "Comms", icon: MessageSquare },
+  { label: "Security", icon: Shield },
 ];
 
-const stats = [
-  { icon: Layers, label: "6 modules, 1 platform" },
-  { icon: Bot, label: "AI Workers run 24/7" },
-  { icon: Globe2, label: "Arabic & English ready" },
+// 2nd Orbit (Outer) - Anti-Clockwise
+const outerRing: NodeTile[] = [
+  { label: "HRMS", icon: UserCog },
+  { label: "Books", icon: BookOpen },
+  { label: "Desk", icon: Headset },
+  { label: "Inventory", icon: Package },
+  { label: "Sales", icon: TrendingUp, highlight: true },
+  { label: "ERP", icon: Boxes },
+  { label: "Cloud", icon: Cloud },
+  { label: "Tasks", icon: CheckSquare },
+  { label: "Analytics", icon: PieChart },
+  { label: "Store", icon: Store },
 ];
+
+// Marquee Company Logos
+const companies = [
+  { name: "Vertex Corp", icon: Hexagon },
+  { name: "Prism Digital", icon: Triangle },
+  { name: "Nexus Global", icon: CircleDashed },
+  { name: "Aura Systems", icon: Aperture },
+  { name: "Quantum", icon: Box },
+  { name: "Elevate UI", icon: Layers },
+  { name: "Command", icon: Command },
+];
+
+// --- Main Component ---
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -76,10 +93,14 @@ export default function HeroSection() {
     setIsMounted(true);
   }, []);
 
+  // Smooth Parallax tracking
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 40, damping: 15, mass: 0.8 });
   const springY = useSpring(mouseY, { stiffness: 40, damping: 15, mass: 0.8 });
+
+  const parallaxX = useTransform(springX, [-0.5, 0.5], [-20, 20]);
+  const parallaxY = useTransform(springY, [-0.5, 0.5], [-20, 20]);
 
   function handlePointerMove(e: React.PointerEvent<HTMLElement>) {
     if (shouldReduceMotion || !sectionRef.current) return;
@@ -100,244 +121,311 @@ export default function HeroSection() {
       ref={sectionRef}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="relative isolate overflow-hidden bg-[#F4F7FB] px-6 py-28 sm:px-8 lg:px-12 lg:py-40 flex items-center justify-center min-h-[95vh]"
+      className="relative isolate overflow-hidden bg-[#F8FAFC] flex flex-col justify-between min-h-[100dvh] w-full pt-36 pb-12 px-4 sm:px-6 lg:px-8"
     >
-      {/* 1. Ambient Glows */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute left-1/2 top-[10%] h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-blue-500/[0.08] blur-[120px]" />
-        <div className="absolute bottom-0 right-[15%] h-[500px] w-[500px] rounded-full bg-indigo-500/[0.06] blur-[100px]" />
+      {/* 1. Ambient Background Glows */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute right-0 top-[30%] h-[600px] w-[800px] -translate-y-1/2 translate-x-1/4 rounded-full bg-blue-500/10 blur-[120px]" />
+        <div className="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-sky-400/10 blur-[100px]" />
       </div>
 
-      {/* 2. Neural Grid Overlay */}
-      <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden [mask-image:radial-gradient(ellipse_70%_60%_at_50%_50%,black_40%,transparent_100%)]">
-        <svg className="absolute inset-0 h-full w-full opacity-60" xmlns="http://www.w3.org/2000/svg">
+      {/* 2. Neural Grid Background */}
+      <div 
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{ maskImage: "radial-gradient(ellipse at center, transparent 0%, black 100%)", WebkitMaskImage: "radial-gradient(ellipse at center, transparent 0%, black 100%)" }}
+      >
+        <svg className="absolute inset-0 h-full w-full opacity-[0.15]" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="neural-net" width="100" height="100" patternUnits="userSpaceOnUse">
-              {/* Primary Grid Lines */}
-              <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(37, 99, 235, 0.12)" strokeWidth="1" />
-              {/* Diagonal Neural Connections */}
-              <path d="M 0 0 L 100 100 M 100 0 L 0 100" fill="none" stroke="rgba(37, 99, 235, 0.08)" strokeWidth="0.5" />
-              {/* Data Nodes */}
-              <circle cx="100" cy="100" r="2.5" fill="rgba(37, 99, 235, 0.3)" />
-              <circle cx="50" cy="50" r="3" fill="rgba(37, 99, 235, 0.4)" />
-              <circle cx="0" cy="100" r="2.5" fill="rgba(37, 99, 235, 0.3)" />
-              <circle cx="100" cy="0" r="2.5" fill="rgba(37, 99, 235, 0.3)" />
+            <pattern id="neural-net" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" className="text-blue-600" strokeWidth="0.5" />
+              <circle cx="40" cy="40" r="1" className="fill-blue-600" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#neural-net)" />
         </svg>
       </div>
 
-      {/* 3. Scattered, Cursor-Reactive Floating Tiles */}
-      <div className="pointer-events-none absolute inset-0 z-10 hidden lg:block">
-        {isMounted && tiles.map((tile) => (
-          <FloatingTile
-            key={tile.label}
-            tile={tile}
-            mouseX={springX}
-            mouseY={springY}
-            disabled={!!shouldReduceMotion}
-          />
-        ))}
-      </div>
+      {/* --- TOP SECTION: 2 Column Layout --- */}
+      <div className="relative z-20 mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-8 flex-grow items-center">
+        
+        {/* LEFT COLUMN: Text and CTA */}
+        <div className="flex flex-col items-start text-left xl:pr-12">
+          
+          {/* Top Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-blue-200 bg-white/60 backdrop-blur-md px-4 py-1.5 shadow-sm"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+            </span>
+            <span className="font-mono text-[11px] font-semibold tracking-widest text-blue-700 uppercase">
+              Hivenox · Enterprise OS
+            </span>
+          </motion.div>
 
-      {/* 4. Main Foreground Content */}
-      <div className="relative z-20 mx-auto flex max-w-5xl flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8 inline-flex items-center gap-2 rounded-full border border-blue-200/60 bg-white/60 backdrop-blur-md px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-blue-700 shadow-sm"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
-          </span>
-          One platform · Every department
-        </motion.div>
+          {/* Hero Heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+            className="text-4xl font-semibold leading-[1.1] tracking-tight text-slate-900 sm:text-6xl lg:text-[4rem] xl:text-[4.5rem]"
+          >
+            One platform to run your{" "}
+            <span className="relative whitespace-nowrap block mt-2">
+              <span className="absolute -inset-1 block -skew-y-2 bg-blue-600 rounded-lg"></span>
+              <span className="relative bg-gradient-to-r from-white via-blue-300 to-white bg-clip-text text-transparent animate-gradient-x bg-[length:200%_auto]">
+                entire business.
+              </span>
+            </span>
+          </motion.h1>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[3.5rem] font-extrabold leading-[1.05] tracking-tight text-[#0B1220] sm:text-7xl lg:text-[6rem]"
-        >
-          Run your entire business
-          <br className="hidden sm:block" />{" "}
-          <span className="animate-gradient bg-gradient-to-r from-blue-700 via-indigo-500 to-blue-600 bg-[length:200%_auto] bg-clip-text text-transparent">
-            on one intelligent platform.
-          </span>
-        </motion.h1>
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="mt-6 max-w-lg text-lg leading-relaxed text-slate-600 sm:text-xl font-normal"
+          >
+            Hivenox unites your ERP, CRM, HR, finance, and AI workers in a single, bilingual system built for scale in Australia, the UAE, and Saudi Arabia.
+          </motion.p>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-8 max-w-2xl text-[1.15rem] leading-relaxed text-slate-600 sm:text-[1.25rem]"
-        >
-          Replace disconnected software with a connected ecosystem of ERP,
-          CRM, Finance, HR, and Analytics — plus autonomous AI Workers that
-          actually do the work.
-        </motion.p>
-
-        {/* Feature Chips */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
-        >
-          {stats.map(({ icon: Icon, label }) => (
-            <span
-              key={label}
-              className="inline-flex items-center gap-2 rounded-full border border-blue-900/[0.08] bg-white/80 backdrop-blur-sm px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-white"
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+            className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+          >
+            <Link 
+              href="/contact"
+              className="group w-full sm:w-auto relative flex items-center justify-center gap-2 rounded-full bg-blue-600 px-8 py-4 text-sm font-semibold text-white transition-all hover:bg-blue-700 hover:shadow-[0_0_40px_-10px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 active:translate-y-0"
             >
-              <Icon className="h-4 w-4 text-blue-600" strokeWidth={2.2} />
-              {label}
-            </span>
-          ))}
-        </motion.div>
+              Start free trial
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+            
+            <Link 
+              href="/book-demo"
+              className="group w-full sm:w-auto flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-4 text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
+            >
+              <PlayCircle className="h-4 w-4 text-blue-600 transition-transform group-hover:scale-110" />
+              Book a demo
+            </Link>
+          </motion.div>
 
-        {/* Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
-        >
-          <button className="group relative inline-flex items-center gap-2 rounded-full bg-blue-600 px-9 py-4 text-base font-bold text-white shadow-[0_0_40px_-10px_rgba(37,99,235,0.8)] transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_0_60px_-15px_rgba(37,99,235,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-            Start free today
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1.5" />
-          </button>
-          <button className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 backdrop-blur-md px-9 py-4 text-base font-bold text-slate-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-            <PlayCircle className="h-5 w-5 text-blue-600" />
-            Book a demo
-          </button>
-        </motion.div>
+          {/* Trust Indicators */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm font-medium text-slate-500"
+          >
+            {["No credit card required", "Arabic & English support", "Cancel anytime"].map((text, i) => (
+              <span key={i} className="flex items-center gap-2">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-blue-600 shrink-0">
+                  <Check className="h-3 w-3" strokeWidth={3} />
+                </span>
+                {text}
+              </span>
+            ))}
+          </motion.div>
+        </div>
 
-        {/* Footer / Social Proof */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-16 flex flex-col items-center gap-4 border-t border-blue-900/5 pt-8"
-        >
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-400 font-semibold">
-            Trusted across
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-            <span className="flex items-center gap-2 text-sm font-semibold text-slate-600">
-              🇦🇺 Australia
-            </span>
-            <span className="h-1 w-1 rounded-full bg-blue-300" />
-            <span className="flex items-center gap-2 text-sm font-semibold text-slate-600">
-              🇦🇪 United Arab Emirates
-            </span>
-            <span className="h-1 w-1 rounded-full bg-blue-300" />
-            <span className="flex items-center gap-2 text-sm font-semibold text-slate-600">
-              🇸🇦 Saudi Arabia
-            </span>
+        {/* RIGHT COLUMN: 2-Ring Orbital System */}
+        {isMounted && !shouldReduceMotion && (
+          <div className="relative hidden lg:flex h-[550px] w-full items-center justify-center">
+            <motion.div
+              style={{ x: parallaxX, y: parallaxY }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                {/* RING 1: Inner Orbit (Clockwise) */}
+                <OrbitRing radius={170} duration={35} items={innerRing} reverse={false} />
+                
+                {/* RING 2: Outer Orbit (Anti-Clockwise) */}
+                <OrbitRing radius={290} duration={50} items={outerRing} reverse={true} />
+              </div>
+
+              {/* Central Core Element */}
+              <div className="absolute z-20 flex h-28 w-28 flex-col items-center justify-center rounded-full border border-blue-200 bg-white/50 backdrop-blur-xl shadow-[0_0_60px_-15px_rgba(37,99,235,0.3)] ring-4 ring-white/40">
+                 <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-tr from-blue-700 to-sky-400 text-white shadow-inner">
+                    <Layers className="h-8 w-8" strokeWidth={1.5} />
+                    {/* Glowing pulse behind the core */}
+                    <div className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-20" />
+                 </div>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        )}
       </div>
 
-      {/* Global styles for the text gradient animation */}
+      {/* --- BOTTOM SECTION: Infinite Scrolling Centered Marquee --- */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.7 }}
+        className="relative z-20 mt-24 xl:mt-32 flex w-full flex-col items-center justify-center"
+      >
+        <p className="mb-6 text-[13px] font-semibold text-slate-400 uppercase tracking-[0.2em]">
+          Trusted by industry leaders
+        </p>
+        
+        {/* Marquee Wrapper with transparent fade edges */}
+        <div className="flex w-full max-w-5xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+          {/* Group 1 */}
+          <div className="flex shrink-0 animate-marquee items-center justify-around min-w-full gap-12 pr-12">
+            {companies.map((company, i) => (
+              <div key={i} className="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors grayscale hover:grayscale-0 opacity-70 hover:opacity-100">
+                <company.icon className="h-6 w-6" strokeWidth={1.5} />
+                <span className="text-xl font-bold tracking-tight font-sans">{company.name}</span>
+              </div>
+            ))}
+          </div>
+          {/* Group 2 (Duplicate for seamless loop) */}
+          <div aria-hidden="true" className="flex shrink-0 animate-marquee items-center justify-around min-w-full gap-12 pr-12">
+            {companies.map((company, i) => (
+              <div key={`dup-${i}`} className="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors grayscale hover:grayscale-0 opacity-70 hover:opacity-100">
+                <company.icon className="h-6 w-6" strokeWidth={1.5} />
+                <span className="text-xl font-bold tracking-tight font-sans">{company.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Global CSS for purely CSS-based Animations */}
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes gradient {
+        @keyframes orbit-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes orbit-spin-reverse {
+          from { transform: rotate(360deg); }
+          to { transform: rotate(0deg); }
+        }
+        @keyframes tile-float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
+        }
+        @keyframes gradient-x {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
-        .animate-gradient {
-          animation: gradient 6s ease infinite;
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-100%); }
+        }
+        .animate-gradient-x {
+          animation: gradient-x 6s ease infinite;
+        }
+        .animate-marquee {
+          animation: marquee 35s linear infinite;
         }
       `}} />
     </section>
   );
 }
 
-function FloatingTile({
-  tile,
-  mouseX,
-  mouseY,
-  disabled,
+// ----------------------------------------------------------------------
+// ORBITAL ANIMATION COMPONENTS
+// ----------------------------------------------------------------------
+
+function OrbitRing({
+  radius,
+  duration,
+  items,
+  reverse,
 }: {
-  tile: Tile;
-  mouseX: ReturnType<typeof useSpring>;
-  mouseY: ReturnType<typeof useSpring>;
-  disabled: boolean;
+  radius: number;
+  duration: number;
+  items: NodeTile[];
+  reverse: boolean;
 }) {
-  const range = 40 * tile.depth;
-  const x = useTransform(mouseX, [-0.5, 0.5], [-range, range]);
-  const y = useTransform(mouseY, [-0.5, 0.5], [-range, range]);
-  const Icon = tile.icon;
+  const animationName = reverse ? 'orbit-spin-reverse' : 'orbit-spin';
+  const counterAnimationName = reverse ? 'orbit-spin' : 'orbit-spin-reverse';
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.5, y: 40 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ 
-        duration: 0.8, 
-        delay: tile.delay, 
-        type: "spring", 
-        stiffness: 100, 
-        damping: 20 
-      }}
+    <div
+      className="absolute left-1/2 top-1/2 rounded-full border border-dashed border-blue-900/20"
       style={{
-        top: tile.top,
-        left: tile.left,
-        x: disabled ? 0 : x,
-        y: disabled ? 0 : y,
+        width: radius * 2,
+        height: radius * 2,
+        marginLeft: -radius,
+        marginTop: -radius,
+        animation: `${animationName} ${duration}s linear infinite`,
       }}
-      className="absolute pointer-events-auto"
     >
-      <motion.div
-        whileHover={{ scale: 1.1, zIndex: 50 }}
-        animate={
-          disabled
-            ? undefined
-            : {
-                y: [0, -12, 0],
-                rotate: [tile.rotate - 2, tile.rotate + 2, tile.rotate - 2],
-              }
-        }
-        transition={{
-          y: { duration: tile.duration, repeat: Infinity, ease: "easeInOut" },
-          rotate: { duration: tile.duration * 1.2, repeat: Infinity, ease: "easeInOut" },
-        }}
-        style={{ width: tile.size, height: tile.size }}
-        className={`relative flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border backdrop-blur-xl ${
-          tile.highlight
-            ? "border-blue-400/60 bg-gradient-to-br from-white/90 to-blue-50/90 shadow-[0_12px_40px_-10px_rgba(37,99,235,0.4)]"
-            : "border-white/60 bg-white/70 shadow-[0_8px_30px_-8px_rgba(11,18,32,0.08)]"
+      {items.map((item, i) => {
+        const angle = (i / items.length) * 360;
+        const rad = (angle * Math.PI) / 180;
+        const x = Math.cos(rad) * radius + radius;
+        const y = Math.sin(rad) * radius + radius;
+
+        return (
+          <div
+            key={item.label}
+            className="absolute"
+            style={{
+              left: `${x}px`,
+              top: `${y}px`,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            {/* Counter-rotate to keep tiles upright always */}
+            <div style={{ animation: `${counterAnimationName} ${duration}s linear infinite` }}>
+              <OrbitalTile item={item} index={i} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function OrbitalTile({ item, index }: { item: NodeTile; index: number }) {
+  const Icon = item.icon;
+  const floatDuration = 3 + (index % 3);
+  const floatDelay = index * 0.5;
+
+  return (
+    <div 
+      className="group pointer-events-auto relative flex h-[3.25rem] w-[3.25rem] cursor-pointer flex-col items-center justify-center gap-0.5 rounded-2xl border bg-white/80 backdrop-blur-md shadow-sm transition-all hover:scale-110 hover:z-50"
+      style={{
+        borderColor: item.highlight ? 'rgba(59, 130, 246, 0.4)' : 'rgba(226, 232, 240, 0.8)',
+        boxShadow: item.highlight ? '0 8px 24px -6px rgba(59, 130, 246, 0.25)' : '0 4px 12px -4px rgba(0, 0, 0, 0.05)',
+        animation: `tile-float ${floatDuration}s ease-in-out ${floatDelay}s infinite`,
+      }}
+    >
+      {item.highlight && (
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-50/50 to-transparent" />
+      )}
+
+      {item.highlight && (
+        <span className="absolute -right-1 -top-1 flex h-[10px] w-[10px]">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
+          <span className="relative inline-flex h-[10px] w-[10px] rounded-full border-[1.5px] border-white bg-blue-600" />
+        </span>
+      )}
+
+      <Icon
+        className={`relative z-10 h-4 w-4 transition-colors group-hover:text-blue-600 ${
+          item.highlight ? "text-blue-600" : "text-slate-500"
+        }`}
+        strokeWidth={item.highlight ? 2 : 1.5}
+      />
+      
+      <span
+        className={`relative z-10 text-[8px] font-bold uppercase tracking-wider transition-colors group-hover:text-blue-700 ${
+          item.highlight ? "text-blue-800" : "text-slate-500"
         }`}
       >
-        {/* Glow behind the icon for highlight tile */}
-        {tile.highlight && (
-          <div className="absolute inset-0 z-0 rounded-2xl bg-blue-500/10 blur-md" />
-        )}
-
-        {/* Live Indicator on Highlight */}
-        {tile.highlight && (
-          <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 z-20">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
-            <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-blue-600 border-2 border-white" />
-          </span>
-        )}
-
-        <Icon
-          className={`relative z-10 h-6 w-6 ${
-            tile.highlight ? "text-blue-700 drop-shadow-md" : "text-slate-600"
-          }`}
-          strokeWidth={1.75}
-        />
-        
-        {tile.highlight && (
-          <span className="relative z-10 text-[9px] font-black uppercase tracking-widest text-blue-800">
-            {tile.label}
-          </span>
-        )}
-      </motion.div>
-    </motion.div>
+        {item.label}
+      </span>
+    </div>
   );
 }

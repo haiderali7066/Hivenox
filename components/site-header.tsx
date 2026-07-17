@@ -75,7 +75,6 @@ const navigationData = {
   company: [
     { title: 'About Us', href: '/about', icon: Info },
     { title: 'Contact', href: '/contact', icon: Phone },
-    { title: 'Careers', href: '/careers', icon: Briefcase },
     { title: 'Blog', href: '/blogs', icon: Newspaper },
     { title: 'FAQs', href: '/faqs', icon: HelpCircle },
     { title: 'Privacy Policy', href: '/company/privacy-policy', icon: Shield },

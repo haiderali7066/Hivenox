@@ -1,93 +1,48 @@
 'use client'
 
 import Link from 'next/link'
-import {
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type MouseEvent as ReactMouseEvent,
-  type ReactNode,
-} from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import type { IconType } from 'react-icons'
+import {
+  FiArrowRight, FiAward, FiBarChart2, FiBookOpen, FiCalendar,
+  FiCheck, FiCheckCircle, FiChevronDown, FiCloud, FiCode,
+  FiCpu, FiDatabase, FiEdit3, FiFileText, FiGlobe, FiGrid,
+  FiHardDrive, FiHeadphones, FiKey, FiLock, FiLogIn, FiMapPin,
+  FiMic, FiPhoneCall, FiPieChart, FiPlay, FiPlus, FiSearch,
+  FiServer, FiShare2, FiShield, FiSmartphone, FiTarget, FiTrendingUp,
+  FiUserCheck, FiUsers, FiVideo, FiZap
+} from 'react-icons/fi'
+import {
+  FaFacebookF, FaGoogle, FaInstagram, FaLinkedinIn,
+  FaSnapchatGhost, FaTiktok, FaYoutube
+} from 'react-icons/fa'
+import { FaPinterest, FaThreads, FaXTwitter } from 'react-icons/fa6'
+import Image from 'next/image'
 import HeroSection from '@/components/HeroSection'
 
-import {
-  FiActivity,
-  FiArrowRight,
-  FiArrowUpRight,
-  FiBarChart2,
-  FiBook,
-  FiBriefcase,
-  FiCalendar,
-  FiCheck,
-  FiCheckCircle,
-  FiChevronDown,
-  FiCode,
-  FiCoffee,
-  FiCompass,
-  FiCpu,
-  FiDatabase,
-  FiDollarSign,
-  FiEdit3,
-  FiFileText,
-  FiGlobe,
-  FiGrid,
-  FiHeadphones,
-  FiHeart,
-  FiHome,
-  FiKey,
-  FiLayers,
-  FiLock,
-  FiMapPin,
-  FiMic,
-  FiPackage,
-  FiPhoneCall,
-  FiPieChart,
-  FiPlay,
-  FiSearch,
-  FiSettings,
-  FiShield,
-  FiShoppingBag,
-  FiShoppingCart,
-  FiStar,
-  FiTarget,
-  FiTool,
-  FiTrendingUp,
-  FiUserCheck,
-  FiUserPlus,
-  FiUsers,
-  FiVideo,
-  FiX,
-  FiXCircle,
-  FiZap,
-} from 'react-icons/fi'
-
-/* ------------------------------------------------------------------ */
-/* Shared utilities                                                    */
-/* ------------------------------------------------------------------ */
-
+/* ── Utilities ───────────────────────────────────────────────────── */
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(' ')
 }
-
+function fmt(n: number) {
+  return n.toLocaleString('en-US')
+}
 const focusRing =
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2'
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
 
-/* ------------------------------------------------------------------ */
-/* Reveal — scroll-in animation, reduced-motion aware                  */
-/* ------------------------------------------------------------------ */
-
+/* ── Reveal with enhanced animations ─────────────────────────────── */
 function Reveal({
   children,
   delay = 0,
   className,
   style,
+  direction = 'up',
 }: {
   children: ReactNode
   delay?: number
   className?: string
   style?: CSSProperties
+  direction?: 'up' | 'down' | 'left' | 'right' | 'scale' | 'fade'
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
@@ -95,12 +50,10 @@ function Reveal({
   useEffect(() => {
     const el = ref.current
     if (!el) return
-
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setVisible(true)
       return
     }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -108,18 +61,27 @@ function Reveal({
           observer.disconnect()
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     )
     observer.observe(el)
     return () => observer.disconnect()
   }, [])
 
+  const dirClasses: Record<string, string> = {
+    up: 'translate-y-10',
+    down: '-translate-y-10',
+    left: 'translate-x-10',
+    right: '-translate-x-10',
+    scale: 'scale-90',
+    fade: '',
+  }
+
   return (
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:transform-none',
-        visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0',
+        'transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none motion-reduce:transform-none',
+        visible ? 'translate-x-0 translate-y-0 scale-100 opacity-100' : `${dirClasses[direction]} opacity-0`,
         className
       )}
       style={{ transitionDelay: `${delay}ms`, ...style }}
@@ -129,19 +91,121 @@ function Reveal({
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* Eyebrow + SectionHeading                                            */
-/* ------------------------------------------------------------------ */
+/* ── Floating particles background ───────────────────────────────── */
+function ParticleField({ count = 30, color = 'rgba(255,255,255,0.08)' }: { count?: number; color?: string }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-function Eyebrow({ children, tone = 'light' }: { children: ReactNode; tone?: 'light' | 'dark' }) {
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    let w = 0, h = 0, particles: { x: number; y: number; vx: number; vy: number; r: number }[] = []
+
+    function resize() {
+      w = canvas.width = canvas.offsetWidth * window.devicePixelRatio
+      h = canvas.height = canvas.offsetHeight * window.devicePixelRatio
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * (w / window.devicePixelRatio),
+        y: Math.random() * (h / window.devicePixelRatio),
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: Math.random() * 2 + 1,
+      }))
+    }
+
+    let animId: number
+    function draw() {
+      const cw = w / window.devicePixelRatio
+      const ch = h / window.devicePixelRatio
+      ctx.clearRect(0, 0, cw, ch)
+      particles.forEach((p) => {
+        p.x += p.vx
+        p.y += p.vy
+        if (p.x < 0 || p.x > cw) p.vx *= -1
+        if (p.y < 0 || p.y > ch) p.vy *= -1
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = color
+        ctx.fill()
+      })
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x
+          const dy = particles[i].y - particles[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < 120) {
+            ctx.beginPath()
+            ctx.moveTo(particles[i].x, particles[i].y)
+            ctx.lineTo(particles[j].x, particles[j].y)
+            ctx.strokeStyle = color.replace('0.08', `${0.04 * (1 - dist / 120)}`)
+            ctx.lineWidth = 0.5
+            ctx.stroke()
+          }
+        }
+      }
+      animId = requestAnimationFrame(draw)
+    }
+
+    resize()
+    draw()
+    window.addEventListener('resize', resize)
+    return () => {
+      cancelAnimationFrame(animId)
+      window.removeEventListener('resize', resize)
+    }
+  }, [count, color])
+
+  return <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 h-full w-full" />
+}
+
+/* ── Animated gradient blob ──────────────────────────────────────── */
+function GradientBlob({ className }: { className?: string }) {
   return (
-    <span
-      className={cn(
-        'inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em]',
-        tone === 'light' ? 'text-blue-600' : 'text-blue-300'
-      )}
-    >
-      <span className={cn('h-1.5 w-1.5 rounded-full', tone === 'light' ? 'bg-blue-600' : 'bg-blue-300')} />
+    <div className={cn('pointer-events-none absolute blur-3xl', className)}>
+      <div className="h-full w-full animate-pulse rounded-full bg-gradient-to-r from-blue-500/20 via-violet-500/20 to-purple-500/20" />
+    </div>
+  )
+}
+
+/* ── Eyebrow + SectionHeading ────────────────────────────────────── */
+type Accent = 'blue' | 'violet' | 'emerald' | 'amber' | 'rose'
+
+const accentText: Record<Accent, string> = {
+  blue: 'text-blue-500',
+  violet: 'text-violet-500',
+  emerald: 'text-emerald-500',
+  amber: 'text-amber-500',
+  rose: 'text-rose-500',
+}
+const accentDot: Record<Accent, string> = {
+  blue: 'bg-blue-500',
+  violet: 'bg-violet-500',
+  emerald: 'bg-emerald-500',
+  amber: 'bg-amber-500',
+  rose: 'bg-rose-500',
+}
+const accentBg50: Record<Accent, string> = {
+  blue: 'bg-blue-500/10',
+  violet: 'bg-violet-500/10',
+  emerald: 'bg-emerald-500/10',
+  amber: 'bg-amber-500/10',
+  rose: 'bg-rose-500/10',
+}
+const accentRing: Record<Accent, string> = {
+  blue: 'group-hover:shadow-blue-500/30',
+  violet: 'group-hover:shadow-violet-500/30',
+  emerald: 'group-hover:shadow-emerald-500/30',
+  amber: 'group-hover:shadow-amber-500/30',
+  rose: 'group-hover:shadow-rose-500/30',
+}
+
+function Eyebrow({ children, accent = 'blue' }: { children: ReactNode; accent?: Accent }) {
+  return (
+    <span className={cn('inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em]', accentText[accent])}>
+      <span className={cn('h-1.5 w-1.5 rounded-full', accentDot[accent])} />
       {children}
     </span>
   )
@@ -152,41 +216,34 @@ function SectionHeading({
   title,
   description,
   align = 'center',
-  tone = 'light',
+  accent = 'blue',
   className,
+  dark = false,
 }: {
   eyebrow: string
   title: string
   description?: string
   align?: 'center' | 'left'
-  tone?: 'light' | 'dark'
+  accent?: Accent
   className?: string
+  dark?: boolean
 }) {
   return (
-    <div
-      className={cn(
-        align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl text-left',
-        className
-      )}
-    >
+    <div className={cn(align === 'center' ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl text-left', className)}>
       <div className={cn(align === 'center' && 'flex justify-center')}>
-        <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
+        <Eyebrow accent={accent}>{eyebrow}</Eyebrow>
       </div>
-      <h2
-        className={cn(
-          'mt-4 text-balance text-3xl font-semibold tracking-tight sm:text-4xl',
-          tone === 'light' ? 'text-slate-900' : 'text-white'
-        )}
-      >
+      <h2 className={cn(
+        'mt-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl',
+        dark ? 'text-white' : 'text-slate-900'
+      )}>
         {title}
       </h2>
       {description && (
-        <p
-          className={cn(
-            'mt-4 text-pretty text-lg leading-relaxed',
-            tone === 'light' ? 'text-slate-600' : 'text-blue-100/80'
-          )}
-        >
+        <p className={cn(
+          'mt-4 text-pretty text-lg leading-relaxed sm:text-xl',
+          dark ? 'text-slate-400' : 'text-slate-600'
+        )}>
           {description}
         </p>
       )}
@@ -194,28 +251,26 @@ function SectionHeading({
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* Animated icon tile — used across Solutions / ERP / Workforce cards  */
-/* ------------------------------------------------------------------ */
+/* ── Animated icon tile ──────────────────────────────────────────── */
+const accentHoverBg: Record<Accent, string> = {
+  blue: 'group-hover:bg-blue-500',
+  violet: 'group-hover:bg-violet-500',
+  emerald: 'group-hover:bg-emerald-500',
+  amber: 'group-hover:bg-amber-500',
+  rose: 'group-hover:bg-rose-500',
+}
 
-function IconTile({
-  icon: Icon,
-  tone = 'light',
-  size = 'md',
-}: {
-  icon: IconType
-  tone?: 'light' | 'dark'
-  size?: 'md' | 'lg'
-}) {
+function IconTile({ icon: Icon, accent = 'blue', size = 'md' }: { icon: IconType; accent?: Accent; size?: 'md' | 'lg' }) {
   return (
     <span
       className={cn(
-        'flex shrink-0 items-center justify-center rounded-xl transition-all duration-300 ease-out',
-        'group-hover:-translate-y-0.5 group-hover:rotate-6 group-hover:scale-110',
-        size === 'md' ? 'size-11' : 'size-14',
-        tone === 'light'
-          ? 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-600/30'
-          : 'bg-white/10 text-blue-300 group-hover:bg-blue-500 group-hover:text-white'
+        'flex shrink-0 items-center justify-center rounded-2xl transition-all duration-500 ease-out',
+        'group-hover:-translate-y-1 group-hover:rotate-3 group-hover:scale-110 group-hover:text-white group-hover:shadow-xl',
+        size === 'md' ? 'size-12' : 'size-14',
+        accentBg50[accent],
+        accentText[accent],
+        accentRing[accent],
+        accentHoverBg[accent]
       )}
     >
       <Icon className={size === 'md' ? 'size-5' : 'size-6'} />
@@ -223,540 +278,477 @@ function IconTile({
   )
 }
 
-
-
-/* ------------------------------------------------------------------ */
-/* 1. Hero — platform constellation with cursor spotlight              */
-/* ------------------------------------------------------------------ */
-
-type OrbitNode = {
-  label: string
-  icon: IconType
-  top: string
-  left: string
-  delay: number
-}
-
-const orbitNodes: OrbitNode[] = [
-  { label: 'CRM', icon: FiUsers, top: '18%', left: '30%', delay: 0 },
-  { label: 'Inventory', icon: FiPackage, top: '46%', left: '13%', delay: 600 },
-  { label: 'AI Workers', icon: FiCpu, top: '78%', left: '27%', delay: 1200 },
-  { label: 'Finance', icon: FiDollarSign, top: '45%', left: '78%', delay: 300 },
-  { label: 'Insights', icon: FiPieChart, top: '69%', left: '80%', delay: 900 },
-  { label: 'Support', icon: FiHeadphones, top: '88%', left: '57%', delay: 1500 },
+/* ── 1. Everything connected ─ LIGHT SECTION ──────────────────────── */
+const solutions: { title: string; description: string; icon: IconType; href: string; accent: Accent }[] = [
+  {
+    title: 'AI Workers',
+    description:
+      'Hire autonomous AI employees that create content, respond to customers, qualify leads, recruit talent, analyze performance, and automate repetitive work around the clock.',
+    icon: FiCpu,
+    href: '/workers',
+    accent: 'violet',
+  },
+  {
+    title: 'ERP Solutions',
+    description: 'Manage CRM, HRMS, Finance, Inventory, Operations, Procurement, Payroll and Analytics through one connected ERP platform.',
+    icon: FiGrid,
+    href: '/erp',
+    accent: 'blue',
+  },
+  {
+    title: 'Intelligent Automation',
+    description: 'Transform repetitive workflows into automated processes that save time, reduce errors, and improve productivity across every department.',
+    icon: FiZap,
+    href: '/solutions/automation',
+    accent: 'amber',
+  },
+  {
+    title: 'Business Intelligence',
+    description: 'Turn live business data into executive dashboards, forecasts, KPI tracking, and AI-powered recommendations.',
+    icon: FiPieChart,
+    href: '/solutions/business-intelligence',
+    accent: 'emerald',
+  },
+  {
+    title: 'Results-as-a-Service',
+    description: 'Prefer measurable outcomes over software? Our experts operate your AI Workers, automation, and business systems while you focus on growth.',
+    icon: FiTarget,
+    href: '/solutions/raas',
+    accent: 'rose',
+  },
+  {
+    title: 'Custom Development',
+    description: 'Build custom applications, AI solutions, integrations, customer portals, and enterprise software tailored to your business.',
+    icon: FiCode,
+    href: '/solutions/custom-development',
+    accent: 'blue',
+  },
 ]
 
-const CENTER = { top: '45%', left: '57%' }
-
-function OrbitDiagram() {
+function EverythingConnected() {
   return (
-    <div className="relative mx-auto h-[420px] w-full max-w-[480px] sm:h-[480px] lg:h-[520px] lg:max-w-none">
-      <style jsx>{`
-        @keyframes orbitFloat {
-          0%,
-          100% {
-            transform: translate(-50%, -50%) translateY(0px);
-          }
-          50% {
-            transform: translate(-50%, -50%) translateY(-10px);
-          }
-        }
-        @keyframes centerPulse {
-          0%,
-          100% {
-            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.25);
-          }
-          50% {
-            box-shadow: 0 0 0 14px rgba(37, 99, 235, 0);
-          }
-        }
-        .orbit-node {
-          animation: orbitFloat 5.5s ease-in-out infinite;
-        }
-        .orbit-center {
-          animation: centerPulse 3.2s ease-in-out infinite;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .orbit-node,
-          .orbit-center {
-            animation: none;
-          }
-        }
-      `}</style>
-
-      <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black,transparent_72%)]">
-        <div
-          className="absolute inset-0 opacity-60"
-          style={{
-            backgroundImage: 'radial-gradient(circle, rgb(203 213 225 / 0.7) 1px, transparent 1px)',
-            backgroundSize: '26px 26px',
-          }}
+    <section className="relative overflow-hidden bg-white py-28">
+      <GradientBlob className="-right-40 -top-40 h-96 w-96" />
+      <GradientBlob className="-left-40 bottom-0 h-80 w-80" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Everything your business needs — connected"
+          title="Start with one product. Expand into the whole platform."
+          description="HIVENOX lets you begin with the products that solve your biggest challenges today, then expand into a complete intelligent business platform whenever you're ready. Every application shares one database, one login, and one AI layer."
+          accent="violet"
         />
+
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {solutions.map((s, i) => (
+            <Reveal key={s.title} delay={(i % 3) * 100} direction="up">
+              <Link
+                href={s.href}
+                className={cn(
+                  'group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-slate-300 hover:shadow-2xl hover:shadow-slate-900/10',
+                  focusRing
+                )}
+              >
+                <div className={cn('absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-0 transition-opacity duration-500 group-hover:opacity-100',
+                  s.accent === 'blue' && 'from-blue-400 to-blue-600',
+                  s.accent === 'violet' && 'from-violet-400 to-violet-600',
+                  s.accent === 'emerald' && 'from-emerald-400 to-emerald-600',
+                  s.accent === 'amber' && 'from-amber-400 to-amber-600',
+                  s.accent === 'rose' && 'from-rose-400 to-rose-600',
+                )} />
+                <IconTile icon={s.icon} accent={s.accent} size="lg" />
+                <h3 className="mt-6 text-xl font-bold text-slate-900">{s.title}</h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-500">{s.description}</p>
+                <span className={cn('mt-6 inline-flex items-center gap-2 text-sm font-bold transition-all duration-300 group-hover:gap-3', accentText[s.accent])}>
+                  Learn more
+                  <FiArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
       </div>
+    </section>
+  )
+}
 
-      <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-        {orbitNodes.map((n) => (
-          <line
-            key={n.label}
-            x1={parseFloat(CENTER.left)}
-            y1={parseFloat(CENTER.top)}
-            x2={parseFloat(n.left)}
-            y2={parseFloat(n.top)}
-            stroke="rgb(148 163 184 / 0.45)"
-            strokeWidth="0.35"
-            strokeDasharray="1.2 1.6"
-            vectorEffect="non-scaling-stroke"
-          />
-        ))}
-      </svg>
+/* ── 2. Platform advantage — DARK SECTION ────────────────────────── */
+const advantageBenefits = [
+  {
+    title: 'Shared data across every product',
+    description: 'A new lead in CRM instantly updates SalesFlow, Books, Analytics, and AI Workers.',
+    icon: FiDatabase,
+  },
+  {
+    title: 'Native bilingual platform',
+    description: 'Every dashboard, report, workflow, and AI conversation works seamlessly in Arabic and English.',
+    icon: FiGlobe,
+  },
+  {
+    title: 'AI Workers powered by real business data',
+    description: 'Unlike generic AI tools, HIVENOX Workers operate directly inside your ERP using live business information.',
+    icon: FiCpu,
+  },
+]
 
-      <Reveal
-        delay={0}
-        className="orbit-center absolute z-10 flex w-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 px-4 py-5 text-center shadow-xl shadow-blue-900/20 sm:w-36"
-        style={{ top: CENTER.top, left: CENTER.left }}
-      >
-        <span className="text-base font-bold tracking-tight text-white">HIVENOX</span>
-        <span className="mt-1 text-[11px] font-medium text-blue-100/80">one platform</span>
-      </Reveal>
+const architectureFlow = [
+  { label: 'AI Workers', icon: FiCpu },
+  { label: 'CRM · Finance · HR · Inventory · Operations', icon: FiGrid },
+  { label: 'One Shared Database', icon: FiDatabase },
+]
 
-      {orbitNodes.map((n, i) => {
-        const Icon = n.icon
-        return (
-          <Reveal
-            key={n.label}
-            delay={200 + i * 90}
-            className="orbit-node group absolute z-[5] -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-            style={{ top: n.top, left: n.left, animationDelay: `${n.delay}ms` }}
-          >
-            <div className="flex cursor-default flex-col items-center gap-2">
-              <span className="flex size-12 items-center justify-center rounded-xl border border-slate-200 bg-white text-blue-600 shadow-md shadow-slate-900/5 transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-110 group-hover:border-blue-300 group-hover:shadow-lg group-hover:shadow-blue-600/20 sm:size-14">
-                <Icon className="size-5 sm:size-6" />
-              </span>
-              <span className="whitespace-nowrap text-xs font-semibold text-slate-600">{n.label}</span>
+function PlatformAdvantage() {
+  return (
+    <section className="relative overflow-hidden bg-slate-950 py-28">
+      <ParticleField count={40} color="rgba(99,102,241,0.12)" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(99,102,241,0.08),transparent_50%),radial-gradient(circle_at_80%_50%,rgba(139,92,246,0.08),transparent_50%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
+          <div>
+            <SectionHeading
+              align="left"
+              eyebrow="The platform advantage"
+              title="One database. Every department. Zero silos."
+              description="Traditional software forces businesses to purchase separate applications for sales, accounting, HR, inventory, and reporting. They rarely communicate well, creating duplicate work and costly integrations. HIVENOX is different — every product runs on one shared platform, so information entered once becomes available everywhere it's needed."
+              className="mx-0"
+              accent="blue"
+              dark
+            />
+
+            <div className="mt-12 flex flex-col gap-7">
+              {advantageBenefits.map((b, i) => {
+                const Icon = b.icon
+                return (
+                  <Reveal key={b.title} delay={i * 120} direction="left">
+                    <div className="group flex gap-5 rounded-2xl border border-white/5 bg-white/5 p-5 backdrop-blur-sm transition-all duration-500 hover:border-blue-500/30 hover:bg-white/10">
+                      <IconTile icon={Icon} accent="blue" />
+                      <div>
+                        <h3 className="text-sm font-bold text-white">{b.title}</h3>
+                        <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{b.description}</p>
+                      </div>
+                    </div>
+                  </Reveal>
+                )
+              })}
+            </div>
+          </div>
+
+          <Reveal delay={150} direction="scale">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-10 shadow-2xl shadow-blue-900/20 backdrop-blur-xl">
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
+              <p className="relative text-center text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Platform Architecture</p>
+              <div className="relative mt-10 flex flex-col items-center gap-8">
+                <div className="pointer-events-none absolute bottom-14 top-14 left-1/2 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-blue-500/40 to-transparent" aria-hidden>
+                  <span className="absolute -left-[3px] top-0 size-[7px] animate-ping rounded-full bg-blue-400" />
+                  <span className="absolute -left-[3px] top-0 size-[7px] rounded-full bg-blue-400 shadow-[0_0_12px_4px_rgba(96,165,250,0.6)]" />
+                </div>
+                {architectureFlow.map((step, idx) => {
+                  const Icon = step.icon
+                  return (
+                    <div key={step.label} className="relative z-10 flex flex-col items-center gap-3">
+                      <span className={cn(
+                        'flex size-16 items-center justify-center rounded-2xl border shadow-lg transition-all duration-500',
+                        idx === 0 ? 'border-violet-500/30 bg-violet-500/20 text-violet-300 shadow-violet-500/20' :
+                        idx === 1 ? 'border-blue-500/30 bg-blue-500/20 text-blue-300 shadow-blue-500/20' :
+                        'border-emerald-500/30 bg-emerald-500/20 text-emerald-300 shadow-emerald-500/20'
+                      )}>
+                        <Icon className="size-7" />
+                      </span>
+                      <span className="max-w-[220px] text-center text-sm font-bold text-slate-200">{step.label}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <p className="relative mt-10 text-center text-sm font-semibold text-slate-500">
+                No exports. No duplicate data. No disconnected systems.
+              </p>
             </div>
           </Reveal>
-        )
-      })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ── 3. Go live in three steps — LIGHT SECTION ───────────────────── */
+const goLiveSteps = [
+  {
+    number: '01',
+    title: 'Choose your starting point',
+    description: 'Select the products or AI Workers that solve your immediate business challenges.',
+    icon: FiTarget,
+  },
+  {
+    number: '02',
+    title: 'Import your business',
+    description: 'Bring customers, employees, inventory, suppliers, and financial information into HIVENOX using guided migration tools.',
+    icon: FiDatabase,
+  },
+  {
+    number: '03',
+    title: 'Activate automation',
+    description: 'Deploy AI Workers, automate repetitive workflows, and expand your platform as your business grows.',
+    icon: FiZap,
+  },
+]
+
+function GoLive() {
+  return (
+    <section className="relative overflow-hidden bg-white py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.04),transparent_60%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Go live in three steps"
+          title="From signup to productivity in days, not months."
+          description="Deploying enterprise software shouldn't require months of consulting and implementation."
+          accent="emerald"
+        />
+
+        <div className="relative mt-20 grid gap-10 md:grid-cols-3">
+          <div className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent md:block" />
+          {goLiveSteps.map((s, i) => {
+            const Icon = s.icon
+            return (
+              <Reveal key={s.number} delay={i * 150} direction="up" className="relative text-center md:text-left">
+                <div className="relative mx-auto flex size-16 items-center justify-center rounded-2xl border border-slate-200 bg-white text-emerald-500 shadow-lg shadow-emerald-500/10 md:mx-0">
+                  <Icon className="size-7" />
+                  <span className="absolute -top-2 -right-2 flex size-6 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-bold text-white shadow-md">
+                    {s.number}
+                  </span>
+                </div>
+                <p className="mt-6 text-xs font-bold tracking-[0.15em] text-emerald-600 uppercase">Step {s.number}</p>
+                <h3 className="mt-2 text-xl font-bold text-slate-900">{s.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-500">{s.description}</p>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ── 4. Core AI Workers comparison — DARK SECTION ──────────────────── */
+type CoreWorker = {
+  code: string
+  name: string
+  description: string
+  monthly: number
+  annual: number
+  credits: string
+  featured?: boolean
+  badge?: string
+  features: { text: string; inherited?: boolean }[]
+  includes: { label: string; value: string }[]
+  icon: IconType
+}
+
+const coreWorkers: CoreWorker[] = [
+  {
+    code: '01 · SOCIAL',
+    name: 'Social Worker',
+    description: 'You already create — HIVENOX schedules, publishes, and keeps you consistent across every channel.',
+    monthly: 79,
+    annual: 63,
+    credits: '1,500 AI credits / mo',
+    icon: FiCalendar,
+    features: [
+      { text: 'All major platforms — scheduling & publishing' },
+      { text: '50 scheduled posts / mo + link-in-bio page' },
+      { text: 'Bilingual hashtags & best-time posting' },
+      { text: 'Evergreen recycling + content calendar' },
+      { text: 'Arabic AI · RTL · Hijri · Ramadan engine' },
+    ],
+    includes: [
+      { label: 'Scheduled posts', value: '50 / mo' },
+      { label: 'Team seats', value: '3' },
+      { label: 'Brand profiles', value: '1' },
+      { label: 'Support', value: 'Email + WhatsApp' },
+    ],
+  },
+  {
+    code: '02 · CONTENT',
+    name: 'Content Worker',
+    description: 'AI posts, blogs, and thought leadership in your brand voice — bilingual, built for authority at scale.',
+    monthly: 99,
+    annual: 79,
+    credits: '3,000 AI credits / mo',
+    icon: FiEdit3,
+    features: [
+      { text: '70 scheduled posts / mo + 20 AI content pieces' },
+      { text: '8 blog drafts / mo + lite website publishing' },
+      { text: 'Bilingual brand voice — 3 profiles (AR+EN)' },
+      { text: 'Content categories + bulk scheduling' },
+      { text: 'Lite approval workflow' },
+    ],
+    includes: [
+      { label: 'Scheduled posts', value: '70 / mo' },
+      { label: 'Content pieces', value: '20 / mo' },
+      { label: 'Blog drafts', value: '8 / mo' },
+      { label: 'Team seats', value: '5' },
+    ],
+  },
+  {
+    code: '03 · GROWTH',
+    name: 'Growth Worker',
+    description: 'Automation and content in one place — plus full approval workflows, 3 brands, and a monthly strategist.',
+    monthly: 199,
+    annual: 159,
+    credits: '5,000 AI credits / mo',
+    featured: true,
+    badge: 'Most popular · best value',
+    icon: FiTrendingUp,
+    features: [
+      { text: 'Everything in Social Worker', inherited: true },
+      { text: 'Everything in Content Worker', inherited: true },
+      { text: '200 posts + 40 blogs + 20 videos / mo' },
+      { text: 'Full approval workflows + audit logs' },
+      { text: 'Advanced analytics, ROI & A/B testing' },
+      { text: 'Monthly 60-min strategy session' },
+    ],
+    includes: [
+      { label: 'Scheduled posts', value: '200 / mo' },
+      { label: 'Team seats', value: '10' },
+      { label: 'Brand profiles', value: '3' },
+      { label: 'Support', value: 'Priority + Slack' },
+    ],
+  },
+]
+
+function BillingToggle({ annual, onChange }: { annual: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <div className="inline-flex items-center gap-4">
+      <div className="relative inline-flex rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-sm">
+        <span
+          aria-hidden
+          className={cn(
+            'absolute inset-y-1 w-[calc(50%-2px)] rounded-full bg-gradient-to-r from-blue-500 to-violet-500 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
+            annual ? 'translate-x-[calc(100%+4px)]' : 'translate-x-0'
+          )}
+        />
+        <button
+          type="button"
+          aria-pressed={!annual}
+          onClick={() => onChange(false)}
+          className={cn('relative z-10 rounded-full px-6 py-2.5 text-sm font-bold transition-colors', !annual ? 'text-white' : 'text-slate-400', focusRing)}
+        >
+          Monthly
+        </button>
+        <button
+          type="button"
+          aria-pressed={annual}
+          onClick={() => onChange(true)}
+          className={cn('relative z-10 rounded-full px-6 py-2.5 text-sm font-bold transition-colors', annual ? 'text-white' : 'text-slate-400', focusRing)}
+        >
+          Annual
+        </button>
+      </div>
+      <span className="rounded-full bg-emerald-500/10 px-4 py-1.5 text-xs font-bold text-emerald-400 ring-1 ring-inset ring-emerald-500/20">
+        Save 20%
+      </span>
     </div>
   )
 }
 
-const trustCountries = ['🇦🇺 Australia', '🇦🇪 United Arab Emirates', '🇸🇦 Saudi Arabia']
-
-function Hero() {
-  const spotlightRef = useRef<HTMLDivElement>(null)
-
-  function handleMouseMove(e: ReactMouseEvent<HTMLElement>) {
-    const el = spotlightRef.current
-    if (!el) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    el.style.background = `radial-gradient(560px circle at ${x}px ${y}px, rgba(37,99,235,0.12), transparent 60%)`
-  }
-
-  function handleMouseLeave() {
-    const el = spotlightRef.current
-    if (!el) return
-    el.style.background = 'transparent'
-  }
+function WorkersComparison() {
+  const [annual, setAnnual] = useState(false)
 
   return (
-    <section
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden bg-white"
-    >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.4] [mask-image:radial-gradient(ellipse_at_top,black,transparent_65%)]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgb(203 213 225 / 0.6) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }}
-      />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_at_top,_rgba(37,99,235,0.10),_transparent_60%)]" />
-      <div ref={spotlightRef} className="pointer-events-none absolute inset-0 transition-[background] duration-200 ease-out" />
+    <section id="pricing" className="scroll-mt-24 relative overflow-hidden bg-slate-950 py-28">
+      <ParticleField count={25} color="rgba(99,102,241,0.08)" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.06),transparent_60%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="AI Workers comparison"
+          title="Choose the right Worker for your team."
+          description="Social publishes what you make. Content makes what you publish. Growth does both — in one login, for less than buying them apart."
+          accent="blue"
+          dark
+        />
 
-      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-10">
-          <div className="mx-auto max-w-xl text-center lg:mx-0 lg:max-w-none lg:text-left">
-            <span
-              className={cn(
-                'inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-blue-600 shadow-sm'
-              )}
-            >
-              The Intelligent Business Platform
-            </span>
+        <div className="mt-10 flex justify-center">
+          <BillingToggle annual={annual} onChange={setAnnual} />
+        </div>
 
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Run your entire business on{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
-                one intelligent platform.
-              </span>
-            </h1>
+        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          {coreWorkers.map((worker, i) => {
+            const Icon = worker.icon
+            const price = annual ? worker.annual : worker.monthly
+            return (
+              <Reveal key={worker.name} delay={i * 120} direction={i === 1 ? 'scale' : 'up'}>
+                <div
+                  className={cn(
+                    'relative flex h-full flex-col overflow-hidden rounded-3xl border bg-slate-900/50 p-8 backdrop-blur-xl transition-all duration-500',
+                    worker.featured
+                      ? 'border-blue-500/40 shadow-2xl shadow-blue-500/10 hover:shadow-blue-500/20'
+                      : 'border-white/10 hover:border-white/20 hover:shadow-xl hover:shadow-white/5'
+                  )}
+                >
+                  {worker.badge && (
+                    <span className="absolute -top-px left-1/2 inline-flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-b-xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-2 text-xs font-bold text-white shadow-lg">
+                      <FiAward className="size-3.5" />
+                      {worker.badge}
+                    </span>
+                  )}
+                  <div className="text-xs font-bold tracking-[0.15em] text-slate-500 uppercase">{worker.code}</div>
+                  <div className="mt-3 flex items-center gap-3">
+                    <span className="flex size-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
+                      <Icon className="size-5" />
+                    </span>
+                    <h3 className="text-xl font-bold tracking-tight text-white">{worker.name}</h3>
+                  </div>
+                  <p className="mt-3 min-h-[3rem] text-sm text-slate-400">{worker.description}</p>
 
-            <p className="mx-auto mt-6 max-w-lg text-pretty text-lg leading-relaxed text-slate-600 lg:mx-0">
-              Replace disconnected software with a connected ecosystem of ERP, CRM,
-              Finance, HR, Analytics, and autonomous AI Workers that actually do the
-              work — built for ambitious businesses across Australia, the UAE, and
-              Saudi Arabia.
-            </p>
+                  <div className="mt-6 flex items-baseline gap-1">
+                    <span className="text-lg font-semibold text-slate-500">A$</span>
+                    <span className="text-5xl font-bold tracking-tight text-white">{fmt(price)}</span>
+                    <span className="text-sm font-medium text-slate-500">/mo</span>
+                  </div>
+                  <div className="mt-1 min-h-[1.1rem] text-xs font-bold text-emerald-400">
+                    {annual ? 'Billed annually · save 20%' : ' '}
+                  </div>
 
-            <div className="mx-auto mt-7 flex max-w-lg flex-wrap justify-center gap-x-6 gap-y-2 lg:mx-0 lg:justify-start">
-              {['One Platform', 'Two Languages', 'Every Department', 'AI That Works'].map((item) => (
-                <span key={item} className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
-                  <FiCheck className="size-4 text-blue-600" />
-                  {item}
-                </span>
-              ))}
-            </div>
+                  <div className="mt-5 inline-flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-bold text-slate-300">
+                    <FiZap className="size-3.5 text-blue-400" />
+                    {worker.credits}
+                  </div>
 
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-              <Link
-                href="/signup"
-                className={cn(
-                  'inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm shadow-blue-600/20 transition-colors hover:bg-blue-700 sm:w-auto',
-                  focusRing
-                )}
-              >
-                Start Free
-                <FiArrowRight className="size-4" />
-              </Link>
-              <Link
-                href="/book-demo"
-                className={cn(
-                  'inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50 sm:w-auto',
-                  focusRing
-                )}
-              >
-                <FiPlay className="size-4 text-blue-600" />
-                Book a Demo
-              </Link>
-            </div>
-
-            <div className="mt-9 border-t border-slate-100 pt-6">
-              <p className="text-center text-xs font-semibold uppercase tracking-wide text-slate-400 lg:text-left">
-                Trusted across
-              </p>
-              <div className="mt-3 flex flex-wrap items-center justify-center gap-2 lg:justify-start">
-                {trustCountries.map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600"
+                  <Link
+                    href="/signup"
+                    className={cn(
+                      'mt-7 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300',
+                      worker.featured
+                        ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-[1.02]'
+                        : 'border border-white/10 bg-white/5 text-white hover:bg-white/10 hover:scale-[1.02]',
+                      focusRing
+                    )}
                   >
-                    {c}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-3 text-center text-xs text-slate-400 lg:text-left">
-                Powered by AI Solution Technologies
-              </p>
-            </div>
-          </div>
+                    Start 7-day trial
+                    {worker.featured && <FiArrowRight className="size-4" />}
+                  </Link>
 
-          <div className="relative">
-            <OrbitDiagram />
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
+                  <ul className="mt-8 flex flex-1 flex-col gap-3">
+                    {worker.features.map((f) => (
+                      <li key={f.text} className="flex gap-3 text-sm leading-relaxed text-slate-300">
+                        <span
+                          className={cn(
+                            'mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full',
+                            f.inherited ? 'bg-blue-500' : 'border border-blue-500/30 bg-blue-500/10'
+                          )}
+                        >
+                          <FiCheck className={cn('size-3', f.inherited ? 'text-white' : 'text-blue-400')} />
+                        </span>
+                        <span className={cn(f.inherited && 'font-semibold text-white')}>{f.text}</span>
+                      </li>
+                    ))}
+                  </ul>
 
-/* ------------------------------------------------------------------ */
-/* 2. Business problem                                                 */
-/* ------------------------------------------------------------------ */
-
-const painPoints = [
-  'One system for sales',
-  'Another for finance',
-  'A different HR platform',
-  'Spreadsheets everywhere',
-  'Reports that disagree',
-  "AI tools that can't access real business data",
-]
-
-const resolutions = [
-  'Every department',
-  'Every employee',
-  'Every AI worker',
-  'Working from one shared source of truth',
-]
-
-function BusinessProblem() {
-  return (
-    <section className="bg-slate-50 py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="The business problem"
-          title="Growing businesses don't fail because they lack ambition."
-          description="They fail because their software never grows together. Every new application creates another data silo, another manual process, and another integration to maintain — and growth becomes harder instead of easier."
-        />
-
-        <div className="mt-14 grid gap-6 lg:grid-cols-2">
-          <Reveal>
-            <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-8">
-              <span className="flex size-11 items-center justify-center rounded-xl bg-rose-50 text-rose-500">
-                <FiXCircle className="size-5" />
-              </span>
-              <h3 className="mt-5 text-lg font-semibold text-slate-900">Managing software instead of growth</h3>
-              <ul className="mt-5 flex flex-1 flex-col gap-3">
-                {painPoints.map((p) => (
-                  <li key={p} className="flex items-start gap-2.5 text-sm text-slate-600">
-                    <FiXCircle className="mt-0.5 size-4 shrink-0 text-rose-400" />
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="flex h-full flex-col rounded-2xl border border-blue-600 bg-gradient-to-br from-blue-50 to-white p-8 shadow-xl shadow-blue-900/5">
-              <span className="flex size-11 items-center justify-center rounded-xl bg-blue-600 text-white">
-                <FiCheckCircle className="size-5" />
-              </span>
-              <h3 className="mt-5 text-lg font-semibold text-slate-900">Meet HIVENOX</h3>
-              <p className="mt-2 text-sm text-slate-600">
-                HIVENOX replaces disconnected software with one intelligent business
-                platform.
-              </p>
-              <ul className="mt-5 flex flex-1 flex-col gap-3">
-                {resolutions.map((r) => (
-                  <li key={r} className="flex items-start gap-2.5 text-sm font-medium text-slate-800">
-                    <FiCheck className="mt-0.5 size-4 shrink-0 text-blue-600" />
-                    {r}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 border-t border-blue-100 pt-5 text-sm font-semibold text-blue-700">
-                Instead of managing software, your team manages growth.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* 3. Solutions                                                        */
-/* ------------------------------------------------------------------ */
-
-const solutions: { title: string; description: string; icon: IconType; href: string; highlight?: boolean }[] = [
-  {
-    title: 'AI Workers',
-    description:
-      'Autonomous AI employees that create content, answer customers, recruit candidates, qualify leads, and generate reports — working 24/7 in Arabic and English.',
-    icon: FiCpu,
-    href: '/workers',
-  },
-  {
-    title: 'ERP Solutions',
-    description: 'CRM, HRMS, Finance, Inventory, Operations, Payroll and Analytics connected through one shared database.',
-    icon: FiGrid,
-    href: '/erp',
-  },
-  {
-    title: 'Intelligent Automation',
-    description: 'Automate approvals, invoicing, onboarding, document processing, purchasing and hundreds of repetitive workflows.',
-    icon: FiZap,
-    href: '/solutions/automation',
-  },
-  {
-    title: 'Business Intelligence',
-    description: 'Every metric from every department, brought together into live dashboards and AI-powered insights.',
-    icon: FiPieChart,
-    href: '/solutions/business-intelligence',
-  },
-  {
-    title: 'Results-as-a-Service',
-    description: "Don't manage software. Define the outcome — we'll operate the platform and AI workforce for you.",
-    icon: FiTarget,
-    href: '/solutions/raas',
-    highlight: true,
-  },
-  {
-    title: 'Custom Development',
-    description: 'Enterprise software, AI applications and integrations engineered specifically for your business.',
-    icon: FiCode,
-    href: '/solutions/custom-development',
-  },
-]
-
-function Solutions() {
-  return (
-    <section className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Solutions"
-          title="Everything your business needs. Connected."
-          description="Start with one product or one AI Worker, and expand into a complete business platform without rebuilding your systems."
-        />
-
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {solutions.map((s, i) => (
-            <Reveal key={s.title} delay={(i % 3) * 80}>
-              <Link
-                href={s.href}
-                className={cn(
-                  'group flex h-full flex-col rounded-2xl border p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-900/5',
-                  s.highlight ? 'border-blue-200 bg-blue-50/40' : 'border-slate-200 bg-white',
-                  focusRing
-                )}
-              >
-                <IconTile icon={s.icon} size="lg" />
-                <h3 className="mt-5 text-lg font-semibold text-slate-900">{s.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{s.description}</p>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600">
-                  Learn more
-                  <FiArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                </span>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* 4. Why HIVENOX                                                      */
-/* ------------------------------------------------------------------ */
-
-const benefits: { label: string; icon: IconType }[] = [
-  { label: 'One Login', icon: FiKey },
-  { label: 'One Database', icon: FiDatabase },
-  { label: 'One Source of Truth', icon: FiCheckCircle },
-  { label: 'Native Arabic & English', icon: FiGlobe },
-  { label: 'AI Workers on Live Business Data', icon: FiCpu },
-  { label: 'Modular Platform', icon: FiLayers },
-  { label: 'Enterprise Security', icon: FiLock },
-  { label: 'Built for AU · UAE · KSA', icon: FiMapPin },
-]
-
-function WhyHivenox() {
-  return (
-    <section className="bg-slate-50 py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Why HIVENOX"
-          title="Everything works together because everything was built together."
-          description="Unlike traditional business software, HIVENOX doesn't rely on dozens of integrations. Every product shares one database, one identity system and one intelligent AI layer — so every department always works from live information. No duplicate records. No manual reconciliation. No disconnected reports."
-        />
-
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {benefits.map((b, i) => {
-            const Icon = b.icon
-            return (
-              <Reveal key={b.label} delay={(i % 4) * 70}>
-                <div className="group flex h-full flex-col items-center gap-3 rounded-2xl border border-slate-200 bg-white p-6 text-center transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:shadow-blue-900/5">
-                  <IconTile icon={Icon} />
-                  <span className="text-sm font-semibold text-slate-800">{b.label}</span>
-                </div>
-              </Reveal>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* 5. AI Workforce                                                     */
-/* ------------------------------------------------------------------ */
-
-const aiWorkers: { name: string; description: string; icon: IconType }[] = [
-  { name: 'Social Worker', description: 'Plans monthly content calendars, publishes posts, and replies to comments.', icon: FiCalendar },
-  { name: 'Content Worker', description: 'Writes blogs, newsletters and campaigns in Arabic and English.', icon: FiEdit3 },
-  { name: 'Growth Worker', description: 'Combines content, automation and analytics into one marketing engine.', icon: FiTrendingUp },
-  { name: 'SEO Worker', description: 'Finds keywords, writes SEO content, and improves search rankings.', icon: FiSearch },
-  { name: 'Video Worker', description: 'Creates short-form video for TikTok, Reels and YouTube Shorts.', icon: FiVideo },
-  { name: 'AI Sales Agent', description: 'Finds prospects, follows up automatically, and books meetings.', icon: FiPhoneCall },
-  { name: 'AI Support Agent', description: 'Answers customer questions instantly, across every channel.', icon: FiHeadphones },
-  { name: 'AI Recruiter', description: 'Screens candidates, shortlists talent, and schedules interviews.', icon: FiUserCheck },
-  { name: 'Voice AI', description: 'Makes and receives natural phone calls in Gulf Arabic and English.', icon: FiMic },
-  { name: 'Insights AI', description: 'Ask questions about your business, get instant answers from live data.', icon: FiActivity },
-]
-
-function AIWorkforce() {
-  return (
-    <section className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Meet your AI workforce"
-          title="Hire AI employees in minutes."
-          description="Not assistants. Not chatbots. Real AI workers that own complete business functions from start to finish."
-        />
-
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {aiWorkers.map((w, i) => {
-            const Icon = w.icon
-            return (
-              <Reveal key={w.name} delay={(i % 5) * 70}>
-                <div className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md hover:shadow-blue-900/5">
-                  <IconTile icon={Icon} />
-                  <h3 className="mt-4 text-sm font-bold text-slate-900">{w.name}</h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{w.description}</p>
-                </div>
-              </Reveal>
-            )
-          })}
-        </div>
-
-        <Reveal className="mt-8 flex justify-center">
-          <Link
-            href="/workers"
-            className={cn(
-              'inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50',
-              focusRing
-            )}
-          >
-            Meet the full workforce
-            <FiArrowUpRight className="size-4" />
-          </Link>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* 6. ERP Platform                                                     */
-/* ------------------------------------------------------------------ */
-
-const erpModules: { name: string; description: string; icon: IconType }[] = [
-  { name: 'CRM', description: 'Manage leads, customers and sales.', icon: FiUsers },
-  { name: 'HRMS', description: 'Employees, attendance, payroll and performance.', icon: FiUserCheck },
-  { name: 'Inventory', description: 'Track stock across warehouses in real time.', icon: FiPackage },
-  { name: 'Accounting', description: 'VAT/GST-ready finance built for AU, UAE and Saudi Arabia.', icon: FiDollarSign },
-  { name: 'Operations', description: 'Projects, procurement and delivery management.', icon: FiCompass },
-  { name: 'Analytics', description: 'Executive dashboards powered by one shared database.', icon: FiBarChart2 },
-]
-
-function ERPPlatform() {
-  return (
-    <section className="bg-slate-50 py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="ERP Platform"
-          title="One ERP. Every department. One source of truth."
-          description="Unlike traditional ERP systems, HIVENOX lets you activate only the modules you need — while keeping everything connected."
-        />
-
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {erpModules.map((m, i) => {
-            const Icon = m.icon
-            return (
-              <Reveal key={m.name} delay={(i % 3) * 80}>
-                <div className="group flex h-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:shadow-blue-900/5">
-                  <IconTile icon={Icon} />
-                  <div>
-                    <h3 className="text-base font-semibold text-slate-900">{m.name}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-slate-600">{m.description}</p>
+                  <div className="mt-6 flex flex-col gap-2.5 border-t border-dashed border-white/10 pt-6">
+                    {worker.includes.map((row) => (
+                      <div key={row.label} className="flex justify-between text-xs">
+                        <span className="text-slate-500">{row.label}</span>
+                        <span className="font-bold text-slate-300">{row.value}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </Reveal>
@@ -768,137 +760,330 @@ function ERPPlatform() {
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* 7. Platform architecture                                            */
-/* ------------------------------------------------------------------ */
+/* ── 5. Meet the specialists — LIGHT SECTION (HIVENOX CARD STYLE) ── */
+type Specialist = {
+  code: string
+  name: string
+  description: string
+  price: number
+  unit: string
+  addOn?: boolean
+  icon: IconType
+  features: string[]
+}
 
-const flowSteps: { label: string; icon: IconType }[] = [
-  { label: 'Lead created', icon: FiUserPlus },
-  { label: 'CRM updated', icon: FiUsers },
-  { label: 'Sales pipeline updated', icon: FiTrendingUp },
-  { label: 'Invoice generated', icon: FiFileText },
-  { label: 'Finance updated', icon: FiDollarSign },
-  { label: 'Inventory updated', icon: FiPackage },
-  { label: 'Analytics updated', icon: FiBarChart2 },
-  { label: 'AI Workers take action', icon: FiCpu },
+const specialists: Specialist[] = [
+  {
+    code: "01 · SOCIAL",
+    name: "Social Worker",
+    image: "/images/workers/social.webp",
+    description:
+      "Businesses that already create content but need automation, scheduling, and consistent publishing.",
+    price: 499,
+    unit: "Unlimited scheduling · 3 seats",
+    icon: FiShare2,
+    features: [
+      "AI social media scheduling",
+      "Cross-platform publishing",
+      "Content calendar automation",
+      "Performance analytics",
+    ],
+  },
+  {
+    code: "02 · CONTENT",
+    name: "Content Worker",
+    image: "/images/workers/content.webp",
+    description:
+      "Businesses that need professional AI-generated content and brand authority.",
+    price: 799,
+    unit: "100 AI content pieces / mo · 3 seats",
+    icon: FiFileText,
+    features: [
+      "Blogs, articles & landing pages",
+      "Social captions & ad copy",
+      "Brand voice consistency",
+      "Arabic & English content",
+    ],
+  },
+  {
+    code: "03 · GROWTH",
+    name: "Growth Worker",
+    image: "/images/workers/growth.webp",
+    description:
+      "Businesses that want automation AND content creation in one place.",
+    price: 1199,
+    unit: "Complete Growth Suite · 3 seats",
+    popular: true,
+    icon: FiTrendingUp,
+    features: [
+      "Everything in Social Worker",
+      "Everything in Content Worker",
+      "Growth automation workflows",
+      "Performance optimization",
+    ],
+  },
+  {
+    code: "04 · VIDEO",
+    name: "Video Worker",
+    image: "/images/workers/video.webp",
+    description:
+      "Brands ready to scale on TikTok, Reels, and YouTube Shorts.",
+    price: 899,
+    unit: "30 videos + 30 scripts / mo · 3 seats",
+    icon: FiVideo,
+    features: [
+      "30 rendered videos / month",
+      "30 AI video scripts",
+      "Captions & subtitles",
+      "Watch-time analytics",
+    ],
+  },
+  {
+    code: "05 · SEO",
+    name: "SEO Worker",
+    image: "/images/workers/seo.webp",
+    description:
+      "Businesses that want to rank with SEO blog articles, keyword strategy, and search-driven growth.",
+    price: 599,
+    unit: "12 SEO articles / mo · 3 seats",
+    icon: FiSearch,
+    features: [
+      "Keyword research",
+      "SEO blog generation",
+      "On-page optimization",
+      "Ranking & SERP tracking",
+    ],
+  },
+  {
+    code: "06 · ANALYTICS",
+    name: "Advanced Analytics Worker",
+    image: "/images/workers/analytics.webp",
+    description:
+      "Sold as an add-on to any Worker. Upgrades you from basic to revenue-grade insight.",
+    price: 399,
+    unit: "20 executive reports / mo",
+    addOn: true,
+    icon: FiBarChart2,
+    features: [
+      "Executive dashboards",
+      "Cross-channel reporting",
+      "Audience insights",
+      "Competitor analytics",
+    ],
+  },
+];
+
+
+
+const enterpriseFeatures = [
+  'Everything in all Workers (Social, Content, Growth, Video, Advanced Analytics)',
+  'Multi-brand support (up to 5 brand profiles)',
+  'Lead-generation workflows + CRM sync (HubSpot, Odoo, Salesforce)',
+  'AI Campaign Operations (multi-touch sequences, ABM workflows)',
+  'Executive dashboards with cross-brand benchmarking',
+  'Dedicated success manager + priority support (4-hour SLA)',
 ]
 
-function Architecture() {
+function Specialists() {
   return (
-    <section className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-white py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(139,92,246,0.04),transparent_50%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Platform architecture"
-          title="Built around one shared database."
-          description="Every action updates your entire business automatically."
+          eyebrow="Meet the specialists"
+          title="A specialist for every job."
+          description="Some business challenges require focused expertise. Bolt any specialist Worker onto your stack — each one built for a single job, done exceptionally well."
+          accent="violet"
         />
 
-        <div className="relative mx-auto mt-16 max-w-md">
-          <style jsx>{`
-            @keyframes flowPulse {
-              0% {
-                top: 0%;
-                opacity: 0;
-              }
-              8% {
-                opacity: 1;
-              }
-              92% {
-                opacity: 1;
-              }
-              100% {
-                top: 100%;
-                opacity: 0;
-              }
-            }
-            .flow-pulse {
-              animation: flowPulse 4.5s linear infinite;
-            }
-            @media (prefers-reduced-motion: reduce) {
-              .flow-pulse {
-                animation: none;
-                display: none;
-              }
-            }
-          `}</style>
-          <div className="absolute bottom-6 left-6 top-6 w-px bg-slate-200" aria-hidden>
-            <span className="flow-pulse absolute -left-[3px] size-[7px] rounded-full bg-blue-500 shadow-[0_0_8px_2px_rgba(37,99,235,0.5)]" />
-          </div>
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {specialists.map((s, i) => {
+            const Icon = s.icon
+            return (
+              <Reveal key={s.name} delay={(i % 3) * 100} direction="up">
+                <div className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-violet-500/10">
+                  {/* ── Image Box — no text overlay, pure visual ── */}
+                  {/* image box */}
+                  <div className="relative h-65 overflow-hidden">
+                    {/* Background Image */}
+                    <Image
+                      src={s.image}
+                      alt={s.name}
+                      fill
+                      priority={i < 3}
+                      sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
 
-          <ol className="flex flex-col gap-7">
-            {flowSteps.map((s, i) => {
-              const Icon = s.icon
-              return (
-                <Reveal key={s.label} delay={i * 90}>
-                  <li className="flex items-center gap-5">
-                    <span className="relative z-10 flex size-12 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-blue-600 shadow-sm">
-                      <Icon className="size-5" />
-                    </span>
-                    <span
+                    {/* Grid Pattern */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]" />
+
+                    {/* Content */}
+                    <div className="relative flex h-full flex-col justify-between p-5">
+                      <div className="flex items-start justify-between">
+                        <span className="flex size-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white backdrop-blur-md">
+                          <Icon className="size-5" />
+                        </span>
+
+                        {s.addOn && (
+                          <span className="rounded-full border border-violet-400/30 bg-violet-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-violet-200 backdrop-blur-md">
+                            Add-on
+                          </span>
+                        )}
+                      </div>
+
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/70">
+                          {s.code}
+                        </p>
+
+                        <h3 className="mt-1 text-xl font-bold text-white">
+                          HIVENOX {s.name}
+                        </h3>
+
+                        <p className="mt-1 text-xs text-white/80">
+                          {s.tagline}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ── Card Body — all text lives here ── */}
+                  <div className="flex flex-1 flex-col p-6">
+                    {/* Code + Name row */}
+                    <div className="flex items-center gap-3">
+                      <span className="flex size-9 items-center justify-center rounded-lg bg-violet-500/10 text-violet-600">
+                        <Icon className="size-4" />
+                      </span>
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+                          {s.code}
+                        </p>
+                        <h3 className="text-lg font-bold text-slate-900">
+                          HIVENOX {s.name}
+                        </h3>
+                      </div>
+                    </div>
+
+                    <p className="mt-3 text-sm leading-relaxed text-slate-500">
+                      {s.description}
+                    </p>
+
+                    <div className="mt-5 flex items-baseline gap-1">
+                      <span className="text-sm font-semibold text-slate-500">A$</span>
+                      <span className="text-3xl font-bold tracking-tight text-slate-900">{fmt(s.price)}</span>
+                      <span className="text-xs font-medium text-slate-400">/mo</span>
+                    </div>
+                    <p className="mt-1 text-xs text-slate-400">{s.unit}</p>
+
+                    <Link
+                      href="/contact"
                       className={cn(
-                        'text-sm font-semibold',
-                        i === flowSteps.length - 1 ? 'text-blue-700' : 'text-slate-800'
+                        'mt-5 inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 transition-all duration-300 hover:bg-slate-50 hover:scale-[1.02]',
+                        focusRing,
                       )}
                     >
-                      {s.label}
-                    </span>
-                  </li>
-                </Reveal>
-              )
-            })}
-          </ol>
+                      Learn more
+                    </Link>
+
+                    <ul className="mt-5 flex flex-1 flex-col gap-2.5">
+                      {s.features.map((f) => (
+                        <li key={f} className="flex gap-2.5 text-[13px] leading-relaxed text-slate-500">
+                          <FiCheck className="mt-0.5 size-4 shrink-0 text-violet-500" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Reveal>
+            )
+          })}
         </div>
 
-        <Reveal className="mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-          {['No integrations', 'No exports', 'No duplicate work'].map((f) => (
-            <span key={f} className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-              <FiCheck className="size-4 text-blue-600" />
-              {f}
-            </span>
-          ))}
+        {/* Enterprise Banner */}
+        <Reveal delay={200} direction="scale">
+          <div className="relative mt-10 overflow-hidden rounded-3xl border border-violet-200/50 bg-gradient-to-br from-violet-50 via-white to-blue-50 p-8 sm:grid sm:grid-cols-[1.3fr_1fr] sm:items-center sm:gap-10">
+            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-200/30 blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-blue-200/30 blur-3xl" />
+            <div className="relative">
+              <span className="inline-flex items-center rounded-full bg-violet-100 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-violet-700">
+                07 · Enterprise Growth OS
+              </span>
+              <h3 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                Everything in HIVENOX. Built for multi-brand &amp; agencies.
+              </h3>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-500">
+                Multi-brand enterprises, agencies, and teams running full-funnel demand generation.
+              </p>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {enterpriseFeatures.map((f) => (
+                  <li key={f} className="flex gap-2 text-[13px] text-slate-600">
+                    <FiCheck className="mt-0.5 size-3.5 shrink-0 text-violet-600" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="relative mt-8 text-center sm:mt-0">
+              <p className="text-4xl font-bold tracking-tight text-violet-600 sm:text-5xl">From $2,999</p>
+              <p className="mt-1 text-xs font-bold uppercase tracking-wide text-slate-400">AUD / month · ex. GST</p>
+              <Link
+                href="/contact"
+                className={cn(
+                  'mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/40 hover:scale-[1.02] sm:w-auto',
+                  focusRing,
+                )}
+              >
+                Learn more
+                <FiArrowRight className="size-4" />
+              </Link>
+            </div>
+          </div>
         </Reveal>
       </div>
     </section>
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* 8. Industries                                                       */
-/* ------------------------------------------------------------------ */
-
-const industries: { name: string; icon: IconType }[] = [
-  { name: 'Healthcare', icon: FiHeart },
-  { name: 'Real Estate', icon: FiHome },
-  { name: 'Retail', icon: FiShoppingBag },
-  { name: 'Manufacturing', icon: FiSettings },
-  { name: 'Professional Services', icon: FiBriefcase },
-  { name: 'Education', icon: FiBook },
-  { name: 'Construction', icon: FiTool },
-  { name: 'Hospitality', icon: FiStar },
-  { name: 'Restaurants', icon: FiCoffee },
-  { name: 'E-commerce', icon: FiShoppingCart },
-  { name: 'Agencies', icon: FiTarget },
-  { name: 'Government', icon: FiShield },
+/* ── 6. Everything your workers need — DARK SECTION ───────────────── */
+const workerCapabilities: { label: string; icon: IconType }[] = [
+  { label: 'Shared Knowledge Base', icon: FiDatabase },
+  { label: 'Brand Voice Memory', icon: FiBookOpen },
+  { label: 'Approval Workflows', icon: FiCheckCircle },
+  { label: 'Analytics Dashboard', icon: FiBarChart2 },
+  { label: 'Secure Cloud', icon: FiCloud },
+  { label: 'Team Collaboration', icon: FiUsers },
+  { label: 'AI Credits', icon: FiZap },
+  { label: 'Role Permissions', icon: FiKey },
+  { label: 'API Access', icon: FiCode },
+  { label: 'Audit Logs', icon: FiFileText },
 ]
 
-function Industries() {
+function WorkerCapabilities() {
   return (
-    <section className="bg-slate-50 py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-slate-950 py-28">
+      <ParticleField count={20} color="rgba(139,92,246,0.08)" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_60%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Industries"
-          title="Built for every industry."
-          description="Whether you run five employees or five hundred, HIVENOX adapts to your business."
+          eyebrow="Everything your Workers need"
+          title="Enterprise capabilities in every plan."
+          description="AI Workers become even more powerful because every plan includes the infrastructure to deploy AI safely, at scale."
+          accent="blue"
+          dark
         />
 
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {industries.map((item, i) => {
-            const Icon = item.icon
+        <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-5">
+          {workerCapabilities.map((c, i) => {
+            const Icon = c.icon
             return (
-              <Reveal key={item.name} delay={(i % 4) * 60}>
-                <div className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-sm">
-                  <IconTile icon={Icon} />
-                  <span className="text-sm font-semibold text-slate-800">{item.name}</span>
+              <Reveal key={c.label} delay={(i % 5) * 80} direction="scale">
+                <div className="group flex h-full flex-col items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-blue-500/30 hover:bg-white/10 hover:shadow-lg hover:shadow-blue-500/10">
+                  <span className="flex size-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 transition-all duration-500 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-500/30">
+                    <Icon className="size-5" />
+                  </span>
+                  <span className="text-xs font-bold text-slate-300 sm:text-sm">{c.label}</span>
                 </div>
               </Reveal>
             )
@@ -909,644 +1094,202 @@ function Industries() {
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* 9. Results                                                          */
-/* ------------------------------------------------------------------ */
-
-const outcomes = [
-  'Reduce repetitive work',
-  'Automate operations',
-  'Close deals faster',
-  'Support customers around the clock',
-  'Create more content',
-  'Gain complete business visibility',
-  'Scale without complexity',
+/* ── 7. One Worker or the whole hive — LIGHT SECTION ───────────────── */
+const combos: { a: { label: string; icon: IconType }; b: { label: string; icon: IconType } }[] = [
+  { a: { label: 'Social', icon: FiCalendar }, b: { label: 'Video', icon: FiVideo } },
+  { a: { label: 'Content', icon: FiEdit3 }, b: { label: 'SEO', icon: FiSearch } },
+  { a: { label: 'Sales', icon: FiPhoneCall }, b: { label: 'CRM', icon: FiUsers } },
+  { a: { label: 'Support', icon: FiHeadphones }, b: { label: 'Voice AI', icon: FiMic } },
 ]
 
-function Results() {
+function WorkerCombos() {
   return (
-    <section className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-white py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(99,102,241,0.04),transparent_50%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Results"
-          title="Businesses choose HIVENOX because it delivers outcomes."
-          description="Spend less time managing software. Spend more time growing your business."
+          eyebrow="One Worker or the whole hive"
+          title="Start with one. Expand whenever you're ready."
+          description="Businesses don't need to purchase everything on day one. Every Worker shares one platform, so combinations click together naturally."
+          accent="blue"
         />
 
-        <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2">
-          {outcomes.map((o, i) => (
-            <Reveal key={o} delay={(i % 4) * 70}>
-              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
-                <FiCheckCircle className="size-5 shrink-0 text-blue-600" />
-                <span className="text-sm font-medium text-slate-800">{o}</span>
-              </div>
-            </Reveal>
-          ))}
+        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {combos.map((combo, i) => {
+            const IconA = combo.a.icon
+            const IconB = combo.b.icon
+            return (
+              <Reveal key={combo.a.label + combo.b.label} delay={i * 100} direction="up">
+                <div className="group flex flex-col items-center gap-4 rounded-3xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-50/50 p-7 text-center shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
+                  <div className="flex items-center gap-4">
+                    <span className="flex size-14 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-600 shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-500/30">
+                      <IconA className="size-6" />
+                    </span>
+                    <FiPlus className="size-5 text-slate-300" />
+                    <span className="flex size-14 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-600 shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:bg-violet-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-violet-500/30">
+                      <IconB className="size-6" />
+                    </span>
+                  </div>
+                  <span className="text-sm font-bold text-slate-800">
+                    {combo.a.label} + {combo.b.label}
+                  </span>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+
+        <Reveal delay={200} direction="scale">
+          <div className="relative mt-8 overflow-hidden rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50/80 via-white to-violet-50/80 px-8 py-7 text-center shadow-sm">
+            <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-blue-200/20 blur-2xl" />
+            <div className="absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-violet-200/20 blur-2xl" />
+            <p className="relative text-sm font-bold text-slate-800">
+              Or run the Complete Marketing Department — every Worker, unified, on one platform.
+            </p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+/* ── 8. Publish everywhere — DARK SECTION ────────────────────────── */
+const platforms: { name: string; icon: IconType }[] = [
+  { name: 'Instagram', icon: FaInstagram },
+  { name: 'Facebook', icon: FaFacebookF },
+  { name: 'LinkedIn', icon: FaLinkedinIn },
+  { name: 'TikTok', icon: FaTiktok },
+  { name: 'YouTube', icon: FaYoutube },
+  { name: 'X', icon: FaXTwitter },
+  { name: 'Threads', icon: FaThreads },
+  { name: 'Google Business', icon: FaGoogle },
+  { name: 'Snapchat', icon: FaSnapchatGhost },
+  { name: 'Pinterest', icon: FaPinterest },
+]
+
+function PublishEverywhere() {
+  return (
+    <section className="relative overflow-hidden bg-slate-950 py-28">
+      <ParticleField count={15} color="rgba(59,130,246,0.1)" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.06),transparent_60%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Publish everywhere"
+          title="One dashboard. Every major platform."
+          description="Unified scheduling, analytics, and bilingual publishing across every channel your audience is already on."
+          accent="blue"
+          dark
+        />
+
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-4">
+          {platforms.map((item, i) => {
+            const Icon = item.icon
+            return (
+              <Reveal key={item.name} delay={(i % 5) * 80} direction="scale">
+                <div className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-bold text-slate-300 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-300 hover:shadow-lg hover:shadow-blue-500/20">
+                  <Icon className="size-4 text-blue-400 transition-transform duration-500 group-hover:scale-125" />
+                  {item.name}
+                </div>
+              </Reveal>
+            )
+          })}
         </div>
       </div>
     </section>
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* 10. Customer success                                                */
-/* ------------------------------------------------------------------ */
+/* ── 9. Enterprise by default — LIGHT SECTION ──────────────────────── */
+const securityFeatures: { label: string; icon: IconType }[] = [
+  { label: 'Role Permissions', icon: FiKey },
+  { label: 'Encryption', icon: FiLock },
+  { label: 'Audit Logs', icon: FiFileText },
+  { label: 'SSO', icon: FiLogIn },
+  { label: 'Backups', icon: FiHardDrive },
+  { label: 'API', icon: FiCode },
+  { label: 'High Availability', icon: FiServer },
+  { label: 'Multi-Workspace', icon: FiGrid },
+  { label: 'Multi-Location', icon: FiMapPin },
+  { label: 'Compliance', icon: FiShield },
+  { label: 'Two-Factor Auth', icon: FiSmartphone },
+]
+
+function EnterpriseSecurity() {
+  return (
+    <section className="relative overflow-hidden bg-white py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.04),transparent_60%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Enterprise by default"
+          title="Security isn't an upgrade. It's built in."
+          description="Every HIVENOX deployment ships with enterprise-grade governance and reliability standards from day one."
+          accent="blue"
+        />
+
+        <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          {securityFeatures.map((f, i) => {
+            const Icon = f.icon
+            return (
+              <Reveal key={f.label} delay={(i % 6) * 70} direction="scale">
+                <div className="group flex h-full flex-col items-center gap-3 rounded-2xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-50/50 p-5 text-center shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10">
+                  <span className="flex size-11 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 transition-all duration-500 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-500/30">
+                    <Icon className="size-5" />
+                  </span>
+                  <span className="text-xs font-bold text-slate-700">{f.label}</span>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ── 10. Customer success — DARK SECTION ───────────────────────────── */
+const successMetrics = [
+  { value: '5→1', label: 'Systems replaced with one platform' },
+  { value: '70%', label: 'Less manual reporting work' },
+  { value: '3×', label: 'Faster customer response time' },
+  { value: '15+ hrs', label: 'Saved per week, per team' },
+]
 
 function CustomerSuccess() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 to-blue-950 py-24">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.16),transparent_60%)]" />
-      <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <Reveal>
-          <span className="font-serif text-6xl leading-none text-blue-400/50" aria-hidden>
-            &ldquo;
-          </span>
-          <blockquote className="mx-auto -mt-4 max-w-2xl text-pretty text-xl font-medium leading-relaxed text-white sm:text-2xl">
-            HIVENOX replaced five disconnected systems with one intelligent platform.
-            Our reporting became real-time, our marketing became consistent, and our
-            team finally had time to focus on growth.
-          </blockquote>
-          <p className="mt-6 text-sm font-semibold text-blue-200">
-            Operations Director · Multi-department growth business
-          </p>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* 11. Pricing                                                         */
-/* ------------------------------------------------------------------ */
-
-function Pricing() {
-  return (
-    <section id="pricing" className="scroll-mt-24 bg-slate-50 py-24 border-t border-slate-200/80">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-slate-950 py-28">
+      <ParticleField count={20} color="rgba(139,92,246,0.06)" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_60%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Pricing & Workforce Stack"
-          title="Start free. Hire AI Workers as you grow."
-          description="Deploy AI specialists in minutes. No credit card required to start. When you are ready, upgrade your workforce with one-click specialist modules."
+          eyebrow="Customer success"
+          title="Real outcomes, not just software."
+          description="Businesses choose HIVENOX because it delivers measurable results — less manual work, faster reporting, and streamlined operations."
+          accent="emerald"
+          dark
         />
 
-        {/* CORE LADDER PLANS */}
-        <div className="mt-16 grid gap-8 lg:grid-cols-4 md:grid-cols-2 grid-cols-1 items-stretch">
-          
-          {/* Start Free Card */}
-          <Reveal delay={0} className="flex h-full">
-            <div className="flex flex-col justify-between w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div>
-                <span className="inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-slate-600">
-                  Tier 00
-                </span>
-                <h3 className="mt-4 text-2xl font-bold text-slate-900">Start Free</h3>
-                <p className="mt-2 text-xs text-slate-500 font-medium">Let the AI show you what it can do</p>
-                
-                <div className="mt-5 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-slate-900">$0</span>
-                  <span className="text-xs font-semibold text-slate-400">/ forever</span>
-                </div>
-                <p className="mt-4 text-xs leading-relaxed text-slate-600">
-                  No credit card, no expiry. Connect 3 channels, schedule your week, and generate a taste of AI content. When you outgrow it, paid Workers are 1-click away.
-                </p>
+        <Reveal direction="scale">
+          <div className="relative mx-auto mt-16 max-w-3xl overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-12 text-center backdrop-blur-xl">
+            <div className="absolute -top-20 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl" />
+            <span className="relative text-6xl leading-none text-blue-400/30" aria-hidden>
+              &ldquo;
+            </span>
+            <blockquote className="relative -mt-4 mx-auto max-w-2xl text-pretty text-xl font-medium leading-relaxed text-slate-200">
+              HIVENOX replaced five disconnected systems with one intelligent platform.
+              Our reporting became real-time, our marketing became consistent, and our
+              team finally had time to focus on growth.
+            </blockquote>
+            <p className="relative mt-6 text-sm font-bold text-slate-500">Operations Director · Multi-department growth business</p>
+          </div>
+        </Reveal>
 
-                <div className="mt-6 border-t border-slate-100 pt-5">
-                  <p className="text-xs font-bold text-slate-800 uppercase tracking-wide">Plan includes:</p>
-                  <ul className="mt-3 space-y-2.5">
-                    {['3 channels', '15 posts / mo', '20 AI credits / mo', 'Arabic AI · RTL · Hijri', 'Basic analytics', '1 seat'].map((f) => (
-                      <li key={f} className="flex items-center gap-2 text-xs font-medium text-slate-600">
-                        <FiCheck className="size-3.5 shrink-0 text-blue-600" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+        <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/5 lg:grid-cols-4">
+          {successMetrics.map((s, i) => (
+            <Reveal key={s.label} delay={i * 100} direction="up">
+              <div className="bg-slate-900/50 px-6 py-10 text-center backdrop-blur-sm transition-colors duration-500 hover:bg-slate-800/50">
+                <p className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{s.value}</p>
+                <p className="mt-2 text-sm text-slate-400">{s.label}</p>
               </div>
-
-              <div className="mt-8">
-                <Link
-                  href="/signup"
-                  className={cn(
-                    'flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white py-3 text-xs font-bold text-slate-800 shadow-sm transition-colors hover:bg-slate-50 hover:border-slate-300',
-                    focusRing
-                  )}
-                >
-                  Start Free
-                </Link>
-                <p className="mt-2 text-center text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                  No card · forever free
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* 01 · SOCIAL */}
-          <Reveal delay={80} className="flex h-full">
-            <div className="flex flex-col justify-between w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div>
-                <span className="inline-block rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-600">
-                  01 · SOCIAL
-                </span>
-                <h3 className="mt-4 text-2xl font-bold text-slate-900">Social Worker</h3>
-                <p className="mt-2 text-xs text-slate-500 font-medium">Auto scheduling &amp; publishing consistency</p>
-                
-                <div className="mt-5 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-slate-900">$79</span>
-                  <span className="text-xs font-semibold text-slate-400">/ mo</span>
-                </div>
-                <p className="mt-1 text-[11px] font-semibold text-slate-400">per month · month-to-month</p>
-                
-                <div className="mt-3 inline-flex items-center gap-1 rounded-md bg-blue-50/70 px-2.5 py-1 text-xs font-semibold text-blue-700">
-                  <FiCpu className="size-3" />
-                  1,500 AI credits / mo
-                </div>
-
-                <div className="mt-6 border-t border-slate-100 pt-5">
-                  <p className="text-xs font-bold text-slate-800 uppercase tracking-wide">What you get:</p>
-                  <ul className="mt-3 space-y-2.5">
-                    {[
-                      'All 6 platforms — scheduling & publishing',
-                      '50 scheduled posts / mo',
-                      '+ link-in-bio page',
-                      'Bilingual hashtags & best-time posting',
-                      'Evergreen recycling + content calendar',
-                      'Arabic AI · RTL · Hijri · Ramadan engine'
-                    ].map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-xs text-slate-600">
-                        <FiCheck className="mt-0.5 size-3.5 shrink-0 text-blue-600" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-6 border-t border-slate-100 pt-5 bg-slate-50/50 p-3.5 rounded-xl">
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Includes:</p>
-                  <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Scheduled posts</span>
-                      <strong className="text-slate-700">50 / mo</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Team seats</span>
-                      <strong className="text-slate-700">3</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Brand profiles</span>
-                      <strong className="text-slate-700">1</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Support</span>
-                      <strong className="text-slate-700">Email + WA</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <Link
-                  href="/signup?plan=social"
-                  className={cn(
-                    'flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 py-3 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700',
-                    focusRing
-                  )}
-                >
-                  Start 7-day trial
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* 02 · CONTENT */}
-          <Reveal delay={160} className="flex h-full">
-            <div className="flex flex-col justify-between w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div>
-                <span className="inline-block rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-violet-600">
-                  02 · CONTENT
-                </span>
-                <h3 className="mt-4 text-2xl font-bold text-slate-900">Content Worker</h3>
-                <p className="mt-2 text-xs text-slate-500 font-medium">AI blogs, posts, and thought leadership</p>
-                
-                <div className="mt-5 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-slate-900">$99</span>
-                  <span className="text-xs font-semibold text-slate-400">/ mo</span>
-                </div>
-                <p className="mt-1 text-[11px] font-semibold text-slate-400">per month · month-to-month</p>
-                
-                <div className="mt-3 inline-flex items-center gap-1 rounded-md bg-violet-50/70 px-2.5 py-1 text-xs font-semibold text-violet-700">
-                  <FiCpu className="size-3" />
-                  3,000 AI credits / mo
-                </div>
-
-                <div className="mt-6 border-t border-slate-100 pt-5">
-                  <p className="text-xs font-bold text-slate-800 uppercase tracking-wide">What you get:</p>
-                  <ul className="mt-3 space-y-2.5">
-                    {[
-                      '70 scheduled posts / mo',
-                      '+ 20 AI content pieces',
-                      '8 blog drafts / mo',
-                      '+ lite website publishing',
-                      'Bilingual brand voice — 3 profiles (AR+EN)',
-                      'Content categories + bulk scheduling',
-                      'Lite approval workflow'
-                    ].map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-xs text-slate-600">
-                        <FiCheck className="mt-0.5 size-3.5 shrink-0 text-violet-600" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-6 border-t border-slate-100 pt-5 bg-slate-50/50 p-3.5 rounded-xl">
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Includes:</p>
-                  <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Scheduled posts</span>
-                      <strong className="text-slate-700">70 / mo</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Content pieces</span>
-                      <strong className="text-slate-700">20 / mo</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Blog drafts</span>
-                      <strong className="text-slate-700">8 / mo</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Team seats</span>
-                      <strong className="text-slate-700">5</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <Link
-                  href="/signup?plan=content"
-                  className={cn(
-                    'flex w-full items-center justify-center gap-1.5 rounded-lg bg-slate-900 py-3 text-xs font-bold text-white shadow-sm transition-colors hover:bg-slate-800',
-                    focusRing
-                  )}
-                >
-                  Start 7-day trial
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* 03 · GROWTH (Featured Card) */}
-          <Reveal delay={240} className="flex h-full">
-            <div className="relative flex flex-col justify-between w-full rounded-2xl border-2 border-blue-600 bg-white p-6 shadow-xl shadow-blue-600/10 transition-transform duration-300 hover:-translate-y-1">
-              <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 px-3.5 py-1 text-[9px] font-black uppercase tracking-wider text-white shadow-md">
-                ★ MOST POPULAR · BEST VALUE
-              </span>
-              <div>
-                <span className="mt-1 inline-block rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
-                  03 · GROWTH
-                </span>
-                <h3 className="mt-4 text-2xl font-bold text-slate-900">Growth Worker</h3>
-                <p className="mt-2 text-xs text-slate-500 font-medium leading-normal">
-                  The agency escape hatch — Social + Content, unified. Full approval flow.
-                </p>
-                
-                <div className="mt-5 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-blue-600">$199</span>
-                  <span className="text-xs font-semibold text-slate-400">/ mo</span>
-                </div>
-                <p className="mt-1 text-[11px] font-semibold text-slate-400">per month · month-to-month</p>
-                
-                <div className="mt-3 inline-flex items-center gap-1 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
-                  <FiCpu className="size-3 text-blue-600" />
-                  5,000 AI credits / mo
-                </div>
-
-                <div className="mt-6 border-t border-slate-100 pt-5">
-                  <p className="text-xs font-bold text-slate-800 uppercase tracking-wide">Everything, unified:</p>
-                  <ul className="mt-3 space-y-2.5">
-                    {[
-                      'Everything in Social Worker',
-                      'Everything in Content Worker',
-                      '200 posts + 40 blogs + 20 videos / mo',
-                      'Full approval workflows + audit logs',
-                      'Advanced analytics, ROI & A/B testing',
-                      '12 auto client reports / mo (AR+EN) + Zapier',
-                      'Monthly 60-min strategy session'
-                    ].map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-xs text-slate-600">
-                        <FiCheck className="mt-0.5 size-3.5 shrink-0 text-blue-600" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-6 border-t border-slate-100 pt-5 bg-blue-50/30 p-3.5 rounded-xl border border-blue-50">
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-blue-700">Includes:</p>
-                  <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Scheduled posts</span>
-                      <strong className="text-slate-700">200 / mo</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Blogs &amp; Videos</span>
-                      <strong className="text-slate-700">40 + 20 / mo</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Team seats</span>
-                      <strong className="text-slate-700">10</strong>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-semibold text-slate-400">Brand profiles</span>
-                      <strong className="text-slate-700">3</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <Link
-                  href="/signup?plan=growth"
-                  className={cn(
-                    'flex w-full items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 py-3 text-xs font-bold text-white shadow-md shadow-blue-500/10 transition-all hover:brightness-105',
-                    focusRing
-                  )}
-                >
-                  Start 7-day trial
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-        </div>
-
-        {/* LADDER FOOTNOTES / GUIDES */}
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          <Reveal delay={100}>
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <span className="inline-flex size-7 items-center justify-center rounded-lg bg-blue-50 text-blue-600 font-bold text-sm">
-                🪜
-              </span>
-              <h4 className="mt-3 text-xs font-bold text-slate-900 uppercase tracking-wide">Why the ladder works</h4>
-              <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-                <strong>Social</strong> keeps you consistent, <strong>Content</strong> keeps you authoritative, and <strong>Growth</strong> unifies both in one system with complex workflows and a physical strategy lead. Most growth-focused teams start with Content or Social, then naturally slide into Growth within 60 days.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={180}>
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <span className="inline-flex size-7 items-center justify-center rounded-lg bg-violet-50 text-violet-600 font-bold text-sm">
-                🔋
-              </span>
-              <h4 className="mt-3 text-xs font-bold text-slate-900 uppercase tracking-wide">Hit your cap? Pay-as-you-go</h4>
-              <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-                Every single plan supports instant, native pay-as-you-go top-ups. Purchase additional posts, SEO blogs, video generation tokens, or database capacities at any point without forced tier upgrades. You always pay only for what you run.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-
-        {/* THE SPECIALISTS BAR */}
-        <div className="mt-24 border-t border-slate-200 pt-16 text-center">
-          <span className="inline-block rounded-full bg-slate-200 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-slate-600">
-            The Specialists
-          </span>
-          <h3 className="mt-4 text-2xl font-bold text-slate-900 tracking-tight sm:text-3xl">
-            Bolt on a focused Specialist Worker
-          </h3>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-slate-500 leading-relaxed">
-            Standalone agents designed for specialized, vertical pipelines. Add them individually directly to your stack at any time.
-          </p>
-        </div>
-
-        {/* SPECIALIST CARDS */}
-        <div className="mt-10 grid gap-8 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-          
-          {/* Video Worker */}
-          <Reveal delay={100} className="flex h-full">
-            <div className="group flex flex-col justify-between w-full rounded-xl border border-slate-200 bg-white p-6 transition-all duration-200 hover:shadow-md">
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="flex size-10 items-center justify-center rounded-lg bg-red-50 text-red-600 group-hover:scale-105 transition-transform">
-                    <FiVideo className="size-5" />
-                  </span>
-                  <div className="text-right">
-                    <span className="text-lg font-bold text-slate-900">$129</span>
-                    <span className="text-[10px] text-slate-400">/mo</span>
-                  </div>
-                </div>
-                <h4 className="mt-4 text-base font-bold text-slate-900">Video Worker</h4>
-                <p className="mt-1 text-xs text-slate-500 leading-normal">
-                  Scale on TikTok, Reels, Shorts &amp; Snapchat — scripts, hooks, captions, native scheduling.
-                </p>
-                <div className="mt-2.5 inline-block rounded-md bg-slate-50 px-2.5 py-0.5 text-[10px] font-medium text-slate-600">
-                  30 videos + 30 scripts / mo · 3 seats
-                </div>
-
-                <ul className="mt-5 space-y-2 border-t border-slate-100 pt-4">
-                  {[
-                    '30 rendered videos / mo — TikTok, Reels, Shorts, Snapchat',
-                    '30 platform scripts / mo + first-3-sec hooks',
-                    'AI captions, subtitles & descriptions',
-                    'Native editor or one-click CapCut export',
-                    'Watch-time & retention analytics'
-                  ].map((feat) => (
-                    <li key={feat} className="flex items-start gap-1.5 text-xs text-slate-600">
-                      <FiCheck className="mt-0.5 size-3.5 shrink-0 text-blue-600" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-6">
-                <Link
-                  href="/signup?worker=video"
-                  className={cn(
-                    'flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300',
-                    focusRing
-                  )}
-                >
-                  Start 7-day trial
-                  <FiArrowRight className="size-3" />
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* SEO Worker */}
-          <Reveal delay={180} className="flex h-full">
-            <div className="group flex flex-col justify-between w-full rounded-xl border border-slate-200 bg-white p-6 transition-all duration-200 hover:shadow-md">
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="flex size-10 items-center justify-center rounded-lg bg-green-50 text-green-600 group-hover:scale-105 transition-transform">
-                    <FiSearch className="size-5" />
-                  </span>
-                  <div className="text-right">
-                    <span className="text-lg font-bold text-slate-900">$99</span>
-                    <span className="text-[10px] text-slate-400">/mo</span>
-                  </div>
-                </div>
-                <h4 className="mt-4 text-base font-bold text-slate-900">SEO Worker</h4>
-                <p className="mt-1 text-xs text-slate-500 leading-normal">
-                  Bilingual visibility — blog articles, keyword strategy, and regional SERP dominance.
-                </p>
-                <div className="mt-2.5 inline-block rounded-md bg-slate-50 px-2.5 py-0.5 text-[10px] font-medium text-slate-600">
-                  12 SEO blog articles / mo · 3 seats
-                </div>
-
-                <ul className="mt-5 space-y-2 border-t border-slate-100 pt-4">
-                  {[
-                    '12 SEO blog articles / mo + custom-domain publishing',
-                    'Bilingual (EN+AR) keyword & intent mapping',
-                    'Dialect-aware SERP tracking — 50 keywords',
-                    'On-page audit + Arabic readability scoring',
-                    'Regional dominance: KSA · UAE · Egypt · AU'
-                  ].map((feat) => (
-                    <li key={feat} className="flex items-start gap-1.5 text-xs text-slate-600">
-                      <FiCheck className="mt-0.5 size-3.5 shrink-0 text-blue-600" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-6">
-                <Link
-                  href="/signup?worker=seo"
-                  className={cn(
-                    'flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300',
-                    focusRing
-                  )}
-                >
-                  Start 7-day trial
-                  <FiArrowRight className="size-3" />
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Analytics Worker */}
-          <Reveal delay={260} className="flex h-full">
-            <div className="group flex flex-col justify-between w-full rounded-xl border border-slate-200 bg-white p-6 transition-all duration-200 hover:shadow-md">
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="flex size-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600 group-hover:scale-105 transition-transform">
-                    <FiBarChart2 className="size-5" />
-                  </span>
-                  <div className="text-right">
-                    <span className="text-lg font-bold text-slate-900">$49</span>
-                    <span className="text-[10px] text-slate-400">/mo</span>
-                  </div>
-                </div>
-                <h4 className="mt-4 text-base font-bold text-slate-900">Analytics Worker</h4>
-                <p className="mt-1 text-xs text-slate-500 leading-normal">
-                  Prove your ROI — campaign tagging, competitor benchmarking, audience sentiment, and auto reports.
-                </p>
-                <div className="mt-2.5 inline-block rounded-md bg-slate-50 px-2.5 py-0.5 text-[10px] font-medium text-slate-600">
-                  20 auto reports / mo · 3 seats
-                </div>
-
-                <ul className="mt-5 space-y-2 border-t border-slate-100 pt-4">
-                  {[
-                    'Advanced dashboards + ROI attribution',
-                    'Competitor tracking (SERP + social rivals)',
-                    'Audience segmentation & sentiment trends',
-                    '20 auto PDF/PPT reports / mo (AR+EN)',
-                    'Email + WhatsApp support'
-                  ].map((feat) => (
-                    <li key={feat} className="flex items-start gap-1.5 text-xs text-slate-600">
-                      <FiCheck className="mt-0.5 size-3.5 shrink-0 text-blue-600" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-6">
-                <Link
-                  href="/signup?worker=analytics"
-                  className={cn(
-                    'flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300',
-                    focusRing
-                  )}
-                >
-                  Start 7-day trial
-                  <FiArrowRight className="size-3" />
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-        </div>
-
-      </div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* 12. Insights                                                        */
-/* ------------------------------------------------------------------ */
-
-const insightPosts = [
-  { category: 'AI Workers', title: 'AI Workers vs AI Assistants', date: 'Jul 8, 2026', readTime: '6 min read' },
-  { category: 'Platform', title: 'Why Businesses Need One Source of Truth', date: 'Jun 24, 2026', readTime: '7 min read' },
-  { category: 'AI Workers', title: 'Building an AI Workforce', date: 'Jun 12, 2026', readTime: '8 min read' },
-  { category: 'ERP', title: 'ERP Without Complexity', date: 'May 30, 2026', readTime: '5 min read' },
-  { category: 'Analytics', title: 'The Future of Business Intelligence', date: 'May 18, 2026', readTime: '6 min read' },
-]
-
-function Insights() {
-  return (
-    <section className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-          <SectionHeading
-            align="left"
-            eyebrow="Latest insights"
-            title="Learn how modern businesses scale with AI"
-            description="AI, automation and connected data — practical guidance for building a business that grows without added complexity."
-            className="mx-0"
-          />
-          <Link
-            href="/blog"
-            className={cn(
-              'inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-100',
-              focusRing
-            )}
-          >
-            View all articles
-            <FiArrowUpRight className="size-4" />
-          </Link>
-        </div>
-
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {insightPosts.map((post, i) => (
-            <Reveal key={post.title} delay={(i % 3) * 80}>
-              <Link
-                href="/blog"
-                className={cn(
-                  'group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-900/5',
-                  focusRing
-                )}
-              >
-                <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-900 to-blue-950">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-4xl font-semibold tracking-tight text-white/80">Hivenox</span>
-                  </div>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-blue-600">{post.category}</span>
-                  <h3 className="mt-3 flex-1 text-lg font-semibold leading-snug text-slate-900">{post.title}</h3>
-                  <div className="mt-5 flex items-center gap-3 text-xs text-slate-400">
-                    <span>{post.date}</span>
-                    <span className="size-1 rounded-full bg-slate-300" />
-                    <span>{post.readTime}</span>
-                  </div>
-                </div>
-              </Link>
             </Reveal>
           ))}
         </div>
@@ -1555,34 +1298,39 @@ function Insights() {
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* 13. FAQ                                                             */
-/* ------------------------------------------------------------------ */
-
+/* ── 11. FAQ — LIGHT SECTION ─────────────────────────────────────── */
 const faqs: { q: string; a: string }[] = [
   {
-    q: 'What is the difference between AI Workers and AI assistants?',
-    a: 'An assistant answers a question and forgets you. An AI Worker owns a job end to end — it plans, creates, publishes, follows up, and reports, acting on your live business data with minimal supervision.',
+    q: 'What is an AI Worker, and how is it different from a chatbot?',
+    a: 'A chatbot answers a message. An AI Worker owns a job end to end — planning, creating, publishing, following up, and reporting — acting on your live business data with minimal supervision.',
   },
   {
-    q: 'Do I need to activate the full ERP to use HIVENOX?',
-    a: 'No. You can start with a single AI Worker or a single ERP module and activate more as you grow. Every product shares the same database, so nothing needs to be rebuilt or migrated later.',
+    q: 'Do I need the full ERP to get started?',
+    a: 'No. Start with a single AI Worker or a single ERP module, and activate more as you grow. Every product shares the same database, so nothing needs to be rebuilt or migrated later.',
   },
   {
-    q: 'Is HIVENOX really bilingual, or is it translated?',
-    a: 'HIVENOX is written and rendered natively in Arabic and English — right-to-left where it should be, dialect-aware where it counts — not translated after the fact.',
+    q: 'How does the free trial work?',
+    a: 'Every paid Worker includes a 7-day free trial with no credit card required. You can also stay on the free-forever plan for as long as you like.',
   },
   {
-    q: 'How does HIVENOX handle integrations with tools we already use?',
-    a: 'HIVENOX connects to the social platforms, CRMs, and business tools you already rely on, including HubSpot, Salesforce, Odoo, and Shopify — so you can adopt it at your own pace.',
+    q: 'Does HIVENOX integrate with tools we already use?',
+    a: 'Yes — HIVENOX connects to CRMs and business tools you already rely on, including HubSpot, Zoho, Salesforce, and Odoo, plus a full REST API and webhooks on Enterprise plans.',
   },
   {
     q: 'Is HIVENOX secure enough for enterprise use?',
-    a: 'HIVENOX is built by AI Solution Technologies, a Microsoft-aligned data and AI consultancy, on enterprise-grade governance, security, and reliability standards used across our enterprise deployments.',
+    a: 'Every deployment includes role permissions, encryption, audit logs, SSO, backups, and two-factor authentication by default — not as a paid upgrade.',
   },
   {
-    q: 'What does pricing look like as we grow?',
-    a: 'Start free with no credit card required. Add AI Workers and ERP modules individually as you need them, all on one login and one consolidated bill — with no forced re-platforming.',
+    q: 'Is Arabic support native or translated?',
+    a: 'Native. HIVENOX is written and rendered natively in Arabic and English — full RTL layouts, Hijri calendar awareness, and dialect-aware content — not translated after the fact.',
+  },
+  {
+    q: 'What are AI credits, and do they expire?',
+    a: 'AI credits power content generation, reports, and Worker actions. Every plan includes a monthly allowance, and pay-as-you-go top-ups are available any time without upgrading your plan.',
+  },
+  {
+    q: 'What if we need something fully custom?',
+    a: 'Our Custom Development and Results-as-a-Service teams build bespoke applications, integrations, and managed operations for businesses that need more than the standard platform.',
   },
 ]
 
@@ -1590,42 +1338,37 @@ function FAQ() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <section className="bg-slate-50 py-24">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-white py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,rgba(99,102,241,0.04),transparent_60%)]" />
+      <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="FAQ"
-          title="Common questions"
-          description="Everything about AI Workers, ERP, pricing, integrations, bilingual support, deployment and security."
+          eyebrow="Frequently asked questions"
+          title="Common questions, answered."
+          description="AI Workers, ERP modules, pricing, the free trial, integrations, security, Arabic support, AI credits, deployment, and enterprise services."
+          accent="blue"
         />
 
-        <div className="mt-12 flex flex-col gap-3">
+        <div className="mt-14 flex flex-col gap-3">
           {faqs.map((item, i) => {
             const isOpen = open === i
             return (
-              <Reveal key={item.q} delay={i * 60}>
-                <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+              <Reveal key={item.q} delay={(i % 4) * 80} direction="up">
+                <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
                   <button
                     type="button"
                     onClick={() => setOpen(isOpen ? null : i)}
                     aria-expanded={isOpen}
                     className={cn(
-                      'flex w-full items-center justify-between gap-4 px-6 py-4 text-left text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50',
+                      'flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-sm font-bold text-slate-900 transition-colors hover:bg-slate-50/50',
                       focusRing
                     )}
                   >
                     {item.q}
-                    <FiChevronDown
-                      className={cn('size-4 shrink-0 text-blue-600 transition-transform duration-300', isOpen && 'rotate-180')}
-                    />
+                    <FiChevronDown className={cn('size-4 shrink-0 text-blue-500 transition-transform duration-500', isOpen && 'rotate-180')} />
                   </button>
-                  <div
-                    className={cn(
-                      'grid transition-all duration-300 ease-out',
-                      isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-                    )}
-                  >
+                  <div className={cn('grid transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]', isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
                     <div className="overflow-hidden">
-                      <p className="px-6 pb-5 text-sm leading-relaxed text-slate-600">{item.a}</p>
+                      <p className="px-6 pb-5 text-sm leading-relaxed text-slate-500">{item.a}</p>
                     </div>
                   </div>
                 </div>
@@ -1638,45 +1381,43 @@ function FAQ() {
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* 14. Final CTA                                                       */
-/* ------------------------------------------------------------------ */
-
+/* ── 12. Final CTA — DARK SECTION ─────────────────────────────────── */
 function FinalCta() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 to-blue-950 py-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.18),transparent_60%)]" />
+    <section className="relative overflow-hidden bg-slate-950 py-24">
+      <ParticleField count={30} color="rgba(99,102,241,0.1)" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,0.15),transparent_60%),radial-gradient(circle_at_50%_100%,rgba(59,130,246,0.1),transparent_60%)]" />
       <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <Reveal>
-          <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Ready to run your entire business on one intelligent platform?
+        <Reveal direction="scale">
+          <h2 className="text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Ready to build your intelligent business?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-lg leading-relaxed text-blue-100/80">
-            Whether you&apos;re looking for your first AI Worker, a complete ERP, or a
-            platform that connects every department, HIVENOX gives you everything you
-            need to grow — without the complexity of disconnected software.
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-slate-400">
+            Replace disconnected software with one platform where ERP, CRM, Finance,
+            HR, Analytics, Automation, and AI Workers work together from day one.
           </p>
-          <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-blue-300">
-            One Platform · Two Languages · Every Department
+          <p className="mt-3 text-sm font-bold uppercase tracking-[0.15em] text-blue-400">
+            One Platform · One Database · Every Department
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="/signup"
               className={cn(
-                'inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-white px-6 py-3.5 text-sm font-semibold text-blue-900 transition-colors hover:bg-blue-50 sm:w-auto',
+                'inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 px-8 py-4 text-sm font-bold text-white shadow-xl shadow-blue-500/25 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/40 hover:scale-[1.02] sm:w-auto',
                 focusRing
               )}
             >
-              Start Free
+              Start Free Trial
               <FiArrowRight className="size-4" />
             </Link>
             <Link
               href="/book-demo"
               className={cn(
-                'inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/20 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:w-auto',
+                'inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] sm:w-auto',
                 focusRing
               )}
             >
+              <FiPlay className="size-4" />
               Book a Demo
             </Link>
           </div>
@@ -1686,29 +1427,21 @@ function FinalCta() {
   )
 }
 
-
-
-
-/* ------------------------------------------------------------------ */
-/* Page                                                                */
-/* ------------------------------------------------------------------ */
-
-export default function HomePage() {
+/* ── Composed page body — no hero, no nav, no footer ─────────────── */
+export default function HomeSections() {
   return (
     <>
-      {/* <Hero /> */}
-      <HeroSection />
-      <BusinessProblem />
-      <Solutions />
-      <WhyHivenox />
-      <AIWorkforce />
-      <ERPPlatform />
-      <Architecture />
-      <Industries />
-      <Results />
+      <HeroSection/>
+      <EverythingConnected />
+      <PlatformAdvantage />
+      <GoLive />
+      <WorkersComparison />
+      <Specialists />
+      <WorkerCapabilities />
+      <WorkerCombos />
+      <PublishEverywhere />
+      <EnterpriseSecurity />
       <CustomerSuccess />
-      <Pricing />
-      <Insights />
       <FAQ />
       <FinalCta />
     </>
