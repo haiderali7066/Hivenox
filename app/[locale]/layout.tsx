@@ -1,10 +1,17 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { notFound } from 'next/navigation'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
+
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
+import SmoothScroll from '@/components/SmoothScroll'
+
+import { routing } from '@/i18n/routing'
+
 import './globals.css'
-import SmoothScroll from '../components/SmoothScroll'
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -23,7 +30,7 @@ export const metadata: Metadata = {
   },
   description:
     'Hivenox is the premium AI enterprise platform unifying ERP, CRM, and autonomous AI Workers to run your entire business intelligently.',
-  generator: 'Devntom solutions',
+  generator: 'Devntom Solutions',
   keywords: [
     'AI enterprise platform',
     'ERP software',
@@ -45,22 +52,46 @@ export const viewport: Viewport = {
   themeColor: '#ffffff',
 }
 
-export default function RootLayout({
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
+export default async function LocaleLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode
+  params: Promise<{ locale: string }>
 }>) {
+  const { locale } = await params
+
+  // Make sure the locale is valid
+  if (!routing.locales.includes(locale as 'en' | 'ar')) {
+    notFound()
+  }
+
+  const messages = await getMessages()
+
+  const direction = locale === 'ar' ? 'rtl' : 'ltr'
+
   return (
     <html
-      lang="en"
+      lang={locale}
+      dir={direction}
       className={`${geistSans.variable} ${geistMono.variable} bg-background`}
     >
       <body className="antialiased font-sans">
-        <SiteHeader />
-        <SmoothScroll />
-        <main>{children}</main>
-        <SiteFooter />
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <NextIntlClientProvider messages={messages}>
+          <SiteHeader />
+
+          <SmoothScroll />
+
+          <main>{children}</main>
+
+          <SiteFooter />
+
+          {process.env.NODE_ENV === 'production' && <Analytics />}
+        </NextIntlClientProvider>
       </body>
     </html>
   )

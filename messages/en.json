@@ -1,0 +1,125 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "solutions": "Solutions",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "language": "العربية"
+  },
+  "Home": {
+    "title": "The AI Enterprise Platform",
+    "description": "Unify ERP, CRM, and autonomous AI Workers on one intelligent platform.",
+    "cta": "Get Started"
+  },
+  "Contact": {
+    "hero": {
+      "locations": "Sydney · Dubai · Riyadh",
+      "titleLine1": "Hire the workforce.",
+      "titleLine2": "Run the platform.",
+      "description": "Remove the silent tax of growth. Whether you need a single AI worker or a complete enterprise foundation, our engineering team is ready to deploy.",
+      "bookDemo": "Book a Demo",
+      "viewOffices": "View Global Offices"
+    },
+    "trust": {
+      "title": "Engineered for Scale",
+      "enterprise": "Enterprise Ready",
+      "security": "SOC2 Compliant",
+      "bilingual": "Native Bilingual"
+    },
+    "promise": {
+      "label": "The Promise",
+      "title": "One platform instead of ten tabs.",
+      "zeroSilos": {
+        "title": "Zero Silos",
+        "description": "Your CRM, HR, finance, and inventory share a single database. No syncing required."
+      },
+      "workers": {
+        "title": "Workers That Execute",
+        "description": "Dedicated AI agents that prospect, write, schedule, and resolve tickets 24/7."
+      }
+    },
+    "contact": {
+      "emailLabel": "Direct Email",
+      "phoneLabel": "Global Phone"
+    },
+    "form": {
+      "title": "Book a Demo",
+      "description": "See exactly what the platform and its workforce will do for your operations. Demos take 30 minutes.",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Work Email",
+      "company": "Company Name",
+      "interest": "What do you want to deploy?",
+      "selectOption": "Select an option...",
+      "workers": "AI Workers (Social, Sales, Support)",
+      "erp": "HIVENOX ERP Modules",
+      "custom": "Custom Software Development",
+      "challenges": "Current challenges (Optional)",
+      "submit": "Request Tailored Session"
+    },
+    "hubs": {
+      "label": "Global Presence",
+      "titleLine1": "Our Operational",
+      "titleLine2": "Hubs",
+      "description": "Engineering, enterprise support, and customer success teams strategically located across Australia, UAE, and Saudi Arabia.",
+      "regionalOffice": "Regional Office",
+      "address": "Office Address",
+      "contact": "Contact",
+      "locations": {
+        "sydney": {
+          "title": "Global HQ (Australia)"
+        },
+        "dubai": {
+          "title": "MENA Hub (UAE)"
+        },
+        "riyadh": {
+          "title": "Enterprise Hub (KSA)"
+        }
+      }
+    },
+    "onboarding": {
+      "label": "Fast Onboarding",
+      "titleLine1": "From",
+      "titleLine2": "Idea to Go-Live",
+      "description": "Our streamlined onboarding process gets your business operational in days—not months.",
+      "steps": {
+        "discovery": {
+          "title": "Discovery",
+          "description": "We evaluate your current workflows, identify bottlenecks, and uncover automation opportunities."
+        },
+        "design": {
+          "title": "Solution Design + Dev",
+          "description": "Our team architects the perfect combination of AI agents and enterprise modules."
+        },
+        "deployment": {
+          "title": "Deployment",
+          "description": "After approval, we configure, train, and launch your intelligent workspace with ongoing support."
+        }
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "description": "Clear answers for enterprise operations.",
+      "items": {
+        "singleWorker": {
+          "question": "Can we start with a single AI worker?",
+          "answer": "Yes. You can deploy a single AI worker—like the Social Worker or Growth Worker—and add more as you scale. Every module runs on the same shared database, meaning you never have to re-platform."
+        },
+        "bilingual": {
+          "question": "Is HIVENOX truly bilingual?",
+          "answer": "Yes. The platform is written and rendered natively in both Arabic and English. It is RTL-aware, understands Gulf dialects, and operates on both Gregorian and Hijri calendars."
+        },
+        "raas": {
+          "question": "What is Results-as-a-Service (RaaS)?",
+          "answer": "With RaaS, we operate the platform for you. Your investment is tied to concrete outcomes—leads generated, tickets resolved, or hours returned—rather than software seats."
+        },
+        "compliance": {
+          "question": "Is the platform compliant in my region?",
+          "answer": "HIVENOX is VAT/GST-ready and built to handle compliance, tax, and local business regulations across Australia, the United Arab Emirates, and Saudi Arabia."
+        }
+      }
+    }
+  }
+}
