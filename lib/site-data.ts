@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 
 export type NavItem = {
+  desc: ReactNode
   title: string
   href: string
   description?: string

@@ -50,6 +50,7 @@ import {
 } from 'lucide-react'
 import HeroSection from '@/components/HeroSection'
 import { NavItem } from '@/lib/site-data'
+import { ProductsRail } from '@/components/ProductsRail'
 
 /* ------------------------------------------------------------------ */
 /*  Utilities                                                           */
@@ -668,7 +669,7 @@ function ProductRow({ item, index }: { item: NavItem; index: number }) {
   )
 }
 
-export function ProductsRail() {
+export function ProductsList() {
   const half = Math.ceil(businessAppsItems.length / 2)
   const leftItems = businessAppsItems.slice(0, half)
   const rightItems = businessAppsItems.slice(half)
@@ -1847,6 +1848,7 @@ export default function HomeSections() {
       <AgenticEnterprise />
       <ThreeWaysToGrow />
       <SpecialistShowcase />
+      {/* <ProductsList/> */}
       <ProductsRail/>
       <PricingLadder />
       <WorkforceRoster />
