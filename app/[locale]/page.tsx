@@ -51,6 +51,7 @@ import {
 import HeroSection from '@/components/HeroSection'
 import { NavItem } from '@/lib/site-data'
 import { ProductsRail } from '@/components/ProductsRail'
+import Specialists from '@/components/ai-workers'
 
 /* ------------------------------------------------------------------ */
 /*  Utilities                                                           */
@@ -1852,6 +1853,7 @@ export default function HomeSections() {
       <ProductsRail/>
       <PricingLadder />
       <WorkforceRoster />
+      <Specialists />
       <WorkforceSpotlight />
       <BrowseIndustries/>
       <ValuesBanner/>
