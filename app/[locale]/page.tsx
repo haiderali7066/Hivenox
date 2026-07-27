@@ -1141,9 +1141,7 @@ const workforceRoster: WorkforceCard[] = [
   },
 ]
 
-/* ------------------------------------------------------------------ */
-/*  Theme Configuration for Card Bodies
-/* ------------------------------------------------------------------ */
+
 
 const getThemeStyles = (group: FilterGroup) => {
   switch (group) {
@@ -1178,9 +1176,7 @@ const getThemeStyles = (group: FilterGroup) => {
   }
 }
 
-/* ------------------------------------------------------------------ */
-/*  Components
-/* ------------------------------------------------------------------ */
+
 
 function formatPrice(price: number | 'Custom') {
   if (price === 'Custom') return 'Custom'
@@ -1852,7 +1848,7 @@ export default function HomeSections() {
       {/* <ProductsList/> */}
       <ProductsRail/>
       <PricingLadder />
-      <WorkforceRoster />
+      {/* <WorkforceRoster /> */}
       <Specialists />
       <WorkforceSpotlight />
       <BrowseIndustries/>

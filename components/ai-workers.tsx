@@ -1,469 +1,279 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import { useMemo, useState, type ReactNode } from "react";
-import type { IconType } from "react-icons";
-import {
-  FiArrowRight,
-  FiBarChart2,
-  FiCheck,
-  FiFileText,
-  FiLayers,
-  FiPhoneCall,
-  FiSearch,
-  FiShare2,
-  FiStar,
-  FiTrendingUp,
-  FiVideo,
-} from "react-icons/fi";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { ArrowRight, LucideIcon, Share2, PenTool, Rocket, Video, Search, BarChart3, Building2 } from 'lucide-react';
 
-/* ── Utilities ───────────────────────────────────────────────────── */
-function cn(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
-function fmt(n: number) {
-  return n.toLocaleString("en-US");
-}
-const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2";
-const EASE = [0.22, 1, 0.36, 1] as const;
+// Mocking cn for standalone capability - replace with your actual import
+const cn = (...classes: (string | undefined | null | false)[]) => classes.filter(Boolean).join(' ');
 
-/* ── Accent system — every value here is tuned for a WHITE card,      */
-/* since the section (and now every card) sits on a white background. */
-type Accent = "blue" | "violet" | "emerald" | "amber" | "rose" | "slate";
+const workforceFilters = ['All', 'Core Ladder', 'Specialists', 'Enterprise'] as const;
+type FilterGroup = (typeof workforceFilters)[number];
 
-const accentText: Record<Accent, string> = {
-  blue: "text-blue-600",
-  violet: "text-violet-600",
-  emerald: "text-emerald-600",
-  amber: "text-amber-600",
-  rose: "text-rose-600",
-  slate: "text-slate-700",
-};
-const accentBg50: Record<Accent, string> = {
-  blue: "bg-blue-500/10",
-  violet: "bg-violet-500/10",
-  emerald: "bg-emerald-500/10",
-  amber: "bg-amber-500/10",
-  rose: "bg-rose-500/10",
-  slate: "bg-slate-100",
-};
-
-/* ── Reveal (scroll-triggered) ──────────────────────────────────── */
-function Reveal({
-  children,
-  delay = 0,
-  className,
-  direction = "up",
-}: {
-  children: ReactNode;
-  delay?: number;
-  className?: string;
-  direction?: "up" | "scale" | "fade";
-}) {
-  const prefersReducedMotion = useReducedMotion();
-  const offsets = {
-    up: { y: 26 },
-    scale: { scale: 0.94 },
-    fade: {},
-  } as const;
-
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, ...offsets[direction] }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay: delay / 1000, ease: EASE }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-/* ── Data ────────────────────────────────────────────────────────── */
-type Group = "core" | "specialist" | "enterprise";
-
-type Worker = {
-  code: string; // "01" | "02" | "03" for the core ladder, else a type tag
-  tagline: string;
-  categoryLabel: string;
+type WorkforceCard = {
+  category: string;
   name: string;
+  tagline: string;
   description: string;
+  price: number | 'Custom';
   unit: string;
-  price: number | "custom";
-  href: string;
-  secondaryHref?: string;
-  image: string;
-  icon: IconType;
-  accent: Accent;
-  group: Group;
-  popular?: boolean;
+  icon: LucideIcon;
+  group: FilterGroup;
   addOn?: boolean;
+  popular?: boolean;
+  href: string;
+  imageUrl: string;
 };
 
-const workers: Worker[] = [
-  {
-    code: "01",
-    tagline: "Never goes quiet — even when busy.",
-    categoryLabel: "Core Ladder",
-    name: "Social Worker",
-    description:
-      "Schedules, publishes, and keeps you consistent across 6 platforms.",
-    unit: "50 posts / mo + link-in-bio",
-    price: 79,
-    href: "/ai-workers/social-worker",
-    image: "/images/workers/social.webp",
-    icon: FiShare2,
-    accent: "blue",
-    group: "core",
+const workforceRoster: WorkforceCard[] = [
+  { 
+    category: 'SOCIAL', 
+    name: 'Social Worker', 
+    tagline: 'Never goes quiet — even when busy.', 
+    description: 'Schedules, publishes, and keeps you consistent across 6 platforms.', 
+    price: 79, 
+    unit: '50 posts / mo + link-in-bio', 
+    icon: Share2, 
+    group: 'Core Ladder',
+    href: '/ai-workers/social-worker',
+    imageUrl: '/images/workers/w1.jpeg'
   },
-  {
-    code: "02",
-    tagline: "Authority on autopilot.",
-    categoryLabel: "Core Ladder",
-    name: "Content Worker",
-    description:
-      "AI posts, blogs, and thought leadership in your brand voice.",
-    unit: "70 posts + 8 blogs / mo",
-    price: 99,
-    href: "/ai-workers/content-worker",
-    image: "/images/workers/content.webp",
-    icon: FiFileText,
-    accent: "violet",
-    group: "core",
+  { 
+    category: 'CONTENT', 
+    name: 'Content Worker', 
+    tagline: 'Authority on autopilot.', 
+    description: 'AI posts, blogs, and thought leadership in your brand voice.', 
+    price: 99, 
+    unit: '70 posts + 8 blogs / mo', 
+    icon: PenTool, 
+    group: 'Core Ladder',
+    href: '/ai-workers/content-worker',
+    imageUrl: '/images/workers/w2.jpeg'
   },
-  {
-    code: "03",
-    tagline: "The complete engine.",
-    categoryLabel: "Core Ladder",
-    name: "Growth Worker",
-    description:
-      "Social + Content unified, plus full workflows and a monthly strategist.",
-    unit: "200 posts + 40 blogs / mo",
-    price: 199,
-    href: "/ai-workers/growth-worker",
-    image: "/images/workers/growth.webp",
-    icon: FiTrendingUp,
-    accent: "blue",
-    group: "core",
+  { 
+    category: 'GROWTH', 
+    name: 'Growth Worker', 
+    tagline: 'The complete engine.', 
+    description: 'Social + Content unified, plus full workflows and a monthly strategist.', 
+    price: 199, 
+    unit: '200 posts + 40 blogs / mo', 
+    icon: Rocket, 
+    group: 'Core Ladder',
     popular: true,
+    href: '/ai-workers/growth-worker',
+    imageUrl: '/images/workers/w3.jpeg'
   },
-  {
-    code: "SPECIALIST",
-    tagline: "Scale on TikTok & Reels.",
-    categoryLabel: "Specialists",
-    name: "Video Worker",
-    description:
-      "Scripts, hooks, captions, and native scheduling for short-form video.",
-    unit: "30 videos + 30 scripts / mo",
-    price: 129,
-    href: "/ai-workers/video-worker",
-    image: "/images/workers/video.webp",
-    icon: FiVideo,
-    accent: "rose",
-    group: "specialist",
+  { 
+    category: 'SPECIALIST', 
+    name: 'Video Worker', 
+    tagline: 'Scale on TikTok & Reels.', 
+    description: 'Scripts, hooks, captions, and native scheduling for short-form video.', 
+    price: 129, 
+    unit: '30 videos + 30 scripts / mo', 
+    icon: Video, 
+    group: 'Specialists',
+    href: '/ai-workers/video-worker',
+    imageUrl: '/images/workers/w4.jpeg'
   },
-  {
-    code: "SPECIALIST",
-    tagline: "Bilingual visibility.",
-    categoryLabel: "Specialists",
-    name: "SEO Worker",
-    description:
-      "Blog articles, keyword strategy, and regional SERP dominance.",
-    unit: "12 SEO articles / mo",
-    price: 99,
-    href: "/ai-workers/seo-worker",
-    image: "/images/workers/seo.webp",
-    icon: FiSearch,
-    accent: "emerald",
-    group: "specialist",
+  { 
+    category: 'SPECIALIST', 
+    name: 'SEO Worker', 
+    tagline: 'Bilingual visibility.', 
+    description: 'Blog articles, keyword strategy, and regional SERP dominance.', 
+    price: 99, 
+    unit: '12 SEO articles / mo', 
+    icon: Search, 
+    group: 'Specialists',
+    href: '/ai-workers/seo-worker',
+    imageUrl: '/images/workers/w5.jpeg'
   },
-  {
-    code: "SPECIALIST",
-    tagline: "Prove your ROI.",
-    categoryLabel: "Specialists",
-    name: "Analytics Worker",
-    description: "Advanced dashboards, ROI attribution, and auto-reports.",
-    unit: "20 auto reports / mo",
-    price: 49,
-    href: "/ai-workers/advanced-analytics-worker",
-    image: "/images/workers/analytics.webp",
-    icon: FiBarChart2,
-    accent: "amber",
-    group: "specialist",
+  { 
+    category: 'SPECIALIST', 
+    name: 'Analytics Worker', 
+    tagline: 'Prove your ROI.', 
+    description: 'Advanced dashboards, ROI attribution, and auto-reports.', 
+    price: 49, 
+    unit: '20 auto reports / mo', 
+    icon: BarChart3, 
+    group: 'Specialists', 
     addOn: true,
+    href: '/ai-workers/advanced-analytics-worker',
+    imageUrl: '/images/workers/w6.jpeg'
   },
-  {
-    code: "ENTERPRISE",
-    tagline: "Every Worker, unified.",
-    categoryLabel: "Enterprise",
-    name: "Enterprise OS",
-    description:
-      "For agencies & multi-brand: white-label, CRM sync, full API.",
-    unit: "Priced to your brand count",
-    price: "custom",
-    href: "/ai-workers/enterprise-growth-os",
-    secondaryHref: "/book",
-    image: "/images/workers/analytics.webp",
-    icon: FiLayers,
-    accent: "slate",
-    group: "enterprise",
+  { 
+    category: 'ENTERPRISE', 
+    name: 'Enterprise OS', 
+    tagline: 'Every Worker, unified.', 
+    description: 'For agencies & multi-brand: white-label, CRM sync, full API.', 
+    price: 'Custom', 
+    unit: 'Priced to your brand count', 
+    icon: Building2, 
+    group: 'Enterprise',
+    href: '/ai-workers/enterprise-growth-os',
+    imageUrl: '/images/workers/w7.jpeg'
   },
 ];
 
-/* ── Filter tabs ─────────────────────────────────────────────────── */
-type TabKey = "all" | "core" | "specialist" | "enterprise";
+const getThemeStyles = (group: FilterGroup) => {
+  switch (group) {
+    case 'Core Ladder':
+      return {
+        bodyBg: 'bg-gradient-to-b from-blue-50/80 to-white',
+        badge: 'text-blue-600',
+      };
+    case 'Specialists':
+      return {
+        bodyBg: 'bg-gradient-to-b from-teal-50/80 to-white',
+        badge: 'text-teal-700',
+      };
+    case 'Enterprise':
+      return {
+        bodyBg: 'bg-gradient-to-b from-slate-100/80 to-white',
+        badge: 'text-slate-700',
+      };
+    default:
+      return {
+        bodyBg: 'bg-gradient-to-b from-slate-50/80 to-white',
+        badge: 'text-slate-600',
+      };
+  }
+};
 
-const tabs: { key: TabKey; label: string }[] = [
-  { key: "all", label: "All" },
-  { key: "core", label: "Core Ladder" },
-  { key: "specialist", label: "Specialists" },
-  { key: "enterprise", label: "Enterprise" },
-];
-
-function FilterTabs({
-  active,
-  onChange,
-}: {
-  active: TabKey;
-  onChange: (key: TabKey) => void;
-}) {
-  return (
-    <div
-      role="tablist"
-      aria-label="Filter workers"
-      className="inline-flex flex-wrap items-center gap-1 rounded-full border border-slate-200 bg-slate-50 p-1"
-    >
-      {tabs.map((tab) => {
-        const isActive = tab.key === active;
-        return (
-          <button
-            key={tab.key}
-            type="button"
-            role="tab"
-            aria-selected={isActive}
-            onClick={() => onChange(tab.key)}
-            className={cn(
-              "relative rounded-full px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-colors duration-200 sm:px-4 sm:text-sm",
-              isActive ? "text-blue-600" : "text-slate-600 hover:text-slate-900",
-              focusRing,
-            )}
-          >
-            {isActive && (
-              <motion.span
-                layoutId="workers-tab-indicator"
-                className="absolute inset-0 -z-10 rounded-full bg-slate-900"
-                transition={{ type: "spring", stiffness: 380, damping: 32 }}
-              />
-            )}
-            {tab.label}
-          </button>
-        );
-      })}
-    </div>
-  );
+function formatPrice(price: number | 'Custom') {
+  if (price === 'Custom') return 'Custom';
+  return `$${new Intl.NumberFormat('en-US').format(price)}`;
 }
 
-/* ── Worker card ─────────────────────────────────────────────────── */
-/* Every card — including Enterprise — shares one identical structure  */
-/* and white treatment, so the grid always reads as one consistent set */
-/* rather than "cards + a banner." Row height is equalized by the grid */
-/* (`auto-rows-fr`) and each card stretches with `h-full flex-col`, so */
-/* the CTA area (`mt-auto`) always lands on the same baseline.         */
-function WorkerCard({ w, index }: { w: Worker; index: number }) {
-  const Icon = w.icon;
-  const isEnterprise = w.group === "enterprise";
+function WorkforceCardTile({ w, delay }: { w: WorkforceCard; delay: number }) {
+  const theme = getThemeStyles(w.group);
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10, transition: { duration: 0.18 } }}
-      transition={{ duration: 0.4, delay: (index % 4) * 0.05, ease: EASE }}
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay }}
       className="h-full"
     >
-      <motion.div
-        whileHover={{ y: -6 }}
-        transition={{ type: "spring", stiffness: 320, damping: 24 }}
-        className={cn(
-          "group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-white transition-shadow duration-300 hover:shadow-lg hover:shadow-slate-900/8",
-          w.popular ? "border-blue-300" : "border-slate-200",
-        )}
-      >
-        {w.popular && (
-          <span className="absolute left-1/2 top-0 z-10 inline-flex -translate-x-1/2 items-center gap-1 rounded-b-lg bg-blue-600 px-3.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
-            <FiStar className="size-2.5" />
-            Popular
-          </span>
-        )}
-
-        {/* Image box — fixed square, image only, no overlay text */}
-        <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-slate-100">
-          <Image
-            src={w.image}
-            alt={w.name}
-            fill
-            priority={index < 4}
-            sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 25vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+      <div className="group flex h-full flex-col overflow-hidden rounded-2xl sm:rounded-[1.5rem] border-2 border-blue-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-500 hover:shadow-2xl hover:shadow-blue-900/10">
+        
+        {/* Taller Image Panel with static image (no scale hover effect) */}
+        <div className="relative h-60 sm:h-72 w-full overflow-hidden bg-slate-100">
+          <img 
+            src={w.imageUrl} 
+            alt={w.name} 
+            className="h-full w-full object-cover"
           />
+          
+          {w.addOn && (
+            <span className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full bg-blue-500 px-2 py-1 sm:px-3 sm:py-1 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest text-white shadow-lg shadow-blue-500/30">
+              Add-on
+            </span>
+          )}
+
+          {w.popular && (
+            <span className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full bg-amber-500 px-2 py-1 sm:px-3 sm:py-1 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest text-slate-950 shadow-lg shadow-amber-500/30">
+              ★ Popular
+            </span>
+          )}
         </div>
 
-        {/* Card body — fixed structure so every card reads identically */}
-        <div className="flex flex-1 flex-col p-5">
-          <div className="flex items-center justify-between gap-2">
-            <span
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide",
-                accentBg50[w.accent],
-                accentText[w.accent],
-              )}
-            >
-              {w.code}
-              {w.addOn && (
-                <>
-                  <span className="opacity-40">·</span>
-                  Add-on
-                </>
-              )}
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-              {w.categoryLabel}
-            </span>
+        {/* Card Body */}
+        <div className={cn("flex flex-1 flex-col p-4 sm:p-6 lg:p-8", theme.bodyBg)}>
+          
+          <div className={cn("text-[9px] sm:text-[11px] font-bold uppercase tracking-widest flex items-center gap-1.5", theme.badge)}>
+            <span>{w.group}</span>
+            <span className="size-1 rounded-full bg-current opacity-40" />
+            <span>{w.category}</span>
           </div>
-
-          <p
-            className={cn(
-              "mt-3 line-clamp-1 text-sm font-semibold leading-snug",
-              accentText[w.accent],
-            )}
-          >
+          
+          <h3 className="mt-1.5 sm:mt-2 text-base sm:text-2xl font-bold tracking-tight text-slate-900 leading-tight">
+            HIVENOX <br className="hidden lg:block" /> {w.name}
+          </h3>
+          
+          <p className="mt-1.5 text-[11px] sm:text-sm font-semibold text-slate-700">
             {w.tagline}
           </p>
 
-          <div className="mt-2.5 flex items-center gap-2.5">
-            <span
-              className={cn(
-                "flex size-8 shrink-0 items-center justify-center rounded-lg",
-                accentBg50[w.accent],
-                accentText[w.accent],
-              )}
-            >
-              <Icon className="size-4" />
-            </span>
-            <h3 className="truncate text-base font-bold text-slate-900">
-              HIVENOX {w.name}
-            </h3>
-          </div>
-
-          <p className="mt-2.5 line-clamp-2 min-h-[2.5rem] text-[13px] leading-relaxed text-slate-500">
+          <p className="mt-2 flex-1 text-xs sm:text-sm leading-relaxed text-slate-600 line-clamp-4 sm:line-clamp-none">
             {w.description}
           </p>
+          
+          <p className="mt-3 sm:mt-5 text-[10px] sm:text-xs font-medium text-slate-500">
+            {w.unit}
+          </p>
 
-          <div className="mt-4 flex items-baseline gap-1">
-            {w.price === "custom" ? (
-              <span className="text-2xl font-bold tracking-tight text-slate-900">
-                Custom
+          <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-200/80 pt-4 sm:pt-5">
+            <div>
+              <span className="text-lg sm:text-2xl font-extrabold text-slate-900">
+                {formatPrice(w.price)}
               </span>
-            ) : (
-              <>
-                <span className="text-2xl font-bold tracking-tight text-slate-900">
-                  ${fmt(w.price)}
-                </span>
-                <span className="text-xs font-medium text-slate-400">
-                  /mo
-                </span>
-              </>
-            )}
-          </div>
-          <p className="mt-0.5 text-xs text-slate-400">{w.unit}</p>
-
-          {/* CTA area — always pinned to the bottom of the card so every
-              card in a row ends at the same visual baseline regardless
-              of how much copy sits above it. */}
-          <div className="mt-4 flex flex-col gap-2 pt-4">
-            <Link
-              href={w.href}
-              className={cn(
-                "inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 transition-colors duration-300 hover:bg-slate-50",
-                focusRing,
+              {w.price !== 'Custom' && (
+                <span className="text-[10px] sm:text-sm text-slate-500">/mo</span>
               )}
+            </div>
+            
+            <Link 
+              href={w.href} 
+              className="group/link inline-flex w-fit items-center gap-1 sm:gap-1.5 rounded-full sm:rounded-none bg-blue-50/50 sm:bg-transparent px-3 py-1.5 sm:p-0 text-[10px] sm:text-xs font-bold uppercase tracking-wide text-blue-600 transition-colors hover:text-blue-800"
             >
               Learn more
-              {isEnterprise && <FiArrowRight className="size-3.5" />}
+              <ArrowRight className="size-3 sm:size-3.5 transition-transform duration-300 group-hover/link:translate-x-1" />
             </Link>
-            
           </div>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
 
-/* ── Section ─────────────────────────────────────────────────────── */
-export default function Specialists() {
-  const [tab, setTab] = useState<TabKey>("all");
-
-  const visible = useMemo(() => {
-    if (tab === "all") return workers;
-    return workers.filter((w) => w.group === tab);
-  }, [tab]);
-
-  // A denser 4-up grid on desktop keeps each square image (and the card
-  // around it) noticeably smaller than a 3-up layout would. `auto-rows-fr`
-  // forces every card in a row to the same height regardless of content
-  // length, so the set always reads as uniform, fixed-size cards. A lone
-  // result (the Enterprise tab) is centered instead of stretching full width.
-  const gridClass =
-    visible.length === 1
-      ? "mx-auto grid max-w-sm grid-cols-1"
-      : "grid auto-rows-fr grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4";
+export default function WorkforceRoster() {
+  const [filter, setFilter] = useState<FilterGroup>('All');
+  const filtered = filter === 'All' ? workforceRoster : workforceRoster.filter((w) => w.group === filter);
 
   return (
-    <section className="relative overflow-hidden bg-white py-24 lg:py-28">
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(139,92,246,0.04),transparent_50%)]"
-        aria-hidden
-      />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header row: heading on the left, filter tabs pinned top-right */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <Reveal direction="fade" className="max-w-2xl">
-            <span className="inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-violet-600">
-              <span className="h-1.5 w-1.5 rounded-full bg-violet-500" />
-              The Hive
-            </span>
-            <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-[2.75rem]">
-              One hive. Every job. Pick your Worker.
-            </h2>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-slate-600 sm:text-lg">
-              A modular suite of AI Workers — each solves one job
-              exceptionally well. Start where you need to, expand as you
-              grow. Arabic + English, native.
-            </p>
-          </Reveal>
+    <section className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        {/* Header & Filters */}
+        <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+          
+          <div className="mx-0 max-w-2xl text-left">
+            <h4 className="text-sm font-bold uppercase tracking-widest text-blue-600">The AI Workforce</h4>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">One hive. Every job. Pick your Worker.</h2>
+            <p className="mt-4 text-lg text-slate-600">A modular suite of AI Workers — each solves one job exceptionally well. Start where you need to, expand as you grow. Arabic + English, native.</p>
+          </div>
 
-          <Reveal direction="fade" delay={100} className="shrink-0 lg:pb-1.5">
-            <FilterTabs active={tab} onChange={setTab} />
-          </Reveal>
+          {/* Filter Buttons */}
+          <div className="flex w-full overflow-x-auto pb-2 sm:w-auto sm:pb-0 hide-scrollbar">
+            <div className="flex gap-2 rounded-2xl bg-slate-50 p-1.5 border border-slate-200 min-w-max">
+              {workforceFilters.map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setFilter(f)}
+                  className={cn(
+                    'rounded-xl px-4 py-2 sm:px-5 sm:py-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-200',
+                    filter === f 
+                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20 scale-100' 
+                      : 'text-slate-500 hover:bg-slate-200/50 hover:text-slate-700'
+                  )}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Grid */}
-        <motion.div layout className={cn("mt-14", gridClass, "gap-5")}>
-          <AnimatePresence mode="popLayout">
-            {visible.map((w, i) => (
-              <WorkerCard key={`${w.name}-${w.group}`} w={w} index={i} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        <div className="mt-12 sm:mt-16 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
+          {filtered.map((w, i) => (
+            <WorkforceCardTile key={w.name} w={w} delay={(i % 3) * 0.1} />
+          ))}
+        </div>
+        
       </div>
     </section>
   );
