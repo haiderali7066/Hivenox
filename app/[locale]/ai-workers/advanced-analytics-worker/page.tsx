@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ArrowDown, FileText, Split, CheckCircle, Send, PlayCircle, MonitorPlay, Clapperboard, Mic, Type, Music, LayoutTemplate, MessageSquare, Repeat, Building2, Globe, Users, ArrowRight, Video, BarChart, Clock, MonitorSmartphone, Wand2, Captions, Target } from "lucide-react";
+import { 
+  Check, ArrowDown, ArrowRight, BarChart3, TrendingUp, AlertCircle, 
+  BrainCircuit, Database, MessageSquare, LineChart, Activity, Search, 
+  Users, Target, DollarSign, Package, GitBranch, Zap, Bell, FileText, 
+  LayoutDashboard, Globe, CheckCircle, Lightbulb, Link
+} from "lucide-react";
 
-export default function VideoWorkerPage() {
+export default function AdvancedAnalyticsWorkerPage() {
   const [isAnnual, setIsAnnual] = useState(false);
   const [currency, setCurrency] = useState<"USD" | "AUD">("USD");
 
@@ -20,7 +25,7 @@ export default function VideoWorkerPage() {
   const getCurrencySymbol = () => (currency === "AUD" ? "A$" : "$");
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-800 selection:bg-blue-200 selection:text-blue-900 font-sans overflow-hidden">
+    <main className="min-h-screen bg-slate-50 text-slate-800 selection:bg-blue-200 selection:text-blue-900 font-sans overflow-hidden mt-20">
       
       {/* Background Subtle Gradients for the top */}
       <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/60 via-white to-purple-50/60" />
@@ -30,37 +35,32 @@ export default function VideoWorkerPage() {
         {/* =========================================================================
             1. HERO SECTION
             ========================================================================= */}
-        <section className="mx-auto max-w-[90rem] px-5 pt-28 pb-16 sm:px-6 lg:px-8 mt-20">
+        <section className="mx-auto max-w-[90rem] px-5 pt-24 pb-12 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center">
             
             <span className="mb-6 text-xs font-bold uppercase tracking-widest text-purple-700 bg-purple-100 px-4 py-1.5 rounded-full border border-purple-200 shadow-sm">
-              AI Worker · Video Creation
+              AI Worker · Advanced Analytics
             </span>
             
             <h1 className="mb-6 max-w-5xl text-5xl font-light tracking-tight text-slate-900 lg:text-7xl">
-              Turn your ideas into videos — <span className="font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">at scale.</span>
+              Turn your data into decisions — <span className="font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">before the future happens.</span>
             </h1>
             
-            <p className="mb-6 text-2xl font-light text-slate-700">
-              Create. Repurpose. Publish. Grow.
+            <p className="mb-6 text-2xl font-light text-slate-700 max-w-4xl">
+              AI-powered analytics that finds patterns, predicts outcomes, detects anomalies, and tells your team what to do next.
             </p>
 
             <p className="mb-10 max-w-3xl text-lg font-light leading-relaxed text-slate-600">
-              HIVENOX Video Worker helps your business create professional video content faster — from scripts and AI-generated visuals to short-form social videos, explainers, product videos, and content repurposing. Turn your existing content into videos your audience can actually watch, share, and remember.
+              HIVENOX Advanced Analytics Worker transforms complex business data into actionable intelligence. Go beyond dashboards and historical reports. Discover hidden patterns, forecast what's coming, identify unusual behavior, understand why performance changes, and make faster decisions with AI-powered analysis.
             </p>
 
-            <div className="mb-12 flex flex-wrap justify-center gap-3 text-sm font-medium tracking-wide text-slate-700">
+            <div className="mb-12 flex flex-wrap justify-center gap-3 text-sm font-medium tracking-wide text-slate-700 max-w-4xl">
               {[
-                "20 AI videos/month",
-                "AI-powered video creation",
-                "Short-form + long-form",
-                "Script-to-video workflows",
-                "Content repurposing",
-                "Multiple video formats",
-                "Arabic + English",
-                "RTL + Hijri + Ramadan-ready",
+                "Predictive analytics", "AI-powered forecasting", "Anomaly detection", "Trend analysis",
+                "Root-cause analysis", "Scenario planning", "Automated insights", "Natural language analytics",
+                "AI recommendations", "Arabic + English insights"
               ].map((point, i) => (
-                <div key={i} className="flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-5 py-2 backdrop-blur-sm">
+                <div key={i} className="flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-1.5 backdrop-blur-sm">
                   <Check className="size-4 text-blue-600 shrink-0" />
                   <span>{point}</span>
                 </div>
@@ -68,8 +68,8 @@ export default function VideoWorkerPage() {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap justify-center gap-4 mb-14">
-              <a href="/book?plan=video" className="inline-flex h-14 items-center justify-center rounded-none bg-blue-600 px-10 text-lg font-normal text-white transition-all hover:bg-blue-700 hover:shadow-xl hover:-translate-y-0.5">
+            <div className="flex flex-wrap justify-center gap-4 mb-10">
+              <a href="/book?plan=analytics" className="inline-flex h-14 items-center justify-center rounded-none bg-blue-600 px-10 text-lg font-normal text-white transition-all hover:bg-blue-700 hover:shadow-xl hover:-translate-y-0.5">
                 Start 7-Day Free Trial
               </a>
               <a href="/book" className="inline-flex h-14 items-center justify-center rounded-none border-2 border-slate-300 bg-white/50 backdrop-blur-md px-10 text-lg font-normal text-slate-800 transition-colors hover:border-slate-800 hover:bg-slate-800 hover:text-white">
@@ -86,93 +86,65 @@ export default function VideoWorkerPage() {
               <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 rounded-[2rem] pointer-events-none" />
               <div className="relative z-10">
                 <div className="flex flex-col md:flex-row items-center justify-between border-b border-slate-200 pb-5 mb-8 gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="flex gap-2">
-                      <div className="size-3.5 rounded-full bg-red-400" />
-                      <div className="size-3.5 rounded-full bg-yellow-400" />
-                      <div className="size-3.5 rounded-full bg-green-400" />
+                  <div className="flex items-center gap-2">
+                    <div className="size-3.5 rounded-full bg-red-400" />
+                    <div className="size-3.5 rounded-full bg-yellow-400" />
+                    <div className="size-3.5 rounded-full bg-green-400" />
+                    <span className="ml-4 text-sm font-mono text-slate-400">Advanced Analytics Worker</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Connect → Analyze → Predict → Recommend → Act
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  {[
+                    { label: "Revenue Forecast", val: "+18.6%", color: "text-green-600", icon: TrendingUp },
+                    { label: "Customer Churn Risk", val: "12.4%", color: "text-amber-600", icon: Users },
+                    { label: "Anomalies Detected", val: "7", color: "text-red-500", icon: AlertCircle },
+                    { label: "Forecast Accuracy", val: "94.2%", color: "text-blue-600", icon: Target }
+                  ].map((kpi, i) => (
+                    <div key={i} className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex flex-col">
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="text-xs font-bold uppercase tracking-widest text-slate-500">{kpi.label}</span>
+                        <kpi.icon className="size-4 text-slate-400" />
+                      </div>
+                      <span className={`text-3xl font-light ${kpi.color}`}>{kpi.val}</span>
                     </div>
-                    <span className="text-sm font-mono text-slate-400">hivenox://video-worker/dashboard</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider overflow-x-auto w-full md:w-auto pb-2 md:pb-0 whitespace-nowrap">
-                    <span className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full border border-slate-200">Idea → Script → Create → Edit → Approve → Publish</span>
-                    <span className="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full shrink-0">English / العربية</span>
-                  </div>
+                  ))}
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Pipeline */}
-                  <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Dashboard Metrics</h4>
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      {[
-                        { num: "16 / 20", label: "Videos Created", color: "text-slate-600 bg-slate-200/50" },
-                        { num: 4, label: "In Production", color: "text-amber-600 bg-amber-100" },
-                        { num: 8, label: "Ready to Publish", color: "text-green-600 bg-green-100" },
-                        { num: 24, label: "Published", color: "text-blue-600 bg-blue-100" }
-                      ].map((stat, i) => (
-                        <div key={i} className={`p-4 rounded-xl ${stat.color} border border-white/20`}>
-                          <div className="text-xl font-light mb-1">{stat.num}</div>
-                          <div className="text-[10px] font-bold uppercase tracking-wider opacity-80">{stat.label}</div>
-                        </div>
-                      ))}
+                  <div className="lg:col-span-2 space-y-4">
+                    <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-2xl border border-blue-100">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Lightbulb className="size-5 text-blue-600" />
+                        <h4 className="text-sm font-bold uppercase tracking-widest text-blue-800">AI Insight</h4>
+                      </div>
+                      <p className="text-slate-700 font-medium leading-relaxed">
+                        Revenue is expected to increase by 18.6% over the next 90 days, primarily driven by growth in the UAE customer segment.
+                      </p>
                     </div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">Content Types</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {["Social Videos", "Reels", "Shorts", "Explainer Videos", "Product Videos", "Educational Videos"].map((type, i) => (
-                        <span key={i} className="text-xs px-2.5 py-1 bg-white border border-slate-200 rounded-md text-slate-600">{type}</span>
-                      ))}
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200">
+                       <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-4">Prediction Panel</h4>
+                       <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm font-medium">
+                          <span className="text-slate-500">Sales Forecast:</span>
+                          <span className="text-slate-800">Actual <ArrowRight className="inline size-4 mx-1 text-blue-400"/> Forecast <ArrowRight className="inline size-4 mx-1 text-blue-400"/> Confidence Range</span>
+                       </div>
                     </div>
                   </div>
 
-                  {/* Transformation Visual / Video Editor */}
-                  <div className="lg:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col">
-                    <div className="flex items-center gap-3 mb-6 bg-slate-800/50 p-4 rounded-xl border border-slate-700/50">
-                      <Wand2 className="size-5 text-purple-400 shrink-0" />
-                      <p className="text-sm font-medium text-slate-200">
-                        "Your latest blog has been converted into a 45-second social video script."
-                      </p>
+                  <div className="space-y-4">
+                    <div className="bg-red-50 p-5 rounded-2xl border border-red-100">
+                       <h4 className="text-xs font-bold uppercase tracking-widest text-red-600 mb-2">🔴 High Priority Alert</h4>
+                       <p className="text-sm text-red-900">Sales in the Riyadh region are 27% below expected performance for this period.</p>
                     </div>
-                    
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Video Timeline</h4>
-                    <div className="bg-slate-950/50 rounded-xl p-4 border border-slate-800 flex-1 flex flex-col justify-between">
-                       {/* Video Player Mock */}
-                       <div className="w-full aspect-video bg-slate-900 rounded-lg border border-slate-800 flex items-center justify-center mb-4 relative overflow-hidden">
-                          <PlayCircle className="size-12 text-slate-600" />
-                          <div className="absolute bottom-2 right-2 text-[10px] bg-black/50 text-white px-2 py-1 rounded">00:45</div>
-                       </div>
-                       
-                       {/* Tracks */}
-                       <div className="space-y-2">
-                         <div className="flex gap-2 items-center">
-                           <span className="text-[10px] text-slate-500 w-16">Scenes</span>
-                           <div className="flex-1 h-6 flex gap-1">
-                             <div className="bg-blue-500/80 h-full w-1/3 rounded-sm"></div>
-                             <div className="bg-blue-400/80 h-full w-1/4 rounded-sm"></div>
-                             <div className="bg-blue-600/80 h-full w-auto flex-1 rounded-sm"></div>
-                           </div>
-                         </div>
-                         <div className="flex gap-2 items-center">
-                           <span className="text-[10px] text-slate-500 w-16">Voiceover</span>
-                           <div className="flex-1 h-4 bg-purple-500/50 rounded-sm"></div>
-                         </div>
-                         <div className="flex gap-2 items-center">
-                           <span className="text-[10px] text-slate-500 w-16">Captions</span>
-                           <div className="flex-1 h-4 flex gap-1">
-                             <div className="bg-amber-500/50 h-full w-1/4 rounded-sm"></div>
-                             <div className="bg-amber-500/50 h-full w-1/2 rounded-sm"></div>
-                             <div className="bg-amber-500/50 h-full w-auto flex-1 rounded-sm"></div>
-                           </div>
-                         </div>
-                         <div className="flex gap-2 items-center">
-                           <span className="text-[10px] text-slate-500 w-16">Music</span>
-                           <div className="flex-1 h-4 bg-green-500/30 rounded-sm"></div>
-                         </div>
-                       </div>
+                    <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 text-white">
+                       <h4 className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-2">AI Recommendation</h4>
+                       <p className="text-sm text-slate-300">Increase targeted sales activity in the Riyadh segment and review the 3 underperforming accounts contributing to the decline.</p>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -182,30 +154,35 @@ export default function VideoWorkerPage() {
         {/* =========================================================================
             2. THE PROBLEM (Soft Purple Section)
             ========================================================================= */}
-        <section className="bg-purple-50/80 border-y border-purple-100 py-16">
+        <section className="bg-purple-50/80 border-y border-purple-100 py-12">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-purple-600">The Problem</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">
-                Your audience is watching.<br/>Is your business keeping up?
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <span className="mb-3 inline-block text-xs font-bold uppercase tracking-widest text-purple-600">The Data Problem</span>
+              <h2 className="mb-5 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">
+                Your business has more data than your team can analyze.
               </h2>
               <p className="text-lg font-light leading-relaxed text-slate-700 mb-6">
-                Video has become one of the most powerful ways to communicate. But creating video consistently takes time. You need ideas. Scripts. Visuals. Editing. Captions. Voiceovers. Publishing. And then you need to do it all again next week.
+                Every day, your business generates data: Sales. Customers. Operations. Finance. Employees. Marketing. Inventory. But collecting data is not the same as understanding it. Traditional reports tell you what happened.
               </p>
-              <p className="text-lg font-medium leading-relaxed text-purple-900 bg-purple-100/50 inline-block p-4 rounded-xl">
-                Video Worker helps remove the repetitive work from the production process so your team can create more video without building a full production studio.
-              </p>
+              <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-purple-900 bg-purple-100/50 p-4 rounded-xl max-w-3xl mx-auto">
+                <span>Advanced Analytics Worker helps you understand:</span>
+                <span className="bg-white px-3 py-1 rounded-full shadow-sm">Why it happened.</span>
+                <span className="bg-white px-3 py-1 rounded-full shadow-sm">What happens next.</span>
+                <span className="bg-white px-3 py-1 rounded-full shadow-sm">What could happen.</span>
+                <span className="bg-white px-3 py-1 rounded-full shadow-sm">What to do about it.</span>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
               {[
-                { title: "Video Takes Too Long", desc: "Traditional video production requires too many steps and too much manual work." },
-                { title: "Ideas Stay Unused", desc: "Your blogs, presentations, and expertise contain video ideas that never get produced." },
-                { title: "Content Gets Repeated", desc: "Creating unique content for every platform wastes valuable time." },
-                { title: "Production Is Expensive", desc: "Hiring external teams for every video quickly increases costs." }
+                { title: "Too Much Data", desc: "Your teams have more information than they can manually analyze." },
+                { title: "Too Many Reports", desc: "Reports tell you what happened, but not always why." },
+                { title: "Decisions Come Too Late", desc: "By the time an issue appears, the opportunity may be gone." },
+                { title: "Hidden Patterns", desc: "Important relationships and trends can be difficult to see manually." },
+                { title: "Forecasting Is Difficult", desc: "Planning the future using spreadsheets creates uncertainty." }
               ].map((card, i) => (
-                <div key={i} className="bg-white p-8 rounded-[2rem] border border-purple-100 shadow-sm hover:shadow-md transition-shadow">
-                  <h3 className="text-xl font-normal text-slate-900 mb-3">{card.title}</h3>
+                <div key={i} className="bg-white p-6 rounded-2xl border border-purple-100 shadow-sm hover:shadow-md transition-shadow">
+                  <h3 className="text-lg font-medium text-slate-900 mb-2">{card.title}</h3>
                   <p className="text-sm font-light text-slate-600">{card.desc}</p>
                 </div>
               ))}
@@ -213,275 +190,251 @@ export default function VideoWorkerPage() {
             
             <div className="text-center">
               <span className="font-mono text-sm tracking-tight text-purple-600">
-                Your business already has the ideas. Video Worker helps turn them into content.
+                The real value of data isn't knowing what happened. It's knowing what to do next.
               </span>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            3. MEET YOUR VIDEO WORKER (White Section)
+            3. MEET YOUR AI DATA ANALYST (White Section)
             ========================================================================= */}
         <section className="bg-white py-16 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Your AI Video Production Team</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">One Worker. Your entire video workflow.</h2>
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Your AI Data Analyst</span>
+              <h2 className="mb-5 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">An AI analyst that never stops looking for answers.</h2>
               <p className="text-lg font-light text-slate-600">
-                Video Worker helps you move from idea to published video without managing disconnected tools and complicated production workflows.
+                Advanced Analytics Worker continuously analyzes your business data to identify patterns, risks, opportunities, and changes that deserve your attention.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-10">
               {[
-                { title: "Script", icon: FileText, color: "text-blue-500", bg: "bg-blue-50", desc: "Generate video scripts from your ideas, topics, or existing content." },
-                { title: "Create", icon: Video, color: "text-purple-500", bg: "bg-purple-50", desc: "Turn scripts into structured video concepts." },
-                { title: "Repurpose", icon: Split, color: "text-green-500", bg: "bg-green-50", desc: "Transform blogs, social posts, and long-form content into video." },
-                { title: "Customize", icon: LayoutTemplate, color: "text-orange-500", bg: "bg-orange-50", desc: "Apply your brand voice, visuals, messaging, and style." },
-                { title: "Review", icon: CheckCircle, color: "text-pink-500", bg: "bg-pink-50", desc: "Collaborate with your team before publishing." },
-                { title: "Publish", icon: Send, color: "text-indigo-500", bg: "bg-indigo-50", desc: "Prepare content for your social and marketing channels." }
+                { title: "Understand", icon: BrainCircuit, color: "text-blue-500", bg: "bg-blue-50", desc: "Connect and interpret your business data." },
+                { title: "Discover", icon: Search, color: "text-purple-500", bg: "bg-purple-50", desc: "Find patterns and relationships hidden inside your data." },
+                { title: "Predict", icon: LineChart, color: "text-green-500", bg: "bg-green-50", desc: "Forecast future outcomes based on historical and current signals." },
+                { title: "Detect", icon: AlertCircle, color: "text-orange-500", bg: "bg-orange-50", desc: "Identify anomalies and unexpected changes." },
+                { title: "Explain", icon: FileText, color: "text-pink-500", bg: "bg-pink-50", desc: "Understand the reasons behind performance changes." },
+                { title: "Recommend", icon: Zap, color: "text-indigo-500", bg: "bg-indigo-50", desc: "Turn insights into practical next actions." }
               ].map((feat, i) => (
                 <div key={i} className="group bg-slate-50 p-8 rounded-[2rem] border border-slate-100 hover:bg-white hover:border-slate-200 hover:shadow-lg transition-all duration-300">
                   <div className={`size-12 rounded-2xl ${feat.bg} flex items-center justify-center mb-5`}>
                     <feat.icon className={`size-6 ${feat.color}`} />
                   </div>
-                  <h3 className="text-2xl font-normal text-slate-900 mb-3">{feat.title}</h3>
+                  <h3 className="text-xl font-normal text-slate-900 mb-2">{feat.title}</h3>
                   <p className="text-base font-light text-slate-600">{feat.desc}</p>
                 </div>
               ))}
             </div>
             
-            <div className="text-center mt-12">
-              <p className="text-base font-medium text-slate-800">
-                From blank page to finished video — faster.
-              </p>
+            <div className="text-center">
+              <p className="text-base font-medium text-slate-800 border-b-2 border-blue-500 inline-block pb-1">Don't just ask what happened. Ask what happens next.</p>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            4. ONE IDEA → MULTIPLE VIDEOS (Dark Slate Section)
+            4. CONNECT DATA & NATURAL LANGUAGE (Dark / Light Split Concept)
             ========================================================================= */}
-        <section className="bg-slate-950 py-16 relative overflow-hidden">
+        <section className="bg-slate-950 py-16 relative overflow-hidden border-b border-slate-800">
           <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-900/20 blur-[100px] rounded-full pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-purple-900/20 blur-[100px] rounded-full pointer-events-none" />
           
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">Your best ideas deserve more than one format.</h2>
-              <p className="text-lg font-light text-slate-400">
-                Don't let your best content live in just one place. Video Worker transforms existing content into video formats designed for different audiences and platforms.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-center">
-              <div className="bg-slate-900 p-8 rounded-[2rem] border border-slate-800">
-                <div className="flex flex-col gap-4">
-                  {["One Core Idea", "Blog Article", "Long-Form Video", "60-Second Video", "Short-Form Clip", "Social Reel", "Educational Video"].map((step, i) => (
-                    <div key={i} className="flex items-center gap-4 text-white">
-                      <div className={`size-8 rounded-full ${i === 0 ? 'bg-purple-600' : 'bg-blue-900/50'} flex items-center justify-center border ${i === 0 ? 'border-purple-500' : 'border-blue-800/50'} shrink-0 text-sm`}>
-                        {i === 0 ? <Wand2 className="size-4" /> : i}
-                      </div>
-                      <span className={`font-light text-lg ${i === 0 ? 'font-medium' : ''}`}>{step}</span>
-                      {i < 6 && <ArrowDown className="size-5 text-slate-600 ml-auto" />}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              {/* Connect Data */}
               <div>
-                <div className="mb-8">
-                  <span className="text-sm font-medium text-slate-500 uppercase tracking-widest block mb-2">Original Content</span>
-                  <div className="bg-slate-800 p-4 rounded-xl text-white font-medium">"5 Ways AI Can Improve Customer Service"</div>
-                </div>
-                
-                <div>
-                  <span className="text-sm font-medium text-blue-400 uppercase tracking-widest block mb-3">Video Worker can turn it into:</span>
-                  <ul className="space-y-3">
-                    {["1 explainer video", "1 long-form video", "5 short-form clips", "5 social videos", "1 educational video"].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300 font-light">
-                        <Check className="size-4 text-blue-500 shrink-0" /> {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center mt-12">
-              <p className="text-base font-medium text-blue-300 bg-blue-900/30 inline-block px-8 py-3 rounded-full border border-blue-800/50">
-                Create once. Repurpose everywhere.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            5. AI SCRIPT GENERATION (White Section)
-            ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-              <div>
-                <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-slate-400">Script to Video</span>
-                <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Never start your next video with a blank page.</h2>
-                <p className="text-lg font-light text-slate-600 mb-8">
-                  Give Video Worker a topic, idea, blog, or product and let AI help structure the story. Create scripts that are clear, engaging, and aligned with your brand voice.
+                <h2 className="mb-5 text-4xl sm:text-5xl font-light tracking-tight text-white">Bring your data together. Let AI find the story.</h2>
+                <p className="text-lg font-light text-slate-400 mb-8">
+                  Advanced Analytics Worker works across the data your business already generates. Connect data from your business systems and analyze it in one intelligent environment.
                 </p>
-                
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-8">
-                  {["Strong opening hooks", "Structured storytelling", "Short-form scripts", "Long-form scripts", "Educational scripts", "Product scripts", "Promotional scripts", "Social CTAs"].map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                      <Check className="size-4 text-blue-500 shrink-0" />
-                      <span>{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <a href="/book?plan=video" className="inline-flex h-12 items-center justify-center bg-slate-900 px-8 text-base font-normal text-white rounded-none transition-all hover:bg-slate-800">
-                  Create Your First Video Script
-                </a>
-              </div>
-
-              {/* Script Example Visual */}
-              <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-200 shadow-sm relative">
-                <div className="mb-4 pb-4 border-b border-slate-200">
-                  <span className="text-xs font-bold uppercase text-blue-600 block mb-1">Input</span>
-                  <p className="text-sm text-slate-700 font-medium">Create a video about why businesses should automate customer support.</p>
-                </div>
-                
-                <div className="space-y-4">
-                  <span className="text-xs font-bold uppercase text-purple-600 block mb-1">Output Workflow</span>
+                <div className="grid grid-cols-2 gap-3 mb-8">
                   {[
-                    { label: "Hook", text: '"How many hours does your team lose answering the same customer questions?"' },
-                    { label: "Problem", text: "Manual support takes time." },
-                    { label: "Solution", text: "AI automation handles repetitive questions." },
-                    { label: "CTA", text: '"Discover how your business can automate support."' }
-                  ].map((step, i) => (
-                    <div key={i} className="flex gap-4">
-                       <div className="w-16 shrink-0 text-right mt-0.5">
-                         <span className="text-xs font-bold text-slate-400 uppercase tracking-wide">{step.label}</span>
-                       </div>
-                       <div className="flex-1 bg-white p-3 rounded-lg border border-slate-100 shadow-sm text-sm text-slate-600 font-light relative">
-                         {step.text}
-                         {i < 3 && <div className="absolute -bottom-5 left-4 text-slate-300">↓</div>}
-                       </div>
+                    { label: "ERP", sub: "Revenue, finance, inventory" },
+                    { label: "CRM", sub: "Customers, leads, deals" },
+                    { label: "HRMS", sub: "Employees, performance" },
+                    { label: "Marketing", sub: "Campaigns, engagement" },
+                    { label: "E-commerce", sub: "Orders, products" },
+                    { label: "Databases/APIs", sub: "Structured & external data" }
+                  ].map((src, i) => (
+                    <div key={i} className="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                      <div className="text-white font-medium mb-1 flex items-center gap-2"><Database className="size-4 text-blue-400"/>{src.label}</div>
+                      <div className="text-xs text-slate-400">{src.sub}</div>
                     </div>
                   ))}
                 </div>
+                <div className="flex items-center gap-2 text-sm text-slate-300 font-mono bg-slate-900/50 p-3 rounded-lg border border-slate-800 inline-flex">
+                   Business Systems <ArrowRight className="size-4 text-blue-500" /> AI Insights <ArrowRight className="size-4 text-blue-500" /> Decisions
+                </div>
+              </div>
+
+              {/* Natural Language Analytics */}
+              <div className="bg-slate-900/80 p-8 rounded-[2rem] border border-slate-800 backdrop-blur-md">
+                <span className="mb-3 inline-block text-xs font-bold uppercase tracking-widest text-blue-400">Natural Language Analytics</span>
+                <h3 className="text-2xl font-normal text-white mb-4">Ask questions. Get answers.</h3>
+                <p className="text-sm font-light text-slate-400 mb-6">You shouldn't need to know SQL. Ask questions in plain language and let AI explore the answers.</p>
+                
+                <div className="space-y-4 mb-6">
+                  <div className="bg-slate-800 p-4 rounded-2xl rounded-tr-sm border border-slate-700 ml-8 text-sm text-slate-200">
+                    "Why did revenue decline last month?"
+                  </div>
+                  <div className="bg-blue-900/40 p-5 rounded-2xl rounded-tl-sm border border-blue-800/50 mr-8">
+                    <p className="text-sm text-blue-100 mb-3">Revenue declined 8.4% last month. The primary drivers were a 14% decline in the UAE segment and a 9% decrease in repeat purchases.</p>
+                    <div className="bg-blue-950/50 p-3 rounded-xl border border-blue-800/50 text-xs text-blue-200">
+                      <strong>Recommended action:</strong> Review the 12 accounts with reduced order frequency and launch a targeted retention campaign.
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                   {["Which products might run out?", "Customers at risk of leaving?", "Expected revenue next Q?"].map((q,i)=>(
+                     <span key={i} className="text-xs text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full cursor-pointer hover:bg-slate-700">{q}</span>
+                   ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            6. AI-POWERED VIDEO CREATION (Soft Slate Section)
+            5. CORE ANALYTICS CAPABILITIES (Predict, Forecast, Anomaly, Root-cause)
             ========================================================================= */}
-        <section className="bg-slate-100/50 py-16 border-b border-slate-200">
+        <section className="bg-slate-50 py-16 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">From script to screen.</h2>
-              <p className="text-lg font-light text-slate-600">
-                Turn your scripts into structured video content with AI-assisted production workflows.
-              </p>
+            
+            <div className="mb-14 text-center max-w-3xl mx-auto">
+              <h2 className="mb-4 text-4xl font-light tracking-tight text-slate-900">Advanced Capabilities</h2>
+              <p className="text-lg font-light text-slate-600">Deep, structural analysis that goes beyond surface-level reporting.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
-              {[
-                { title: "AI Visuals", icon: MonitorPlay, desc: "Create visual concepts that support your story." },
-                { title: "Voiceovers", icon: Mic, desc: "Build professional voice-led video experiences." },
-                { title: "Captions", icon: Captions, desc: "Generate captions automatically for better accessibility and engagement." },
-                { title: "Scene Planning", icon: Clapperboard, desc: "Break your script into structured visual scenes." },
-                { title: "Music", icon: Music, desc: "Add background audio to match your content." },
-                { title: "Brand Elements", icon: LayoutTemplate, desc: "Keep your logo, messaging, and visual identity consistent." }
-              ].map((c, i) => (
-                <div key={i} className="bg-white p-6 rounded-[1.5rem] border border-slate-200 shadow-sm hover:-translate-y-1 transition-transform duration-300">
-                  <div className="size-10 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
-                    <c.icon className="size-5 text-blue-600" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+              
+              {/* Predictive / Forecast */}
+              <div className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold uppercase tracking-widest text-blue-600 block mb-2">See What's Coming</span>
+                <h3 className="text-2xl font-normal text-slate-900 mb-4">Predictive Analytics & Forecasting</h3>
+                <p className="text-sm font-light text-slate-600 mb-6">Forecast future performance with AI-assisted models that analyze historical trends, seasonality, and current business signals.</p>
+                
+                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 mb-6">
+                  <div className="flex justify-between items-end mb-4">
+                    <div>
+                      <div className="text-xs font-medium text-slate-500 uppercase">Revenue Forecast</div>
+                      <div className="text-2xl font-normal text-slate-900">$1.02M</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-md mb-1">+21.4% Expected</div>
+                      <div className="text-xs text-slate-500">92% Confidence</div>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-normal text-slate-900 mb-2">{c.title}</h3>
-                  <p className="text-sm font-light text-slate-600">{c.desc}</p>
+                  <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden flex">
+                     <div className="h-full bg-slate-400 w-[45%]" title="Actual: $840K"></div>
+                     <div className="h-full bg-blue-500 w-[55%] opacity-70" title="Forecast: $1.02M"></div>
+                  </div>
                 </div>
-              ))}
-            </div>
 
-            <div className="text-center">
-              <p className="text-base font-medium text-slate-800 border-l-4 border-blue-500 pl-4 py-1 inline-block">
-                Your content. Your brand. Your story.
-              </p>
+                <div className="flex flex-wrap gap-2 text-xs font-medium text-slate-600">
+                  {["Revenue Forecasting", "Demand Forecasting", "Customer Churn", "Sales Pipeline", "Inventory Prediction", "Workforce Planning"].map((tag, i)=>(
+                    <span key={i} className="bg-slate-100 px-3 py-1 rounded-full border border-slate-200">{tag}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Anomaly & Root Cause */}
+              <div className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold uppercase tracking-widest text-orange-600 block mb-2">AI Monitoring</span>
+                <h3 className="text-2xl font-normal text-slate-900 mb-4">Anomaly & Root-Cause Detection</h3>
+                <p className="text-sm font-light text-slate-600 mb-6">Find problems humans might miss. AI continuously looks for unusual patterns and investigates the reasons behind the change.</p>
+                
+                <div className="space-y-3 mb-6">
+                   <div className="flex items-center justify-between p-3 bg-red-50 rounded-xl border border-red-100">
+                     <div className="flex items-center gap-2"><div className="size-2 rounded-full bg-red-500"/> <span className="text-sm text-red-900 font-medium">Revenue 27% below expected</span></div>
+                   </div>
+                   <div className="flex items-center justify-between p-3 bg-amber-50 rounded-xl border border-amber-100">
+                     <div className="flex items-center gap-2"><div className="size-2 rounded-full bg-amber-500"/> <span className="text-sm text-amber-900 font-medium">Customer complaints +18%</span></div>
+                   </div>
+                </div>
+
+                <div className="bg-slate-900 p-4 rounded-xl text-white">
+                  <div className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Root Cause Flow Example</div>
+                  <div className="text-sm font-light text-slate-300 flex items-center gap-2 flex-wrap">
+                    Revenue ↓ <ArrowRight className="size-3"/> UAE Revenue ↓ <ArrowRight className="size-3"/> Enterprise Sales ↓ <ArrowRight className="size-3"/> <span className="text-orange-400 font-medium">3 Deals Delayed</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            7. SHORT-FORM & LONG-FORM VIDEO (White Sections)
+            6. DEPARTMENT ANALYTICS GRID (Customer, Sales, Finance, Ops)
             ========================================================================= */}
         <section className="bg-white py-16 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="mb-4 text-4xl font-light tracking-tight text-slate-900">Intelligence for every department.</h2>
+              <p className="text-lg font-light text-slate-600">Turn raw department data into your next strategic move.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
               
-              {/* Short-form */}
-              <div className="bg-slate-50 p-8 sm:p-10 rounded-[2rem] border border-slate-100 relative overflow-hidden">
-                <div className="absolute top-0 right-0 -mr-10 -mt-10 size-40 bg-pink-100 rounded-full blur-[50px] pointer-events-none" />
-                <div className="relative z-10">
-                  <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-pink-600">Social Video</span>
-                  <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Create videos built for attention.</h2>
-                  <p className="text-base font-light text-slate-600 mb-8">
-                    Short-form content moves fast. Video Worker helps your team create concise videos designed for social platforms and modern audiences.
-                  </p>
-                  
-                  <div className="mb-8">
-                    <h4 className="text-sm font-bold text-slate-900 mb-3 uppercase tracking-wider">Video Formats</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {["Reels", "Shorts", "Social clips", "Product highlights", "Educational snippets", "Promotional videos", "Quick tips", "Industry insights"].map((fmt, i) => (
-                        <span key={i} className="text-xs bg-white border border-slate-200 px-3 py-1.5 rounded-md text-slate-600 shadow-sm">{fmt}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="bg-white p-5 rounded-xl border border-slate-200 mb-6">
-                    <h4 className="text-xs font-bold uppercase text-slate-400 mb-3">Example Flow</h4>
-                    <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                      <span className="bg-slate-100 px-2 py-1 rounded">60-s Idea</span>
-                      <ArrowRight className="size-3 text-slate-400" />
-                      <span className="bg-slate-100 px-2 py-1 rounded">Hook</span>
-                      <ArrowRight className="size-3 text-slate-400" />
-                      <span className="bg-slate-100 px-2 py-1 rounded">3 Points</span>
-                      <ArrowRight className="size-3 text-slate-400" />
-                      <span className="bg-slate-100 px-2 py-1 rounded">CTA</span>
-                    </div>
-                  </div>
-                  
-                  <p className="text-sm font-medium text-pink-700">Turn your expertise into content people can watch in under a minute.</p>
+              {/* Customer Analytics */}
+              <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-md transition-shadow">
+                <Users className="size-8 text-blue-500 mb-4" />
+                <h3 className="text-xl font-medium text-slate-900 mb-2">Customer Analytics</h3>
+                <p className="text-sm text-slate-600 mb-4">Analyze behavior to identify valuable segments, churn risks, and growth opportunities.</p>
+                <div className="space-y-2 mb-4">
+                  {["Customer Lifetime Value", "Churn Risk", "Purchase Patterns", "Segmentation"].map((item,i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm text-slate-700"><Check className="size-4 text-blue-500"/>{item}</div>
+                  ))}
+                </div>
+                <div className="p-3 bg-blue-100/50 rounded-lg border border-blue-200 text-xs text-blue-800 font-medium">
+                  Recommendation: Launch retention campaign for 42 highest-value at-risk accounts.
                 </div>
               </div>
 
-              {/* Long-form */}
-              <div className="bg-slate-50 p-8 sm:p-10 rounded-[2rem] border border-slate-100 relative overflow-hidden">
-                <div className="absolute top-0 right-0 -mr-10 -mt-10 size-40 bg-blue-100 rounded-full blur-[50px] pointer-events-none" />
-                <div className="relative z-10">
-                  <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Deep Dives</span>
-                  <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Go deeper when the story demands it.</h2>
-                  <p className="text-base font-light text-slate-600 mb-8">
-                    Not every idea belongs in 30 seconds. Create longer educational, explainer, product, and thought leadership videos that give your audience more value.
-                  </p>
-                  
-                  <div className="space-y-4 mb-8">
-                    {[
-                      { title: "Educational Videos", desc: "Teach your audience something useful." },
-                      { title: "Explainer Videos", desc: "Explain complex products and services clearly." },
-                      { title: "Product Videos", desc: "Show customers what your product can do." },
-                      { title: "Thought Leadership", desc: "Share deeper insights and industry expertise." },
-                      { title: "Training Content", desc: "Create internal educational content for your team." }
-                    ].map((useCase, i) => (
-                      <div key={i} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                        <span className="text-sm font-medium text-slate-900 shrink-0">{useCase.title}</span>
-                        <span className="text-sm font-light text-slate-600">{useCase.desc}</span>
-                      </div>
-                    ))}
-                  </div>
+              {/* Sales Analytics */}
+              <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-md transition-shadow">
+                <BarChart3 className="size-8 text-purple-500 mb-4" />
+                <h3 className="text-xl font-medium text-slate-900 mb-2">Sales Analytics</h3>
+                <p className="text-sm text-slate-600 mb-4">Understand your pipeline, identify risks, and discover opportunities hidden in sales data.</p>
+                <div className="space-y-2 mb-4">
+                  {["Pipeline forecasting", "Conversion analysis", "Sales velocity", "Win/loss analysis"].map((item,i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm text-slate-700"><Check className="size-4 text-purple-500"/>{item}</div>
+                  ))}
+                </div>
+                <div className="p-3 bg-purple-100/50 rounded-lg border border-purple-200 text-xs text-purple-800 font-medium">
+                  AI Insight: Pipeline is 18% below target for Q3. Prioritize 7 high-value enterprise ops.
+                </div>
+              </div>
 
-                  <p className="text-sm font-medium text-blue-700">Short when it needs to be. Deep when it matters.</p>
+              {/* Financial Analytics */}
+              <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-md transition-shadow">
+                <DollarSign className="size-8 text-green-500 mb-4" />
+                <h3 className="text-xl font-medium text-slate-900 mb-2">Financial Analytics</h3>
+                <p className="text-sm text-slate-600 mb-4">Connect financial data with operational performance to understand profitability drivers.</p>
+                <div className="space-y-2 mb-4">
+                  {["Revenue analysis", "Profitability analysis", "Cash flow forecasting", "Budget variance"].map((item,i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm text-slate-700"><Check className="size-4 text-green-500"/>{item}</div>
+                  ))}
+                </div>
+                <div className="p-3 bg-green-100/50 rounded-lg border border-green-200 text-xs text-green-800 font-medium">
+                  AI Insight: Margin decline driven by supplier costs. Evaluate alternative sourcing.
+                </div>
+              </div>
+
+              {/* Ops & Inventory Analytics */}
+              <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-md transition-shadow">
+                <Package className="size-8 text-orange-500 mb-4" />
+                <h3 className="text-xl font-medium text-slate-900 mb-2">Operations & Inventory</h3>
+                <p className="text-sm text-slate-600 mb-4">Understand operational performance, identify bottlenecks, and predict disruptions.</p>
+                <div className="space-y-2 mb-4">
+                  {["Predict demand", "Supply chain analysis", "Find bottlenecks", "Procurement costs"].map((item,i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm text-slate-700"><Check className="size-4 text-orange-500"/>{item}</div>
+                  ))}
+                </div>
+                <div className="p-3 bg-orange-100/50 rounded-lg border border-orange-200 text-xs text-orange-800 font-medium">
+                  AI Alert: Product A falls below safety stock in 12 days. Reorder 480 units.
                 </div>
               </div>
 
@@ -490,383 +443,137 @@ export default function VideoWorkerPage() {
         </section>
 
         {/* =========================================================================
-            8. CONTENT REPURPOSING (Glassmorphism Gradient)
-            ========================================================================= */}
-        <section className="mx-auto max-w-[90rem] px-5 py-16 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-blue-200 via-blue-50 to-white p-10 sm:p-14 shadow-2xl border border-white/80 text-center">
-            <div className="absolute -top-32 -left-32 h-[40rem] w-[40rem] rounded-full bg-blue-400 blur-[120px] opacity-30 mix-blend-multiply pointer-events-none" />
-            <div className="absolute -bottom-32 -right-32 h-[40rem] w-[40rem] rounded-full bg-purple-300 blur-[120px] opacity-40 mix-blend-multiply pointer-events-none" />
-            
-            <div className="relative z-10 max-w-4xl mx-auto mb-12">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600 bg-white/50 px-3 py-1 rounded-full border border-blue-200">Work Smarter</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Your content library is your video library.</h2>
-              <p className="text-xl font-light text-slate-700">
-                You already have valuable content. Blogs. Reports. Presentations. Social posts. Podcasts. Product information. Video Worker helps turn those assets into new video opportunities.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-center max-w-6xl mx-auto mb-10 relative z-10">
-              {[
-                { from: "Blog", to: "Video Script" },
-                { from: "Podcast", to: "Short Clips" },
-                { from: "Report", to: "Explainer Video" },
-                { from: "Product Page", to: "Product Video" },
-                { from: "Webinar", to: "Social Clips" },
-                { from: "Social Post", to: "Video Reel" }
-              ].map((flow, i) => (
-                <div key={i} className="bg-white/60 backdrop-blur-xl p-6 rounded-2xl border border-white/80 shadow-sm flex flex-col items-center justify-center h-full">
-                  <div className="text-sm font-medium text-slate-900 mb-2">{flow.from}</div>
-                  <ArrowDown className="size-4 text-blue-500 mb-2" />
-                  <div className="text-sm font-bold text-blue-700">{flow.to}</div>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-base font-medium text-slate-800 relative z-10 bg-white/50 inline-block px-6 py-2 rounded-full border border-white">
-              Stop creating from scratch. Start creating from what you already have.
-            </p>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            9. CALENDAR (Soft Blue Section)
-            ========================================================================= */}
-        <section className="bg-blue-50/50 py-16 border-b border-blue-100">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Plan your video presence before you press publish.</h2>
-              <p className="text-lg font-light text-slate-600">Keep your entire video pipeline organized from idea to publication.</p>
-            </div>
-
-            <div className="bg-white p-8 rounded-[2rem] border border-blue-100 shadow-xl shadow-blue-900/5 max-w-6xl mx-auto mb-14">
-              <div className="flex flex-wrap gap-3 mb-8 justify-center border-b border-slate-100 pb-8">
-                <span className="text-xs font-bold uppercase tracking-widest text-slate-400 w-full text-center mb-2 block">Content Filters</span>
-                {["Short-form", "Long-form", "Social", "Educational", "Product", "Promotional", "Thought Leadership"].map((filter, i) => (
-                  <span key={i} className="px-4 py-1.5 text-sm font-medium text-slate-600 bg-slate-100 rounded-full border border-slate-200 hover:bg-slate-200 cursor-pointer transition-colors">
-                    {filter}
-                  </span>
-                ))}
-              </div>
-
-              <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 w-full text-center mb-6">Calendar Views</h4>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                {[
-                  { title: "Ideas", color: "border-slate-200 bg-slate-50" },
-                  { title: "Scripts", color: "border-slate-200 bg-white shadow-sm" },
-                  { title: "In Production", color: "border-amber-200 bg-amber-50" },
-                  { title: "In Review", color: "border-purple-200 bg-purple-50" },
-                  { title: "Approved & Scheduled", color: "border-blue-200 bg-blue-50" },
-                  { title: "Published", color: "border-green-200 bg-green-50" }
-                ].map((step, i) => (
-                  <div key={i} className={`p-4 rounded-xl border ${step.color} relative text-center flex items-center justify-center h-20`}>
-                    <h4 className="font-bold text-slate-800 text-sm">{step.title}</h4>
-                    {i < 5 && <ArrowRight className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 text-slate-300 size-5 z-10 bg-white rounded-full" />}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-center">
-              <p className="text-base font-medium text-slate-800">Know what's coming next. Keep your video engine moving.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            10. BRAND CONSISTENCY (Soft Slate Section)
+            7. SCENARIOS, ALERTS, & REPORTS (Slate Section)
             ========================================================================= */}
         <section className="bg-slate-100/50 py-16 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-              <div>
-                <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Every video should feel like your brand.</h2>
-                <p className="text-lg font-light text-slate-600 mb-8">
-                  Consistency builds recognition. Video Worker helps your team maintain a recognizable style across every video you create.
-                </p>
-                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-6 flex items-start gap-4">
-                  <Building2 className="size-6 text-blue-500 mt-1 shrink-0" />
-                  <div>
-                    <h4 className="font-medium text-slate-900">Brand Controls</h4>
-                    <p className="text-sm text-slate-600 mt-1">Manage everything from visuals to voice.</p>
-                  </div>
-                </div>
-                <p className="text-base font-medium text-slate-800 border-l-4 border-blue-500 pl-4 py-1">AI creates the video. Your brand makes it yours.</p>
-              </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { title: "Logo", desc: "Keep your brand visible." },
-                  { title: "Colours", desc: "Maintain visual consistency." },
-                  { title: "Typography", desc: "Use your preferred brand fonts." },
-                  { title: "Voice", desc: "Keep messaging consistent." },
-                  { title: "Tone", desc: "Define how your brand communicates." },
-                  { title: "CTA", desc: "Use consistent calls to action." }
-                ].map((ctrl, i) => (
-                  <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <h4 className="text-lg font-medium text-slate-900 mb-2">{ctrl.title}</h4>
-                    <p className="text-sm font-light text-slate-600">{ctrl.desc}</p>
-                  </div>
-                ))}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <GitBranch className="size-6 text-indigo-500 mb-3" />
+                <h4 className="text-lg font-medium text-slate-900 mb-2">Scenario Planning</h4>
+                <p className="text-sm text-slate-600 mb-4">See what could happen before you decide.</p>
+                <div className="text-xs text-slate-500 space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                   <div>What if sales increase by 20%?</div>
+                   <div>What if prices increase 10%?</div>
+                   <div>What if supplier costs increase?</div>
+                </div>
               </div>
+
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <Bell className="size-6 text-red-500 mb-3" />
+                <h4 className="text-lg font-medium text-slate-900 mb-2">Automated Alerts</h4>
+                <p className="text-sm text-slate-600 mb-4">Let AI bring important changes to you via Dashboard, Email, Slack, or Teams.</p>
+                <div className="text-xs font-medium space-y-2">
+                   <div className="text-red-700 bg-red-50 p-2 rounded border border-red-100">🔴 Revenue falls below target</div>
+                   <div className="text-green-700 bg-green-50 p-2 rounded border border-green-100">🟢 Sales exceed forecast</div>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <LayoutDashboard className="size-6 text-blue-500 mb-3" />
+                <h4 className="text-lg font-medium text-slate-900 mb-2">Executive Intelligence</h4>
+                <p className="text-sm text-slate-600 mb-4">Automated analytical reports giving leadership a high-level view of business health.</p>
+                <div className="bg-slate-900 text-white p-3 rounded-lg text-xs">
+                  "Business is on track for Q3 targets. Retention in UAE needs attention. 3 growth opportunities identified."
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            11. ARABIC + ENGLISH (Rich Purple Gradient)
+            8. BUILT FOR ARABIC + ENGLISH (Rich Purple Gradient Section)
             ========================================================================= */}
         <section className="relative py-16 overflow-hidden border-b border-purple-900">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900" />
           
           <div className="relative z-10 mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-purple-300">Bilingual Video Creation</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">Speak to your audience in their language.</h2>
-              <p className="text-lg font-light text-purple-100/80 leading-relaxed">
-                Video Worker is designed for businesses communicating across English and Arabic-speaking markets. Create content that works across languages, cultures, and audiences.
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-purple-300">Bilingual Business Intelligence</span>
+              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">Understand your data in the language your team uses.</h2>
+              <p className="text-lg font-light text-purple-100/80">
+                Advanced Analytics Worker supports businesses operating across multilingual markets. Analyze and communicate insights across English and Arabic environments.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-10 text-center">
               {[
-                { title: "Arabic Scripts", desc: "Generate video scripts for Arabic audiences." },
-                { title: "English Scripts", desc: "Create professional English video content." },
-                { title: "Bilingual Content", desc: "Adapt campaigns across both languages." },
-                { title: "RTL Support", desc: "Support right-to-left content experiences." },
-                { title: "Hijri Calendar", desc: "Plan content around Hijri dates." },
-                { title: "Ramadan Engine", desc: "Create timely Ramadan campaigns and content." }
+                "Arabic Queries", "English Queries", "Bilingual Reports", 
+                "RTL Support", "Hijri Context", "Ramadan Intelligence"
               ].map((item, i) => (
-                <div key={i} className="bg-white/5 p-6 rounded-[1.5rem] border border-white/10 backdrop-blur-md hover:bg-white/10 transition-colors">
-                  <h3 className="text-lg font-medium text-white mb-2">{item.title}</h3>
-                  <p className="text-sm font-light text-purple-200/70">{item.desc}</p>
+                <div key={i} className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-md">
+                  <span className="text-sm font-medium text-purple-50">{item}</span>
                 </div>
               ))}
             </div>
 
             <div className="text-center">
               <p className="text-sm font-medium text-purple-200 bg-purple-900/50 inline-block px-6 py-3 rounded-full border border-purple-700/50">
-                One story. Multiple languages. Wider reach.
+                One source of truth. Multiple languages.
               </p>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            12. APPROVAL WORKFLOW (White Section)
+            9. CONNECT WITH AI WORKFORCE (White Section)
             ========================================================================= */}
         <section className="bg-white py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-              <div className="order-2 lg:order-1 bg-slate-50 p-8 rounded-[2rem] border border-slate-200">
-                <div className="flex flex-col gap-4">
-                  {[
-                    { step: "AI Creates", icon: Wand2 },
-                    { step: "Team Reviews", icon: Users },
-                    { step: "Manager Approves", icon: CheckCircle },
-                    { step: "Video Published", icon: Send }
-                  ].map((s, i) => (
-                    <div key={i} className="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                      <div className="size-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
-                        <s.icon className="size-5 text-blue-600" />
-                      </div>
-                      <span className="font-medium text-slate-800">{s.step}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8 text-center">
+            <div className="max-w-4xl mx-auto mb-12">
+              <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Your AI Workers become smarter with data.</h2>
+              <p className="text-lg font-light text-slate-600">Advanced Analytics Worker connects intelligence across your entire HIVENOX AI Workforce.</p>
+            </div>
 
-              <div className="order-1 lg:order-2">
-                <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Team Collaboration</span>
-                <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Create faster without losing control.</h2>
-                <p className="text-lg font-light text-slate-600 mb-8">Video production often involves too many handoffs. Video Worker brings your team into one workflow so everyone knows what's happening.</p>
-                
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-8">
-                  {["Video review", "Approval workflow", "Team collaboration", "Content status", "Centralized video library", "Brand controls"].map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                      <Check className="size-4 text-blue-500 shrink-0" />
-                      <span>{f}</span>
-                    </div>
-                  ))}
-                </div>
-                
-                <p className="text-base font-medium text-slate-800 border-l-4 border-blue-500 pl-4 py-1">Move faster while keeping your standards high.</p>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 max-w-5xl mx-auto text-sm font-medium text-slate-700">
+              <div className="bg-slate-100 p-4 rounded-xl border border-slate-200 w-full md:w-auto">Business Data<br/><span className="text-xs font-normal text-slate-500">ERP / CRM</span></div>
+              <ArrowRight className="size-5 text-blue-400 rotate-90 md:rotate-0" />
+              <div className="bg-blue-600 text-white p-4 rounded-xl shadow-lg w-full md:w-auto">Advanced Analytics<br/><span className="text-xs font-normal text-blue-200">AI Insights</span></div>
+              <ArrowRight className="size-5 text-blue-400 rotate-90 md:rotate-0" />
+              <div className="flex flex-col gap-2 w-full md:w-auto">
+                 <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs"><strong>SEO Worker:</strong> Identifies growth</div>
+                 <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs"><strong>Content Worker:</strong> Creates content</div>
+                 <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs"><strong>Social Worker:</strong> Distributes campaigns</div>
               </div>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            13. MULTI-PLATFORM & PERFORMANCE (Dark / Light split conceptually, laid out horizontally)
-            ========================================================================= */}
-        <section className="bg-slate-950 py-16 border-b border-slate-800">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-             <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">One video. Multiple destinations.</h2>
-              <p className="text-lg font-light text-slate-400">
-                Your audience isn't on one platform. Create video content that can be adapted across your marketing channels.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
-              {[
-                { title: "Vertical", desc: "For short-form social content." },
-                { title: "Square", desc: "For social feeds." },
-                { title: "Landscape", desc: "For websites and long-form video." }
-              ].map((format, i) => (
-                <div key={i} className="bg-slate-900 p-8 rounded-[1.5rem] border border-slate-800 text-center">
-                  <MonitorSmartphone className="size-10 text-blue-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-medium text-white mb-2">{format.title}</h3>
-                  <p className="text-sm font-light text-slate-400">{format.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-3 text-sm font-medium text-slate-300 max-w-4xl mx-auto mb-10">
-              {["Social media", "Website", "Landing pages", "Product pages", "Presentations", "Campaigns", "Email marketing"].map((useCase, i) => (
-                <span key={i} className="bg-slate-800 px-5 py-2 rounded-full border border-slate-700">
-                  {useCase}
-                </span>
-              ))}
-            </div>
-
-            <div className="text-center">
-               <p className="text-base font-medium text-blue-300 bg-blue-900/30 inline-block px-8 py-3 rounded-full border border-blue-800/50">
-                Create once. Adapt for every screen.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            14. PERFORMANCE (White Section)
+            10. COMPARISON TABLE (White Section)
             ========================================================================= */}
         <section className="bg-white py-16 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-slate-400">Measure What Matters</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Don't just create videos. Learn from them.</h2>
-              <p className="text-lg font-light text-slate-600">
-                Understand how your video content performs and identify which topics, formats, and messages resonate with your audience.
-              </p>
+            <div className="max-w-4xl mx-auto text-center mb-10">
+              <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Move beyond reporting.</h2>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-6xl mx-auto mb-12">
-              {[
-                { title: "Views", desc: "Understand content reach.", icon: PlayCircle },
-                { title: "Watch Time", desc: "See how long people stay engaged.", icon: Clock },
-                { title: "Completion Rate", desc: "Identify which videos hold attention.", icon: CheckCircle },
-                { title: "Engagement", desc: "Track audience interactions.", icon: MessageSquare },
-                { title: "Conversion", desc: "Understand which content drives action.", icon: Target }
-              ].map((metric, i) => (
-                <div key={i} className="bg-slate-50 p-5 rounded-[1.5rem] border border-slate-100 text-center">
-                  <metric.icon className="size-6 text-blue-500 mx-auto mb-3" />
-                  <h3 className="text-lg font-medium text-slate-900 mb-2">{metric.title}</h3>
-                  <p className="text-xs font-light text-slate-600">{metric.desc}</p>
-                </div>
-              ))}
-            </div>
-            
-            <div className="text-center">
-              <p className="text-base font-medium text-slate-800 border-l-4 border-blue-500 pl-4 py-1 inline-block">
-                Create better videos by learning from the ones you already made.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            15. GROWTH WORKER INTEGRATION (Soft Slate Banner)
-            ========================================================================= */}
-        <section className="bg-slate-50 py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-[2rem] p-10 sm:p-14 text-center text-white relative overflow-hidden shadow-xl">
-               <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
-               <div className="relative z-10 max-w-4xl mx-auto">
-                 <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight">Your videos become part of your growth engine.</h2>
-                 <p className="text-lg font-light text-blue-100 mb-10">
-                   Video shouldn't operate separately from your marketing strategy. Connect Video Worker with your wider HIVENOX AI workforce to turn video content into a complete growth workflow.
-                 </p>
-                 
-                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10">
-                   {["Content Worker", "Video Worker", "Social Worker", "Growth Worker"].map((worker, i) => (
-                     <div key={i} className="flex items-center gap-4">
-                       <div className="bg-white/10 backdrop-blur border border-white/20 px-6 py-3 rounded-xl font-medium">
-                         {worker}
-                       </div>
-                       {i < 3 && <ArrowRight className="size-5 text-blue-300 hidden md:block" />}
-                       {i < 3 && <ArrowDown className="size-5 text-blue-300 md:hidden" />}
-                     </div>
-                   ))}
-                 </div>
-
-                 <p className="text-base font-medium text-white mb-8">One idea. One connected AI workforce.</p>
-                 
-                 <a href="/book?plan=growth" className="inline-flex h-12 items-center justify-center bg-white px-8 text-base font-medium text-blue-900 rounded-none transition-all hover:bg-slate-100">
-                    Explore Growth Worker
-                 </a>
-               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            16. WHO IS VIDEO WORKER FOR? (White Section)
-            ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Built for businesses ready to become more visible.</h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {[
-                { title: "Marketing Teams", desc: "Create more video without expanding your production team." },
-                { title: "Founders & Executives", desc: "Turn your knowledge and expertise into thought leadership." },
-                { title: "Agencies", desc: "Produce more video content for clients." },
-                { title: "E-commerce Businesses", desc: "Create product videos and promotional content." },
-                { title: "Professional Services", desc: "Explain complex services through engaging video." },
-                { title: "Educators & Trainers", desc: "Turn knowledge into structured learning content." }
-              ].map((item, i) => (
-                <div key={i} className="bg-slate-50 p-6 rounded-[1.5rem] border border-slate-100 hover:shadow-md transition-shadow">
-                  <h3 className="text-xl font-normal text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-sm font-light text-slate-600">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            17. VS TRADITIONAL VIDEO PRODUCTION (White Section)
-            ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-12">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">A smarter way to produce video.</h2>
-            </div>
-
-            <div className="max-w-5xl mx-auto bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg mb-10">
+            <div className="max-w-4xl mx-auto bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg mb-8">
               <table className="w-full text-left text-sm sm:text-base">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-50">
-                    <th className="p-6 font-bold text-slate-900 w-1/2">Traditional Video Production</th>
-                    <th className="p-6 font-bold text-blue-700 w-1/2 bg-blue-50/50 border-l border-slate-200">With Video Worker</th>
+                    <th className="p-5 font-bold text-slate-900 w-1/2">Traditional Analytics</th>
+                    <th className="p-5 font-bold text-blue-700 w-1/2 bg-blue-50/50 border-l border-slate-200">Advanced Analytics Worker</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-light text-slate-700">
                   {[
-                    ["Start from scratch", "Start with AI-assisted ideas"],
-                    ["Manual scripting", "AI-assisted scripts"],
-                    ["Separate production tools", "Unified workflow"],
-                    ["Expensive production", "AI-powered production"],
-                    ["Manual repurposing", "Automated content repurposing"],
-                    ["One format at a time", "Multiple formats"],
-                    ["English-focused workflows", "Arabic + English"],
-                    ["Slow production cycles", "Faster content production"]
+                    ["What happened?", "What happened and why?"],
+                    ["Historical reports", "Historical + predictive insights"],
+                    ["Manual analysis", "AI-powered analysis"],
+                    ["Static dashboards", "Dynamic intelligence"],
+                    ["Manual anomaly detection", "Automated anomaly detection"],
+                    ["Basic forecasting", "AI-assisted predictive forecasting"],
+                    ["Data visualization", "Insights + recommendations"],
+                    ["Reactive decisions", "Proactive decisions"],
+                    ["Data experts required", "Natural language analytics"],
+                    ["Separate reports", "Connected business intelligence"]
                   ].map((row, i) => (
                     <tr key={i} className="hover:bg-slate-50/50">
-                      <td className="p-6 text-slate-500">{row[0]}</td>
-                      <td className="p-6 font-medium text-slate-900 bg-blue-50/30 border-l border-slate-100 flex items-center gap-3">
+                      <td className="p-5 text-slate-500">{row[0]}</td>
+                      <td className="p-5 font-medium text-slate-900 bg-blue-50/30 border-l border-slate-100 flex items-center gap-3">
                         <Check className="size-4 text-blue-500 shrink-0" />
                         {row[1]}
                       </td>
@@ -875,25 +582,23 @@ export default function VideoWorkerPage() {
                 </tbody>
               </table>
             </div>
-
-            <div className="text-center">
-              <p className="text-lg font-light text-slate-600">The goal isn't to remove creativity. It's to remove the friction between an idea and the finished video.</p>
-            </div>
+            
+            <p className="text-center text-sm font-medium text-slate-500">Traditional analytics explains the past. Advanced Analytics Worker helps you prepare for the future.</p>
           </div>
         </section>
 
         {/* =========================================================================
-            18. PRICING SECTION (WIDER CARD, Soft Slate)
+            11. PRICING SECTION (WIDE LAYOUT, Soft Slate)
             ========================================================================= */}
         <section className="bg-slate-50 py-16 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center mb-10">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Simple Pricing</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Turn your ideas into video.</h2>
+              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">AI-Powered Analytics</span>
+              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Turn your data into your competitive advantage.</h2>
             </div>
 
             {/* Currency / Annual Toggles */}
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <div className="flex flex-wrap justify-center gap-4 mb-10">
               <div className="flex items-center p-1 bg-white border border-slate-200 rounded-none shadow-sm">
                 <button onClick={() => setCurrency("USD")} className={`px-6 py-2.5 text-sm font-medium rounded-none transition-colors ${currency === "USD" ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>USD</button>
                 <button onClick={() => setCurrency("AUD")} className={`px-6 py-2.5 text-sm font-medium rounded-none transition-colors ${currency === "AUD" ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>AUD</button>
@@ -904,29 +609,33 @@ export default function VideoWorkerPage() {
               </div>
             </div>
 
-            {/* WIDER PRICING CARD */}
-            <div className="max-w-3xl mx-auto bg-white rounded-[2.5rem] border-4 border-blue-600 p-8 sm:p-12 shadow-2xl relative">
+            {/* EXTRA WIDE PRICING CARD */}
+            <div className="max-w-5xl mx-auto bg-white rounded-[2.5rem] border-4 border-blue-600 p-8 sm:p-12 shadow-2xl relative">
               
               <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-100 pb-8 mb-8 gap-6">
                 <div>
-                  <h3 className="text-3xl font-normal text-slate-900 mb-2">Video Worker</h3>
-                  <p className="text-sm font-light text-slate-500">The complete AI video production engine.</p>
+                  <h3 className="text-3xl font-normal text-slate-900 mb-2">Advanced Analytics Worker</h3>
+                  <p className="text-sm font-light text-slate-500">The complete AI-powered intelligence engine for your business data.</p>
                 </div>
                 <div className="text-left md:text-right">
                   <div className="text-5xl font-light text-slate-900">
-                    {getCurrencySymbol()}{calculatePrice(99)}
+                    {getCurrencySymbol()}{calculatePrice(149)}
                     <span className="text-base font-normal text-slate-500">/month</span>
                   </div>
                   <p className="text-xs font-light text-slate-400 mt-2">{isAnnual ? "Billed annually with 20% discount." : "Billed monthly."}</p>
                 </div>
               </div>
               
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-10 text-sm font-light text-slate-700">
+              {/* Features split into 3 columns for extra wide layout */}
+              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 mb-10 text-sm font-light text-slate-700">
                 {[
-                  "20 AI videos/month", "AI script generation", "Short-form video creation", "Long-form video workflows",
-                  "AI visual generation", "AI voiceover workflows", "Automatic captions", "Content repurposing",
-                  "Multiple video formats", "Video content calendar", "Brand consistency tools", "Arabic + English", 
-                  "RTL support", "Hijri support", "Ramadan engine", "Video approval workflow", "Performance insights"
+                  "AI-powered data analysis", "Natural language analytics", "Predictive analytics", 
+                  "AI forecasting", "Anomaly detection", "Root-cause analysis", 
+                  "Trend analysis", "Customer analytics", "Sales analytics", 
+                  "Financial analytics", "Operations analytics", "Scenario planning", 
+                  "AI recommendations", "Automated alerts", "Automated analytical reports", 
+                  "Executive intelligence summaries", "Arabic + English insights", "RTL support", 
+                  "Hijri support", "Ramadan intelligence", "Email + WhatsApp support"
                 ].map((feat, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <Check className="size-4 text-blue-600 shrink-0 mt-0.5" />
@@ -935,8 +644,8 @@ export default function VideoWorkerPage() {
                 ))}
               </ul>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <a href="/book?plan=video" className="flex-1 flex h-14 items-center justify-center bg-blue-600 rounded-none font-normal text-lg text-white hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl">
+              <div className="flex flex-col sm:flex-row gap-4 mb-6 max-w-2xl mx-auto">
+                <a href="/book?plan=analytics" className="flex-1 flex h-14 items-center justify-center bg-blue-600 rounded-none font-normal text-lg text-white hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl">
                   Start 7-Day Free Trial
                 </a>
                 <a href="/book" className="flex-1 flex h-14 items-center justify-center border-2 border-slate-300 bg-white rounded-none font-normal text-lg text-slate-800 hover:border-slate-800 hover:bg-slate-800 hover:text-white transition-colors">
@@ -947,9 +656,9 @@ export default function VideoWorkerPage() {
               <p className="text-center text-sm font-light text-slate-500 mb-8">No credit card required. No lock-in. Cancel anytime.</p>
 
               <div className="pt-8 border-t border-slate-100 text-center bg-blue-50/50 -mx-8 -mb-12 sm:-mx-12 p-8 rounded-b-[2.2rem]">
-                <p className="text-sm font-medium text-slate-900 mb-2">Need a complete marketing engine?</p>
-                <a href="/book?plan=growth" className="text-sm font-normal text-blue-600 hover:underline">
-                  Combine Video Worker with Growth Worker to connect your video production with content, social publishing, analytics, ROI tracking, and growth strategy. [ Explore Growth Worker → ]
+                <p className="text-sm font-medium text-slate-900 mb-2">Need enterprise-scale analytics?</p>
+                <a href="/book?plan=enterprise" className="text-sm font-normal text-blue-600 hover:underline">
+                  Explore Enterprise Growth OS for advanced data integrations, custom models & APIs →
                 </a>
               </div>
             </div>
@@ -957,48 +666,53 @@ export default function VideoWorkerPage() {
         </section>
 
         {/* =========================================================================
-            19. ROI / VALUE SECTION (White Section)
+            12. ROI & FLYWHEEL SECTION (White Section)
             ========================================================================= */}
         <section className="bg-white py-16 border-b border-slate-200">
            <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8 text-center">
             <div className="max-w-4xl mx-auto mb-10">
-              <h2 className="mb-4 text-4xl font-light tracking-tight text-slate-900">What could your business create with more video?</h2>
-              <p className="text-lg font-light text-slate-600">Traditional video production can take days or weeks. Video Worker helps your team move from idea to production faster, allowing you to create more content without adding the same level of production overhead.</p>
+              <h2 className="mb-4 text-4xl font-light tracking-tight text-slate-900">One better decision can pay for the entire system.</h2>
+              <p className="text-lg font-light text-slate-600">A missed opportunity. An unexpected inventory shortage. A lost customer. Small changes have significant impacts. Advanced Analytics Worker helps your team identify signals earlier and act with confidence.</p>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center max-w-4xl mx-auto mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center max-w-5xl mx-auto mb-12">
               {[
-                { val: "20", label: "AI videos/month" },
-                { val: "Multiple", label: "Video formats" },
-                { val: "2", label: "Languages" },
-                { val: "1", label: "Connected workflow" }
-              ].map((stat, i) => (
+                { title: "Find Problems Earlier", desc: "Detect anomalies before they become major issues." },
+                { title: "Predict Demand", desc: "Prepare inventory before demand changes." },
+                { title: "Reduce Churn", desc: "Identify at-risk customers before they leave." },
+                { title: "Improve Decisions", desc: "Replace assumptions with evidence." }
+              ].map((val, i) => (
                 <div key={i} className="p-6 border border-slate-100 bg-slate-50 rounded-2xl">
-                  <div className="text-4xl font-light text-blue-600 mb-2">{stat.val}</div>
-                  <div className="text-sm font-medium text-slate-600">{stat.label}</div>
+                  <h4 className="font-medium text-slate-900 mb-2">{val.title}</h4>
+                  <div className="text-sm font-light text-slate-600">{val.desc}</div>
                 </div>
               ))}
             </div>
-            
-            <p className="text-base font-medium text-slate-800">More videos. More opportunities to be seen.</p>
+
+            <div className="max-w-3xl mx-auto bg-slate-900 p-8 rounded-[2rem] text-white">
+               <h3 className="text-xl font-normal mb-6">The Analytics Flywheel</h3>
+               <div className="flex flex-wrap justify-center items-center gap-2 text-sm font-light text-slate-300">
+                  Connect Data <ArrowRight className="size-4 text-blue-500"/> Analyze <ArrowRight className="size-4 text-blue-500"/> Discover Patterns <ArrowRight className="size-4 text-blue-500"/> Predict Outcomes <ArrowRight className="size-4 text-blue-500"/> Recommend Actions <ArrowRight className="size-4 text-blue-500"/> Measure Results
+               </div>
+            </div>
            </div>
         </section>
 
         {/* =========================================================================
-            20. REGIONAL SECTION (Dark Slate Section)
+            13. REGIONS (Dark Slate Section)
             ========================================================================= */}
         <section className="bg-slate-950 py-16 border-b border-slate-800">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8 text-center">
-             <div className="max-w-4xl mx-auto mb-12">
-              <h2 className="mb-4 text-4xl font-light tracking-tight text-white">Built for businesses growing across borders.</h2>
-              <p className="text-lg font-light text-slate-400">Whether your audience is in Australia, the UAE, Saudi Arabia, or across international markets, your video content needs to communicate clearly. Video Worker helps your team create bilingual video content that works across markets.</p>
+             <div className="max-w-4xl mx-auto mb-10">
+              <h2 className="mb-4 text-4xl font-light tracking-tight text-white">Built for businesses operating across markets.</h2>
+              <p className="text-lg font-light text-slate-400">Business patterns vary across countries, markets, and customer segments. Advanced Analytics Worker helps your team understand performance across the regions that matter to your business.</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
               {[
-                { title: "Australia", desc: "Professional English video content." },
-                { title: "UAE", desc: "Bilingual content for diverse audiences." },
-                { title: "Saudi Arabia", desc: "Arabic-first content with regional context." }
+                { title: "Australia", desc: "Analyze business performance across mature markets." },
+                { title: "UAE", desc: "Understand diverse customer and commercial segments." },
+                { title: "Saudi Arabia", desc: "Analyze regional growth and local business trends." }
               ].map((region, i) => (
                 <div key={i} className="bg-slate-900 p-8 rounded-[1.5rem] border border-slate-800">
                   <Globe className="size-8 text-blue-500 mx-auto mb-4" />
@@ -1007,38 +721,33 @@ export default function VideoWorkerPage() {
                 </div>
               ))}
             </div>
-
-            <p className="text-sm font-medium uppercase tracking-widest text-slate-500">Create globally. Communicate locally.</p>
           </div>
         </section>
 
         {/* =========================================================================
-            21. FAQ (White Section)
+            14. FAQ (Reduced padding)
             ========================================================================= */}
-        <section className="bg-white py-12 border-b border-slate-200">
+        <section className="bg-white py-10 border-b border-slate-200">
           <div className="mx-auto max-w-4xl px-5 sm:px-6">
-            <h3 className="mb-10 text-center text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Frequently Asked Questions</h3>
+            <h3 className="mb-8 text-center text-3xl font-light tracking-tight text-slate-900">Frequently Asked Questions</h3>
             
-            <div className="space-y-4">
+            <div className="space-y-3">
               {[
-                { q: "What is HIVENOX Video Worker?", a: "Video Worker is an AI-powered video production Worker that helps businesses create scripts, videos, short-form content, long-form content, and repurposed video assets." },
-                { q: "How many videos are included?", a: "The plan includes 20 AI videos per month." },
-                { q: "Can I create short-form videos?", a: "Yes. Video Worker supports short-form content designed for social platforms, including reels, shorts, and quick educational videos." },
-                { q: "Can I create long-form videos?", a: "Yes. Video Worker supports longer educational, explainer, product, and thought leadership video workflows." },
-                { q: "Can I turn blogs into videos?", a: "Yes. Video Worker can help transform existing blogs and other content into video scripts and video concepts." },
-                { q: "Does it support Arabic?", a: "Yes. Video Worker supports Arabic and English workflows, along with RTL, Hijri, and Ramadan-ready capabilities." },
-                { q: "Can I add my branding?", a: "Yes. You can maintain consistent branding across your video workflows using brand elements such as logos, colours, typography, messaging, and CTAs." },
-                { q: "Can my team review videos?", a: "Yes. Video Worker includes collaboration and approval workflows to help teams review content before publishing." },
-                { q: "Can I use the videos on different platforms?", a: "Yes. Video Worker supports multiple video formats for social media, websites, landing pages, campaigns, presentations, and other marketing channels." },
-                { q: "Can I try Video Worker for free?", a: "Yes. You can start with a 7-day free trial without a credit card." },
-                { q: "Can Video Worker work with Growth Worker?", a: "Yes. Video Worker can complement Growth Worker by adding AI-powered video creation to your broader content, social, analytics, and growth workflow." }
+                { q: "What is HIVENOX Advanced Analytics Worker?", a: "Advanced Analytics Worker is an AI-powered analytics Worker that helps businesses analyze data, identify patterns, forecast outcomes, detect anomalies, understand root causes, and receive actionable recommendations." },
+                { q: "How is it different from Business Intelligence?", a: "Business Intelligence focuses primarily on dashboards and historical performance. Advanced Analytics Worker goes further with predictive analytics, forecasting, anomaly detection, root-cause analysis, and AI recommendations." },
+                { q: "Can I ask questions about my data?", a: "Yes. Natural language analytics allows users to ask business questions in plain language and receive AI-assisted insights." },
+                { q: "Can it predict future revenue or forecast inventory?", a: "Yes. Advanced Analytics Worker supports AI-assisted forecasting for revenue, sales, demand, inventory, and other metrics." },
+                { q: "Can it detect unusual business activity?", a: "Yes. Anomaly detection helps identify unexpected changes in revenue, customers, inventory, and expenses." },
+                { q: "Does it support scenario planning?", a: "Yes. Scenario analysis helps businesses explore potential outcomes from changes in pricing, demand, sales, and other variables." },
+                { q: "Does it support Arabic?", a: "Yes. It supports Arabic and English analytics experiences, including bilingual insights, RTL support, Hijri context, and Ramadan intelligence." },
+                { q: "Can I connect my ERP and CRM data?", a: "Yes. It is designed to work with data from business systems such as ERP, CRM, HRMS, databases, spreadsheets, and APIs." }
               ].map((faq, index) => (
-                <details key={index} className="group overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm transition-all duration-300 hover:border-blue-300 hover:bg-white">
-                  <summary className="flex cursor-pointer items-center justify-between p-5 text-base sm:text-lg font-normal text-slate-900 outline-none list-none [&::-webkit-details-marker]:hidden">
+                <details key={index} className="group overflow-hidden rounded-xl border border-slate-200 bg-slate-50 shadow-sm transition-all duration-300 hover:border-blue-300 hover:bg-white">
+                  <summary className="flex cursor-pointer items-center justify-between p-4 text-sm sm:text-base font-medium text-slate-900 outline-none list-none [&::-webkit-details-marker]:hidden">
                     {faq.q}
-                    <ArrowDown className="size-5 shrink-0 text-blue-500 transition-transform duration-300 group-open:rotate-180 ml-4 bg-blue-100 rounded-full p-1" />
+                    <ArrowDown className="size-4 shrink-0 text-blue-500 transition-transform duration-300 group-open:rotate-180 ml-4" />
                   </summary>
-                  <div className="px-5 pb-5 pt-0 text-sm sm:text-base font-light leading-relaxed text-slate-600">
+                  <div className="px-4 pb-4 pt-0 text-sm font-light leading-relaxed text-slate-600">
                     {faq.a}
                   </div>
                 </details>
@@ -1048,38 +757,33 @@ export default function VideoWorkerPage() {
         </section>
 
         {/* =========================================================================
-            22. FINAL CTA (Blue Background)
+            15. FINAL CTA (Reduced Padding)
             ========================================================================= */}
-        <section className="py-12 px-5 sm:px-6 lg:px-8 bg-slate-50">
+        <section className="py-10 px-5 sm:px-6 lg:px-8 bg-slate-50">
           <div className="mx-auto max-w-[90rem]">
-            <div className="relative overflow-hidden rounded-[2.5rem] bg-blue-600 px-6 py-16 sm:px-12 sm:py-20 text-center shadow-xl">
-              {/* Decorative blurs */}
+            <div className="relative overflow-hidden rounded-[2.5rem] bg-blue-600 px-6 py-12 sm:px-12 sm:py-16 text-center shadow-xl">
               <div className="absolute top-0 right-0 -mt-20 -mr-20 h-[30rem] w-[30rem] rounded-full bg-blue-500 blur-[100px] opacity-60 pointer-events-none" />
               <div className="absolute bottom-0 left-0 -mb-20 -ml-20 h-[30rem] w-[30rem] rounded-full bg-blue-800 blur-[100px] opacity-40 pointer-events-none" />
               
               <div className="relative z-10 mx-auto max-w-3xl">
                 <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-200 bg-blue-800/30 px-4 py-1.5 rounded-full border border-blue-400/30">
-                  Your AI Video Workforce
+                  Your AI Data Analyst
                 </span>
-                <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">
-                  Your next video shouldn't take weeks.
+                <h2 className="mb-4 text-4xl sm:text-5xl font-light tracking-tight text-white">
+                  Stop looking at data. Start using it.
                 </h2>
-                <p className="mb-10 text-lg font-light leading-relaxed text-blue-100">
-                  Turn your ideas, expertise, and existing content into videos your audience can watch, share, and remember. Start creating more video with HIVENOX Video Worker.
+                <p className="mb-8 text-lg font-light leading-relaxed text-blue-100 max-w-2xl mx-auto">
+                  Turn your business data into insights, predictions, alerts, and actions. See what's happening. Understand why. Predict what's next. Make your next decision with confidence.
                 </p>
                 
-                <div className="flex flex-wrap justify-center gap-4 mb-8">
-                  <a href="/book?plan=video" className="inline-flex h-14 items-center justify-center bg-white px-10 text-lg font-normal text-blue-700 rounded-none transition-all hover:bg-slate-100 hover:shadow-lg hover:-translate-y-0.5">
+                <div className="flex flex-wrap justify-center gap-4 mb-6">
+                  <a href="/book?plan=analytics" className="inline-flex h-14 items-center justify-center bg-white px-10 text-lg font-normal text-blue-700 rounded-none transition-all hover:bg-slate-100 hover:shadow-lg hover:-translate-y-0.5">
                     Start 7-Day Free Trial
                   </a>
                   <a href="/book" className="inline-flex h-14 items-center justify-center border-2 border-blue-400 bg-transparent px-10 text-lg font-normal text-white rounded-none transition-colors hover:border-white hover:bg-white/10">
                     Book a Demo
                   </a>
                 </div>
-
-                <p className="text-sm font-light text-blue-200">
-                  No credit card required. Cancel anytime.
-                </p>
               </div>
             </div>
           </div>

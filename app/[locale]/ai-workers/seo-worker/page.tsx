@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ArrowDown, FileText, Split, CheckCircle, Send, PlayCircle, MonitorPlay, Clapperboard, Mic, Type, Music, LayoutTemplate, MessageSquare, Repeat, Building2, Globe, Users, ArrowRight, Video, BarChart, Clock, MonitorSmartphone, Wand2, Captions, Target } from "lucide-react";
+import { Check, ArrowDown, ArrowRight, Search, Target, Settings, Activity, Globe, CheckCircle, AlertTriangle, TrendingUp, TrendingDown, Layers, Zap, MapPin, RefreshCw, BarChart2, ShieldAlert } from "lucide-react";
 
-export default function VideoWorkerPage() {
+export default function SEOWorkerPage() {
   const [isAnnual, setIsAnnual] = useState(false);
   const [currency, setCurrency] = useState<"USD" | "AUD">("USD");
 
   const AUD_RATE = 1.5;
-  const DISCOUNT_RATE = 0.8; // 20% off for annual
+  const DISCOUNT_RATE = 0.8; 
 
   const calculatePrice = (basePriceUsd: number) => {
     let price = basePriceUsd;
@@ -20,159 +20,134 @@ export default function VideoWorkerPage() {
   const getCurrencySymbol = () => (currency === "AUD" ? "A$" : "$");
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-800 selection:bg-blue-200 selection:text-blue-900 font-sans overflow-hidden">
+    <main className="min-h-screen bg-slate-50 text-slate-800 font-sans overflow-hidden selection:bg-blue-200 selection:text-blue-900">
       
-      {/* Background Subtle Gradients for the top */}
-      <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/60 via-white to-purple-50/60" />
+      {/* Background Gradients */}
+      <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/50 via-slate-50 to-purple-50/50" />
 
       <div className="relative z-10">
 
         {/* =========================================================================
-            1. HERO SECTION
+            1. HERO SECTION (Tighter padding)
             ========================================================================= */}
-        <section className="mx-auto max-w-[90rem] px-5 pt-28 pb-16 sm:px-6 lg:px-8 mt-20">
+        <section className="mx-auto max-w-[90rem] px-5 pt-24 pb-12 sm:px-6 lg:px-8 mt-20">
           <div className="flex flex-col items-center text-center">
             
-            <span className="mb-6 text-xs font-bold uppercase tracking-widest text-purple-700 bg-purple-100 px-4 py-1.5 rounded-full border border-purple-200 shadow-sm">
-              AI Worker · Video Creation
+            <span className="mb-5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-blue-700 bg-blue-100 px-4 py-1.5 rounded-full border border-blue-200 shadow-sm">
+              AI Worker · SEO & Organic Growth
             </span>
             
-            <h1 className="mb-6 max-w-5xl text-5xl font-light tracking-tight text-slate-900 lg:text-7xl">
-              Turn your ideas into videos — <span className="font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">at scale.</span>
+            <h1 className="mb-4 max-w-4xl text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-slate-900">
+              Get found by the people <span className="font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">looking for you.</span>
             </h1>
             
-            <p className="mb-6 text-2xl font-light text-slate-700">
-              Create. Repurpose. Publish. Grow.
+            <p className="mb-5 text-xl font-light text-slate-700 max-w-2xl">
+              Your AI-powered SEO team — researching, optimizing, and growing your organic presence.
             </p>
 
-            <p className="mb-10 max-w-3xl text-lg font-light leading-relaxed text-slate-600">
-              HIVENOX Video Worker helps your business create professional video content faster — from scripts and AI-generated visuals to short-form social videos, explainers, product videos, and content repurposing. Turn your existing content into videos your audience can actually watch, share, and remember.
+            <p className="mb-8 max-w-3xl text-base font-light leading-relaxed text-slate-600">
+              HIVENOX SEO Worker helps businesses build and manage an SEO engine that works continuously.
+              Discover what your audience is searching for. Build smarter content strategies. Optimize your website. Monitor rankings. Identify technical issues. Track organic growth. Turn search visibility into sustainable business growth.
             </p>
 
-            <div className="mb-12 flex flex-wrap justify-center gap-3 text-sm font-medium tracking-wide text-slate-700">
+            <div className="mb-8 flex flex-wrap justify-center gap-2 max-w-4xl text-xs font-medium tracking-wide text-slate-700">
               {[
-                "20 AI videos/month",
-                "AI-powered video creation",
-                "Short-form + long-form",
-                "Script-to-video workflows",
-                "Content repurposing",
-                "Multiple video formats",
-                "Arabic + English",
-                "RTL + Hijri + Ramadan-ready",
+                "AI-powered keyword research", "SEO content strategy", "On-page optimization", 
+                "Technical SEO monitoring", "Local SEO", "Competitor analysis", 
+                "Rank tracking", "SEO performance reporting", "Arabic + English SEO", "RTL + Hijri + Ramadan-ready"
               ].map((point, i) => (
-                <div key={i} className="flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-5 py-2 backdrop-blur-sm">
-                  <Check className="size-4 text-blue-600 shrink-0" />
+                <div key={i} className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/60 shadow-sm px-3 py-1.5 backdrop-blur-sm">
+                  <Check className="size-3.5 text-blue-600 shrink-0" />
                   <span>{point}</span>
                 </div>
               ))}
             </div>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap justify-center gap-4 mb-14">
-              <a href="/book?plan=video" className="inline-flex h-14 items-center justify-center rounded-none bg-blue-600 px-10 text-lg font-normal text-white transition-all hover:bg-blue-700 hover:shadow-xl hover:-translate-y-0.5">
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
+              <a href="/book?plan=seo" className="inline-flex h-12 items-center justify-center rounded-none bg-blue-600 px-8 text-base font-normal text-white transition-all hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5">
                 Start 7-Day Free Trial
               </a>
-              <a href="/book" className="inline-flex h-14 items-center justify-center rounded-none border-2 border-slate-300 bg-white/50 backdrop-blur-md px-10 text-lg font-normal text-slate-800 transition-colors hover:border-slate-800 hover:bg-slate-800 hover:text-white">
+              <a href="/book" className="inline-flex h-12 items-center justify-center rounded-none border-2 border-slate-300 bg-white/50 backdrop-blur-md px-8 text-base font-normal text-slate-800 transition-colors hover:border-slate-800 hover:bg-slate-800 hover:text-white">
                 Book a Demo
               </a>
             </div>
 
-            <p className="text-sm font-medium text-slate-500 mb-14">
+            <p className="text-xs font-medium text-slate-500 mb-12">
               No credit card · No lock-in · Cancel anytime
             </p>
 
-            {/* Hero Visual Mockup */}
-            <div className="w-full max-w-6xl rounded-[2rem] border border-slate-200 bg-white/80 p-4 sm:p-8 shadow-2xl backdrop-blur-xl text-left relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 rounded-[2rem] pointer-events-none" />
+            {/* 2. Hero Product Visual */}
+            <div className="w-full max-w-5xl rounded-[1.5rem] border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-2xl backdrop-blur-xl text-left relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 pointer-events-none" />
               <div className="relative z-10">
-                <div className="flex flex-col md:flex-row items-center justify-between border-b border-slate-200 pb-5 mb-8 gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="flex gap-2">
-                      <div className="size-3.5 rounded-full bg-red-400" />
-                      <div className="size-3.5 rounded-full bg-yellow-400" />
-                      <div className="size-3.5 rounded-full bg-green-400" />
-                    </div>
-                    <span className="text-sm font-mono text-slate-400">hivenox://video-worker/dashboard</span>
+                <div className="flex flex-col md:flex-row items-center justify-between border-b border-slate-200 pb-4 mb-6 gap-4">
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-slate-800">SEO Worker</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider overflow-x-auto w-full md:w-auto pb-2 md:pb-0 whitespace-nowrap">
-                    <span className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full border border-slate-200">Idea → Script → Create → Edit → Approve → Publish</span>
-                    <span className="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full shrink-0">English / العربية</span>
+                  <div className="flex flex-wrap items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                    <span className="bg-slate-100 px-2 py-1 rounded">Research</span> →
+                    <span className="bg-slate-100 px-2 py-1 rounded">Plan</span> →
+                    <span className="bg-slate-100 px-2 py-1 rounded">Optimize</span> →
+                    <span className="bg-slate-100 px-2 py-1 rounded">Monitor</span> →
+                    <span className="bg-slate-100 px-2 py-1 rounded">Improve</span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Pipeline */}
-                  <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Dashboard Metrics</h4>
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      {[
-                        { num: "16 / 20", label: "Videos Created", color: "text-slate-600 bg-slate-200/50" },
-                        { num: 4, label: "In Production", color: "text-amber-600 bg-amber-100" },
-                        { num: 8, label: "Ready to Publish", color: "text-green-600 bg-green-100" },
-                        { num: 24, label: "Published", color: "text-blue-600 bg-blue-100" }
-                      ].map((stat, i) => (
-                        <div key={i} className={`p-4 rounded-xl ${stat.color} border border-white/20`}>
-                          <div className="text-xl font-light mb-1">{stat.num}</div>
-                          <div className="text-[10px] font-bold uppercase tracking-wider opacity-80">{stat.label}</div>
-                        </div>
-                      ))}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  {[
+                    { label: "Organic Traffic", val: "+38%", color: "text-green-600", bg: "bg-green-50" },
+                    { label: "Keywords Ranking", val: "1,284", color: "text-blue-600", bg: "bg-blue-50" },
+                    { label: "Top 10 Keywords", val: "246", color: "text-purple-600", bg: "bg-purple-50" },
+                    { label: "SEO Health", val: "92 / 100", color: "text-slate-800", bg: "bg-slate-100" }
+                  ].map((stat, i) => (
+                    <div key={i} className={`p-4 rounded-xl border border-white/40 shadow-sm ${stat.bg}`}>
+                      <div className={`text-2xl font-light mb-1 ${stat.color}`}>{stat.val}</div>
+                      <div className="text-[10px] font-bold uppercase text-slate-500">{stat.label}</div>
                     </div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">Content Types</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {["Social Videos", "Reels", "Shorts", "Explainer Videos", "Product Videos", "Educational Videos"].map((type, i) => (
-                        <span key={i} className="text-xs px-2.5 py-1 bg-white border border-slate-200 rounded-md text-slate-600">{type}</span>
-                      ))}
-                    </div>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                    <div className="text-xs font-bold uppercase text-slate-400 mb-3">Keyword Opportunities</div>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      <li className="flex justify-between border-b border-slate-50 pb-1"><span>AI Automation</span> <Search className="size-3 text-slate-300"/></li>
+                      <li className="flex justify-between border-b border-slate-50 pb-1"><span>Business Intelligence</span> <Search className="size-3 text-slate-300"/></li>
+                      <li className="flex justify-between border-b border-slate-50 pb-1"><span>ERP Software</span> <Search className="size-3 text-slate-300"/></li>
+                      <li className="flex justify-between"><span>CRM Solutions</span> <Search className="size-3 text-slate-300"/></li>
+                    </ul>
+                  </div>
+                  
+                  <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                    <div className="text-xs font-bold uppercase text-slate-400 mb-3">SEO Health</div>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      <li className="flex items-center gap-2"><CheckCircle className="size-3.5 text-green-500" /> Technical SEO</li>
+                      <li className="flex items-center gap-2"><CheckCircle className="size-3.5 text-green-500" /> On-page SEO</li>
+                      <li className="flex items-center gap-2"><CheckCircle className="size-3.5 text-green-500" /> Content optimization</li>
+                      <li className="flex items-center gap-2 text-amber-600 mt-2"><AlertTriangle className="size-3.5" /> 3 issues detected</li>
+                    </ul>
                   </div>
 
-                  {/* Transformation Visual / Video Editor */}
-                  <div className="lg:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col">
-                    <div className="flex items-center gap-3 mb-6 bg-slate-800/50 p-4 rounded-xl border border-slate-700/50">
-                      <Wand2 className="size-5 text-purple-400 shrink-0" />
-                      <p className="text-sm font-medium text-slate-200">
-                        "Your latest blog has been converted into a 45-second social video script."
-                      </p>
-                    </div>
-                    
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Video Timeline</h4>
-                    <div className="bg-slate-950/50 rounded-xl p-4 border border-slate-800 flex-1 flex flex-col justify-between">
-                       {/* Video Player Mock */}
-                       <div className="w-full aspect-video bg-slate-900 rounded-lg border border-slate-800 flex items-center justify-center mb-4 relative overflow-hidden">
-                          <PlayCircle className="size-12 text-slate-600" />
-                          <div className="absolute bottom-2 right-2 text-[10px] bg-black/50 text-white px-2 py-1 rounded">00:45</div>
-                       </div>
-                       
-                       {/* Tracks */}
-                       <div className="space-y-2">
-                         <div className="flex gap-2 items-center">
-                           <span className="text-[10px] text-slate-500 w-16">Scenes</span>
-                           <div className="flex-1 h-6 flex gap-1">
-                             <div className="bg-blue-500/80 h-full w-1/3 rounded-sm"></div>
-                             <div className="bg-blue-400/80 h-full w-1/4 rounded-sm"></div>
-                             <div className="bg-blue-600/80 h-full w-auto flex-1 rounded-sm"></div>
-                           </div>
-                         </div>
-                         <div className="flex gap-2 items-center">
-                           <span className="text-[10px] text-slate-500 w-16">Voiceover</span>
-                           <div className="flex-1 h-4 bg-purple-500/50 rounded-sm"></div>
-                         </div>
-                         <div className="flex gap-2 items-center">
-                           <span className="text-[10px] text-slate-500 w-16">Captions</span>
-                           <div className="flex-1 h-4 flex gap-1">
-                             <div className="bg-amber-500/50 h-full w-1/4 rounded-sm"></div>
-                             <div className="bg-amber-500/50 h-full w-1/2 rounded-sm"></div>
-                             <div className="bg-amber-500/50 h-full w-auto flex-1 rounded-sm"></div>
-                           </div>
-                         </div>
-                         <div className="flex gap-2 items-center">
-                           <span className="text-[10px] text-slate-500 w-16">Music</span>
-                           <div className="flex-1 h-4 bg-green-500/30 rounded-sm"></div>
-                         </div>
-                       </div>
+                  <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                    <div className="text-xs font-bold uppercase text-slate-400 mb-3">Ranking Movement</div>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-sm text-green-600 font-medium">
+                        <TrendingUp className="size-4" /> 42 Keywords improved
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-red-500 font-medium">
+                        <TrendingDown className="size-4" /> 8 Keywords declined
+                      </div>
                     </div>
                   </div>
                 </div>
 
+                <div className="mt-4 bg-blue-50/50 p-4 rounded-xl border border-blue-100 flex items-start gap-3">
+                  <div className="bg-blue-600 rounded-full p-1.5 shrink-0 mt-0.5"><Zap className="size-3 text-white" /></div>
+                  <div>
+                    <div className="text-xs font-bold text-blue-800 uppercase tracking-wider mb-1">AI Recommendation</div>
+                    <p className="text-sm text-blue-900/80">"Your page targeting 'business automation software' has strong impressions but low CTR. Consider improving the title and meta description."</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -180,309 +155,308 @@ export default function VideoWorkerPage() {
         </section>
 
         {/* =========================================================================
-            2. THE PROBLEM (Soft Purple Section)
+            3. THE SEO PROBLEM (Soft Gray)
             ========================================================================= */}
-        <section className="bg-purple-50/80 border-y border-purple-100 py-16">
+        <section className="bg-slate-100 py-12 border-y border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-purple-600">The Problem</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">
-                Your audience is watching.<br/>Is your business keeping up?
+            <div className="max-w-3xl mx-auto text-center mb-10">
+              <span className="mb-3 inline-block text-[10px] font-bold uppercase tracking-widest text-slate-500">The Problem</span>
+              <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">
+                Great businesses don't grow if nobody can find them.
               </h2>
-              <p className="text-lg font-light leading-relaxed text-slate-700 mb-6">
-                Video has become one of the most powerful ways to communicate. But creating video consistently takes time. You need ideas. Scripts. Visuals. Editing. Captions. Voiceovers. Publishing. And then you need to do it all again next week.
-              </p>
-              <p className="text-lg font-medium leading-relaxed text-purple-900 bg-purple-100/50 inline-block p-4 rounded-xl">
-                Video Worker helps remove the repetitive work from the production process so your team can create more video without building a full production studio.
+              <p className="text-base font-light leading-relaxed text-slate-600">
+                You can have a great product. A beautiful website. Excellent content. But if your customers can't find you when they're searching, you're missing opportunities every day.
+                SEO is rarely a one-time project. Search behavior changes. Competitors publish new content. Algorithms evolve.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
               {[
-                { title: "Video Takes Too Long", desc: "Traditional video production requires too many steps and too much manual work." },
-                { title: "Ideas Stay Unused", desc: "Your blogs, presentations, and expertise contain video ideas that never get produced." },
-                { title: "Content Gets Repeated", desc: "Creating unique content for every platform wastes valuable time." },
-                { title: "Production Is Expensive", desc: "Hiring external teams for every video quickly increases costs." }
+                { title: "You Don't Know What to Target", desc: "Without proper keyword research, content can miss the searches that matter." },
+                { title: "Your Content Doesn't Rank", desc: "Creating content isn't enough. It needs the right structure, intent, and optimization." },
+                { title: "Technical Issues Go Unnoticed", desc: "Broken links and performance issues can quietly hurt visibility." },
+                { title: "Competitors Keep Moving", desc: "Your competitors are constantly creating and optimizing content." },
+                { title: "Reporting Takes Too Long", desc: "Manually collecting rankings and performance data wastes valuable time." }
               ].map((card, i) => (
-                <div key={i} className="bg-white p-8 rounded-[2rem] border border-purple-100 shadow-sm hover:shadow-md transition-shadow">
-                  <h3 className="text-xl font-normal text-slate-900 mb-3">{card.title}</h3>
-                  <p className="text-sm font-light text-slate-600">{card.desc}</p>
+                <div key={i} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center">
+                  <h3 className="text-sm font-medium text-slate-900 mb-2">{card.title}</h3>
+                  <p className="text-xs font-light text-slate-600">{card.desc}</p>
                 </div>
               ))}
             </div>
             
             <div className="text-center">
-              <span className="font-mono text-sm tracking-tight text-purple-600">
-                Your business already has the ideas. Video Worker helps turn them into content.
+              <span className="font-mono text-xs tracking-tight text-slate-500">
+                SEO shouldn't be a project you finish. It should be an engine that keeps improving.
               </span>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            3. MEET YOUR VIDEO WORKER (White Section)
+            4. MEET YOUR SEO WORKER
             ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
+        <section className="bg-white py-12 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Your AI Video Production Team</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">One Worker. Your entire video workflow.</h2>
-              <p className="text-lg font-light text-slate-600">
-                Video Worker helps you move from idea to published video without managing disconnected tools and complicated production workflows.
+            <div className="max-w-3xl mx-auto text-center mb-10">
+              <span className="mb-3 inline-block text-[10px] font-bold uppercase tracking-widest text-blue-600">Your AI SEO Team</span>
+              <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">One Worker. Your entire SEO workflow.</h2>
+              <p className="text-base font-light text-slate-600">
+                SEO Worker brings your SEO operations into one intelligent workspace. From finding opportunities to tracking results, your AI Worker helps your team continuously improve organic visibility.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto mb-8">
               {[
-                { title: "Script", icon: FileText, color: "text-blue-500", bg: "bg-blue-50", desc: "Generate video scripts from your ideas, topics, or existing content." },
-                { title: "Create", icon: Video, color: "text-purple-500", bg: "bg-purple-50", desc: "Turn scripts into structured video concepts." },
-                { title: "Repurpose", icon: Split, color: "text-green-500", bg: "bg-green-50", desc: "Transform blogs, social posts, and long-form content into video." },
-                { title: "Customize", icon: LayoutTemplate, color: "text-orange-500", bg: "bg-orange-50", desc: "Apply your brand voice, visuals, messaging, and style." },
-                { title: "Review", icon: CheckCircle, color: "text-pink-500", bg: "bg-pink-50", desc: "Collaborate with your team before publishing." },
-                { title: "Publish", icon: Send, color: "text-indigo-500", bg: "bg-indigo-50", desc: "Prepare content for your social and marketing channels." }
+                { title: "Discover", icon: Search, desc: "Find keywords, topics, and search opportunities." },
+                { title: "Strategize", icon: Target, desc: "Build content and keyword strategies around business goals." },
+                { title: "Optimize", icon: Settings, desc: "Improve pages, content, metadata, and internal linking." },
+                { title: "Monitor", icon: Activity, desc: "Track rankings, traffic, and SEO health." },
+                { title: "Analyze", icon: BarChart2, desc: "Understand competitors and search performance." },
+                { title: "Improve", icon: TrendingUp, desc: "Use data-driven recommendations to identify your next opportunity." }
               ].map((feat, i) => (
-                <div key={i} className="group bg-slate-50 p-8 rounded-[2rem] border border-slate-100 hover:bg-white hover:border-slate-200 hover:shadow-lg transition-all duration-300">
-                  <div className={`size-12 rounded-2xl ${feat.bg} flex items-center justify-center mb-5`}>
-                    <feat.icon className={`size-6 ${feat.color}`} />
-                  </div>
-                  <h3 className="text-2xl font-normal text-slate-900 mb-3">{feat.title}</h3>
-                  <p className="text-base font-light text-slate-600">{feat.desc}</p>
+                <div key={i} className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex flex-col items-center text-center">
+                  <feat.icon className="size-6 text-blue-500 mb-3" />
+                  <h3 className="text-base font-medium text-slate-900 mb-1">{feat.title}</h3>
+                  <p className="text-xs font-light text-slate-600">{feat.desc}</p>
                 </div>
               ))}
             </div>
-            
-            <div className="text-center mt-12">
-              <p className="text-base font-medium text-slate-800">
-                From blank page to finished video — faster.
-              </p>
+
+            <div className="text-center text-sm font-medium text-blue-600">
+              Research less manually. Optimize more intelligently.
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            4. ONE IDEA → MULTIPLE VIDEOS (Dark Slate Section)
+            5 & 6. KEYWORD RESEARCH & STRATEGY (Combined Layout)
             ========================================================================= */}
-        <section className="bg-slate-950 py-16 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-900/20 blur-[100px] rounded-full pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-purple-900/20 blur-[100px] rounded-full pointer-events-none" />
+        <section className="bg-slate-50 py-12 border-b border-slate-200">
+          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              
+              {/* Keyword Research */}
+              <div>
+                <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-slate-500">Discover Opportunities</span>
+                <h2 className="mb-4 text-3xl font-light tracking-tight text-slate-900">Find the searches that can grow your business.</h2>
+                <p className="text-sm font-light text-slate-600 mb-6">Not every keyword is worth targeting. SEO Worker helps identify search opportunities based on relevance, intent, competition, and potential business value.</p>
+                
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  {[
+                    ["Commercial", "Find people actively looking for products."],
+                    ["Informational", "Discover questions your audience is asking."],
+                    ["Long-Tail", "Target specific searches with focused intent."],
+                    ["Local", "Find opportunities in target cities."],
+                    ["Question", "Discover questions your audience wants answered."]
+                  ].map(([title, desc], i) => (
+                    <div key={i} className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                      <div className="text-xs font-semibold text-slate-800 mb-1">{title}</div>
+                      <div className="text-[10px] text-slate-500 leading-tight">{desc}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 text-sm">
+                  <div className="font-mono text-xs text-blue-600 mb-2">Example Opportunity</div>
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                    <div className="bg-white px-2 py-1 rounded text-slate-700"><span className="text-xs text-slate-400 block">Keyword</span>CRM software for small business</div>
+                    <div className="bg-white px-2 py-1 rounded text-slate-700"><span className="text-xs text-slate-400 block">Intent</span>Commercial</div>
+                    <div className="bg-white px-2 py-1 rounded text-slate-700"><span className="text-xs text-slate-400 block">Competition</span>Medium</div>
+                    <div className="bg-white px-2 py-1 rounded text-green-700 font-medium"><span className="text-xs text-slate-400 block">Opportunity</span>High</div>
+                  </div>
+                  <div className="bg-white p-2 rounded text-slate-700 border border-blue-200"><span className="font-semibold text-xs text-blue-800">Action:</span> Create a comparison-focused landing page.</div>
+                </div>
+              </div>
+
+              {/* SEO Strategy */}
+              <div>
+                <h2 className="mb-4 text-3xl font-light tracking-tight text-slate-900 pt-6">Stop guessing what to publish next.</h2>
+                <p className="text-sm font-light text-slate-600 mb-6">SEO Worker turns keyword research into a practical content strategy. Instead of creating random blog posts, build a structured content ecosystem around the topics your audience actually searches for.</p>
+
+                <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-600 mb-6">
+                  {["Business Goals", "Keyword Research", "Search Intent", "Topic Clusters", "Content Plan", "SEO Content", "Organic Growth"].map((step, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="bg-slate-200 px-2 py-1 rounded">{step}</span>
+                      {i < 6 && <ArrowRight className="size-3 text-slate-400" />}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                  <div className="text-xs font-bold uppercase text-slate-400 mb-3">Content Strategy Types</div>
+                  <div className="flex flex-wrap gap-2 text-xs text-slate-700">
+                    {["Pillar pages", "Topic clusters", "Supporting articles", "Commercial landing pages", "Product pages", "Comparison pages", "FAQ content", "Local landing pages"].map((type, i) => (
+                      <span key={i} className="border border-slate-200 px-3 py-1 rounded-full">{type}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="text-sm font-medium text-slate-800 mt-6 border-l-2 border-blue-500 pl-3">
+                  Build content that supports your business — not just your blog.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            7 & 8. ON-PAGE SEO & AI CONTENT OPTIMIZATION
+            ========================================================================= */}
+        <section className="bg-white py-12 border-b border-slate-200">
+          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              
+              <div>
+                <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-blue-500">Optimize Every Page</span>
+                <h2 className="mb-4 text-3xl font-light tracking-tight text-slate-900">Make every important page easier to understand.</h2>
+                <p className="text-sm font-light text-slate-600 mb-6">SEO Worker analyzes your pages and identifies opportunities to improve their search visibility and user experience.</p>
+                
+                <div className="grid grid-cols-2 gap-2 mb-6">
+                  {["Title tags", "Meta descriptions", "Heading structure", "Keyword usage", "Search intent", "Content depth", "Internal links", "Image optimization", "URL structure", "Schema opportunities"].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm text-slate-700">
+                      <Check className="size-4 text-blue-500" /> {item}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-amber-50 p-4 rounded-xl border border-amber-100 flex items-start gap-3">
+                  <AlertTriangle className="size-4 text-amber-600 mt-0.5 shrink-0" />
+                  <p className="text-xs text-amber-900">"Your page targets the right topic, but the primary keyword is missing from the H1 and first paragraph. Consider restructuring the opening section."</p>
+                </div>
+                <p className="text-xs font-medium text-slate-500 mt-4">Better structure. Better relevance. Better opportunities to rank.</p>
+              </div>
+
+              <div>
+                <h2 className="mb-4 text-3xl font-light tracking-tight text-slate-900 pt-6">Create content that search engines — and humans — understand.</h2>
+                <p className="text-sm font-light text-slate-600 mb-6">SEO Worker works alongside your content workflow to help optimize content for search intent while keeping it useful and readable.</p>
+                
+                <div className="space-y-3 mb-6">
+                  {[
+                    ["Search Intent", "Match content with what people actually want."],
+                    ["Topic Coverage", "Identify important subtopics your competitors cover."],
+                    ["Content Structure", "Improve headings, sections, and readability."],
+                    ["Keyword Context", "Use relevant terms naturally."],
+                    ["Internal Linking", "Connect related pages to strengthen your site structure."],
+                    ["Content Refresh", "Identify older content that could benefit from updates."]
+                  ].map(([title, desc], i) => (
+                    <div key={i} className="bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between text-sm">
+                      <span className="font-medium text-slate-800">{title}</span>
+                      <span className="text-slate-500 text-xs sm:text-right">{desc}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-slate-900 text-white rounded-xl p-4 text-center text-xs font-medium">
+                  Create with Content Worker → Optimize with SEO Worker
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            9. TECHNICAL SEO & AUDITS
+            ========================================================================= */}
+        <section className="bg-slate-950 py-12 text-slate-300 border-b border-slate-800 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-[30rem] h-[30rem] bg-blue-900/20 blur-[80px] rounded-full pointer-events-none" />
           
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">Your best ideas deserve more than one format.</h2>
-              <p className="text-lg font-light text-slate-400">
-                Don't let your best content live in just one place. Video Worker transforms existing content into video formats designed for different audiences and platforms.
-              </p>
+            <div className="max-w-3xl mx-auto text-center mb-10">
+              <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-blue-400">Keep Your Site Healthy</span>
+              <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-white">Your SEO foundation should never be left unattended.</h2>
+              <p className="text-sm font-light text-slate-400">Technical problems can prevent search engines from properly discovering, understanding, and indexing your website. Automated monitoring helps your team identify issues before they become bigger problems.</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-center">
-              <div className="bg-slate-900 p-8 rounded-[2rem] border border-slate-800">
-                <div className="flex flex-col gap-4">
-                  {["One Core Idea", "Blog Article", "Long-Form Video", "60-Second Video", "Short-Form Clip", "Social Reel", "Educational Video"].map((step, i) => (
-                    <div key={i} className="flex items-center gap-4 text-white">
-                      <div className={`size-8 rounded-full ${i === 0 ? 'bg-purple-600' : 'bg-blue-900/50'} flex items-center justify-center border ${i === 0 ? 'border-purple-500' : 'border-blue-800/50'} shrink-0 text-sm`}>
-                        {i === 0 ? <Wand2 className="size-4" /> : i}
-                      </div>
-                      <span className={`font-light text-lg ${i === 0 ? 'font-medium' : ''}`}>{step}</span>
-                      {i < 6 && <ArrowDown className="size-5 text-slate-600 ml-auto" />}
-                    </div>
-                  ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              <div className="md:col-span-1 bg-slate-900 p-6 rounded-2xl border border-slate-800 text-center flex flex-col justify-center">
+                <div className="text-5xl font-light text-green-400 mb-2">92<span className="text-2xl text-slate-500">/100</span></div>
+                <div className="text-sm font-medium text-slate-300 mb-4">SEO Health Score (Good)</div>
+                <div className="space-y-2 text-xs text-left">
+                  <div className="flex justify-between bg-slate-800 px-3 py-2 rounded text-red-300"><span>Issues Detected</span> <span>3</span></div>
+                  <div className="flex justify-between bg-slate-800 px-3 py-2 rounded text-amber-300"><span>Tech Issues</span> <span>7</span></div>
+                  <div className="flex justify-between bg-slate-800 px-3 py-2 rounded text-blue-300"><span>Opportunities</span> <span>24</span></div>
+                  <div className="flex justify-between bg-slate-800 px-3 py-2 rounded text-slate-400"><span>Pages Monitored</span> <span>24</span></div>
                 </div>
               </div>
 
-              <div>
-                <div className="mb-8">
-                  <span className="text-sm font-medium text-slate-500 uppercase tracking-widest block mb-2">Original Content</span>
-                  <div className="bg-slate-800 p-4 rounded-xl text-white font-medium">"5 Ways AI Can Improve Customer Service"</div>
-                </div>
-                
-                <div>
-                  <span className="text-sm font-medium text-blue-400 uppercase tracking-widest block mb-3">Video Worker can turn it into:</span>
-                  <ul className="space-y-3">
-                    {["1 explainer video", "1 long-form video", "5 short-form clips", "5 social videos", "1 educational video"].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300 font-light">
-                        <Check className="size-4 text-blue-500 shrink-0" /> {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center mt-12">
-              <p className="text-base font-medium text-blue-300 bg-blue-900/30 inline-block px-8 py-3 rounded-full border border-blue-800/50">
-                Create once. Repurpose everywhere.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            5. AI SCRIPT GENERATION (White Section)
-            ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-              <div>
-                <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-slate-400">Script to Video</span>
-                <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Never start your next video with a blank page.</h2>
-                <p className="text-lg font-light text-slate-600 mb-8">
-                  Give Video Worker a topic, idea, blog, or product and let AI help structure the story. Create scripts that are clear, engaging, and aligned with your brand voice.
-                </p>
-                
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-8">
-                  {["Strong opening hooks", "Structured storytelling", "Short-form scripts", "Long-form scripts", "Educational scripts", "Product scripts", "Promotional scripts", "Social CTAs"].map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                      <Check className="size-4 text-blue-500 shrink-0" />
-                      <span>{f}</span>
+              <div className="md:col-span-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                  {["Crawlability", "Indexing", "Broken links", "Redirects", "Canonical URLs", "Sitemap health", "Robots.txt", "Mobile performance", "Page speed", "Core Web Vitals", "Structured data"].map((item, i) => (
+                    <div key={i} className="bg-slate-900/50 p-2 rounded-lg border border-slate-800 text-xs flex items-center gap-2">
+                      <CheckCircle className="size-3 text-slate-500" /> {item}
                     </div>
                   ))}
                 </div>
 
-                <a href="/book?plan=video" className="inline-flex h-12 items-center justify-center bg-slate-900 px-8 text-base font-normal text-white rounded-none transition-all hover:bg-slate-800">
-                  Create Your First Video Script
-                </a>
-              </div>
-
-              {/* Script Example Visual */}
-              <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-200 shadow-sm relative">
-                <div className="mb-4 pb-4 border-b border-slate-200">
-                  <span className="text-xs font-bold uppercase text-blue-600 block mb-1">Input</span>
-                  <p className="text-sm text-slate-700 font-medium">Create a video about why businesses should automate customer support.</p>
-                </div>
-                
-                <div className="space-y-4">
-                  <span className="text-xs font-bold uppercase text-purple-600 block mb-1">Output Workflow</span>
-                  {[
-                    { label: "Hook", text: '"How many hours does your team lose answering the same customer questions?"' },
-                    { label: "Problem", text: "Manual support takes time." },
-                    { label: "Solution", text: "AI automation handles repetitive questions." },
-                    { label: "CTA", text: '"Discover how your business can automate support."' }
-                  ].map((step, i) => (
-                    <div key={i} className="flex gap-4">
-                       <div className="w-16 shrink-0 text-right mt-0.5">
-                         <span className="text-xs font-bold text-slate-400 uppercase tracking-wide">{step.label}</span>
-                       </div>
-                       <div className="flex-1 bg-white p-3 rounded-lg border border-slate-100 shadow-sm text-sm text-slate-600 font-light relative">
-                         {step.text}
-                         {i < 3 && <div className="absolute -bottom-5 left-4 text-slate-300">↓</div>}
-                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            6. AI-POWERED VIDEO CREATION (Soft Slate Section)
-            ========================================================================= */}
-        <section className="bg-slate-100/50 py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">From script to screen.</h2>
-              <p className="text-lg font-light text-slate-600">
-                Turn your scripts into structured video content with AI-assisted production workflows.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
-              {[
-                { title: "AI Visuals", icon: MonitorPlay, desc: "Create visual concepts that support your story." },
-                { title: "Voiceovers", icon: Mic, desc: "Build professional voice-led video experiences." },
-                { title: "Captions", icon: Captions, desc: "Generate captions automatically for better accessibility and engagement." },
-                { title: "Scene Planning", icon: Clapperboard, desc: "Break your script into structured visual scenes." },
-                { title: "Music", icon: Music, desc: "Add background audio to match your content." },
-                { title: "Brand Elements", icon: LayoutTemplate, desc: "Keep your logo, messaging, and visual identity consistent." }
-              ].map((c, i) => (
-                <div key={i} className="bg-white p-6 rounded-[1.5rem] border border-slate-200 shadow-sm hover:-translate-y-1 transition-transform duration-300">
-                  <div className="size-10 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
-                    <c.icon className="size-5 text-blue-600" />
+                <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 text-sm">
+                  <h4 className="text-white mb-3 font-medium">AI Priority System</h4>
+                  <div className="space-y-2">
+                    <div className="flex gap-2"><span className="text-red-400">🔴 Critical:</span> Fix immediately.</div>
+                    <div className="flex gap-2"><span className="text-amber-400">🟡 Opportunity:</span> Improve for potential gains.</div>
+                    <div className="flex gap-2"><span className="text-green-400">🟢 Healthy:</span> No action required.</div>
                   </div>
-                  <h3 className="text-xl font-normal text-slate-900 mb-2">{c.title}</h3>
-                  <p className="text-sm font-light text-slate-600">{c.desc}</p>
                 </div>
-              ))}
-            </div>
-
-            <div className="text-center">
-              <p className="text-base font-medium text-slate-800 border-l-4 border-blue-500 pl-4 py-1 inline-block">
-                Your content. Your brand. Your story.
-              </p>
+              </div>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            7. SHORT-FORM & LONG-FORM VIDEO (White Sections)
+            10 & 11. COMPETITOR INTEL & CONTENT GAP
             ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
+        <section className="bg-white py-12 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               
-              {/* Short-form */}
-              <div className="bg-slate-50 p-8 sm:p-10 rounded-[2rem] border border-slate-100 relative overflow-hidden">
-                <div className="absolute top-0 right-0 -mr-10 -mt-10 size-40 bg-pink-100 rounded-full blur-[50px] pointer-events-none" />
-                <div className="relative z-10">
-                  <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-pink-600">Social Video</span>
-                  <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Create videos built for attention.</h2>
-                  <p className="text-base font-light text-slate-600 mb-8">
-                    Short-form content moves fast. Video Worker helps your team create concise videos designed for social platforms and modern audiences.
-                  </p>
-                  
-                  <div className="mb-8">
-                    <h4 className="text-sm font-bold text-slate-900 mb-3 uppercase tracking-wider">Video Formats</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {["Reels", "Shorts", "Social clips", "Product highlights", "Educational snippets", "Promotional videos", "Quick tips", "Industry insights"].map((fmt, i) => (
-                        <span key={i} className="text-xs bg-white border border-slate-200 px-3 py-1.5 rounded-md text-slate-600 shadow-sm">{fmt}</span>
-                      ))}
-                    </div>
-                  </div>
+              <div>
+                <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-slate-400">Know Your Competition</span>
+                <h2 className="mb-4 text-3xl font-light tracking-tight text-slate-900">See what your competitors are ranking for.</h2>
+                <p className="text-sm font-light text-slate-600 mb-6">Your competitors are already competing for your audience's attention. SEO Worker helps identify the keywords, content topics, and search opportunities that competitors are winning.</p>
+                
+                <div className="flex justify-between items-end mb-6 pb-6 border-b border-slate-100">
+                  <div className="text-center"><div className="text-lg font-medium text-slate-900">2,840</div><div className="text-[10px] uppercase text-slate-500">Comp A</div></div>
+                  <div className="text-center"><div className="text-lg font-medium text-slate-900">1,920</div><div className="text-[10px] uppercase text-slate-500">Comp B</div></div>
+                  <div className="text-center"><div className="text-xl font-medium text-blue-600">1,284</div><div className="text-[10px] uppercase text-blue-600 font-bold">You</div></div>
+                </div>
 
-                  <div className="bg-white p-5 rounded-xl border border-slate-200 mb-6">
-                    <h4 className="text-xs font-bold uppercase text-slate-400 mb-3">Example Flow</h4>
-                    <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                      <span className="bg-slate-100 px-2 py-1 rounded">60-s Idea</span>
-                      <ArrowRight className="size-3 text-slate-400" />
-                      <span className="bg-slate-100 px-2 py-1 rounded">Hook</span>
-                      <ArrowRight className="size-3 text-slate-400" />
-                      <span className="bg-slate-100 px-2 py-1 rounded">3 Points</span>
-                      <ArrowRight className="size-3 text-slate-400" />
-                      <span className="bg-slate-100 px-2 py-1 rounded">CTA</span>
-                    </div>
-                  </div>
-                  
-                  <p className="text-sm font-medium text-pink-700">Turn your expertise into content people can watch in under a minute.</p>
+                <div className="bg-purple-50 p-3 rounded-lg border border-purple-100 text-sm text-purple-900 mb-4">
+                  <span className="font-bold">AI Opportunity:</span> "Competitor A ranks for 34 high-intent keywords where your website currently has no visible ranking. 12 have strong content opportunities."
+                </div>
+
+                <div className="flex flex-wrap gap-2 text-xs text-slate-600">
+                  {["Keyword analysis", "Content gap analysis", "Ranking comparison", "Topic opportunities", "Backlink insights", "SERP analysis"].map((f, i) => (
+                    <span key={i} className="bg-slate-100 px-2 py-1 rounded">{f}</span>
+                  ))}
                 </div>
               </div>
 
-              {/* Long-form */}
-              <div className="bg-slate-50 p-8 sm:p-10 rounded-[2rem] border border-slate-100 relative overflow-hidden">
-                <div className="absolute top-0 right-0 -mr-10 -mt-10 size-40 bg-blue-100 rounded-full blur-[50px] pointer-events-none" />
-                <div className="relative z-10">
-                  <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Deep Dives</span>
-                  <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Go deeper when the story demands it.</h2>
-                  <p className="text-base font-light text-slate-600 mb-8">
-                    Not every idea belongs in 30 seconds. Create longer educational, explainer, product, and thought leadership videos that give your audience more value.
-                  </p>
-                  
-                  <div className="space-y-4 mb-8">
-                    {[
-                      { title: "Educational Videos", desc: "Teach your audience something useful." },
-                      { title: "Explainer Videos", desc: "Explain complex products and services clearly." },
-                      { title: "Product Videos", desc: "Show customers what your product can do." },
-                      { title: "Thought Leadership", desc: "Share deeper insights and industry expertise." },
-                      { title: "Training Content", desc: "Create internal educational content for your team." }
-                    ].map((useCase, i) => (
-                      <div key={i} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                        <span className="text-sm font-medium text-slate-900 shrink-0">{useCase.title}</span>
-                        <span className="text-sm font-light text-slate-600">{useCase.desc}</span>
-                      </div>
-                    ))}
-                  </div>
+              <div>
+                <h2 className="mb-4 text-3xl font-light tracking-tight text-slate-900 pt-6">Find the topics your competitors missed.</h2>
+                <p className="text-sm font-light text-slate-600 mb-6">SEO Worker identifies content opportunities where your competitors rank but your website doesn't.</p>
 
-                  <p className="text-sm font-medium text-blue-700">Short when it needs to be. Deep when it matters.</p>
+                <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-6 bg-slate-50 p-3 rounded-lg border border-slate-200 justify-center">
+                  <span>Competitor Keywords</span> <ArrowRight className="size-3" />
+                  <span>Your Coverage</span> <ArrowRight className="size-3" />
+                  <span>Content Gaps</span> <ArrowRight className="size-3 text-blue-500" />
+                  <span className="text-blue-600">Opportunities</span>
                 </div>
+
+                <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-sm">
+                  <div className="font-medium text-slate-900 mb-3 border-b border-slate-100 pb-2">Opportunity: AI automation for healthcare</div>
+                  <div className="grid grid-cols-3 gap-2 mb-3 text-xs">
+                    <div><span className="block text-slate-400">Competitors</span>4</div>
+                    <div><span className="block text-slate-400">Your Pos</span>Not ranking</div>
+                    <div><span className="block text-slate-400">Opportunity</span><span className="text-green-600">High</span></div>
+                  </div>
+                  <div className="bg-slate-50 p-2 rounded text-slate-700">
+                    <span className="font-medium">Action:</span> Create an industry-specific landing page.
+                  </div>
+                </div>
+                
+                <p className="text-xs font-medium text-slate-500 mt-4 text-center">Turn content gaps into growth opportunities.</p>
               </div>
 
             </div>
@@ -490,384 +464,235 @@ export default function VideoWorkerPage() {
         </section>
 
         {/* =========================================================================
-            8. CONTENT REPURPOSING (Glassmorphism Gradient)
+            12. LOCAL SEO (Small block)
             ========================================================================= */}
-        <section className="mx-auto max-w-[90rem] px-5 py-16 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-blue-200 via-blue-50 to-white p-10 sm:p-14 shadow-2xl border border-white/80 text-center">
-            <div className="absolute -top-32 -left-32 h-[40rem] w-[40rem] rounded-full bg-blue-400 blur-[120px] opacity-30 mix-blend-multiply pointer-events-none" />
-            <div className="absolute -bottom-32 -right-32 h-[40rem] w-[40rem] rounded-full bg-purple-300 blur-[120px] opacity-40 mix-blend-multiply pointer-events-none" />
+        <section className="bg-slate-50 py-10 border-b border-slate-200 text-center">
+          <div className="mx-auto max-w-4xl px-5 sm:px-6 lg:px-8">
+            <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-blue-500">Grow Locally</span>
+            <h2 className="mb-4 text-3xl font-light tracking-tight text-slate-900">Be visible when customers search nearby.</h2>
+            <p className="text-sm font-light text-slate-600 mb-6 max-w-2xl mx-auto">For businesses with physical locations or local service areas, visibility in local search can directly influence calls, visits, and leads. SEO Worker helps manage and improve your local search presence.</p>
             
-            <div className="relative z-10 max-w-4xl mx-auto mb-12">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600 bg-white/50 px-3 py-1 rounded-full border border-blue-200">Work Smarter</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Your content library is your video library.</h2>
-              <p className="text-xl font-light text-slate-700">
-                You already have valuable content. Blogs. Reports. Presentations. Social posts. Podcasts. Product information. Video Worker helps turn those assets into new video opportunities.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-center max-w-6xl mx-auto mb-10 relative z-10">
-              {[
-                { from: "Blog", to: "Video Script" },
-                { from: "Podcast", to: "Short Clips" },
-                { from: "Report", to: "Explainer Video" },
-                { from: "Product Page", to: "Product Video" },
-                { from: "Webinar", to: "Social Clips" },
-                { from: "Social Post", to: "Video Reel" }
-              ].map((flow, i) => (
-                <div key={i} className="bg-white/60 backdrop-blur-xl p-6 rounded-2xl border border-white/80 shadow-sm flex flex-col items-center justify-center h-full">
-                  <div className="text-sm font-medium text-slate-900 mb-2">{flow.from}</div>
-                  <ArrowDown className="size-4 text-blue-500 mb-2" />
-                  <div className="text-sm font-bold text-blue-700">{flow.to}</div>
-                </div>
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              {["Local keyword research", "Location-based content", "Local landing pages", "Business profile optimization", "Review monitoring", "NAP consistency", "Local schema", "Local tracking"].map((tag, i) => (
+                <span key={i} className="bg-white px-3 py-1.5 text-xs text-slate-700 rounded-full border border-slate-200 shadow-sm flex items-center gap-1"><MapPin className="size-3 text-red-500"/>{tag}</span>
               ))}
             </div>
 
-            <p className="text-base font-medium text-slate-800 relative z-10 bg-white/50 inline-block px-6 py-2 rounded-full border border-white">
-              Stop creating from scratch. Start creating from what you already have.
-            </p>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            9. CALENDAR (Soft Blue Section)
-            ========================================================================= */}
-        <section className="bg-blue-50/50 py-16 border-b border-blue-100">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Plan your video presence before you press publish.</h2>
-              <p className="text-lg font-light text-slate-600">Keep your entire video pipeline organized from idea to publication.</p>
-            </div>
-
-            <div className="bg-white p-8 rounded-[2rem] border border-blue-100 shadow-xl shadow-blue-900/5 max-w-6xl mx-auto mb-14">
-              <div className="flex flex-wrap gap-3 mb-8 justify-center border-b border-slate-100 pb-8">
-                <span className="text-xs font-bold uppercase tracking-widest text-slate-400 w-full text-center mb-2 block">Content Filters</span>
-                {["Short-form", "Long-form", "Social", "Educational", "Product", "Promotional", "Thought Leadership"].map((filter, i) => (
-                  <span key={i} className="px-4 py-1.5 text-sm font-medium text-slate-600 bg-slate-100 rounded-full border border-slate-200 hover:bg-slate-200 cursor-pointer transition-colors">
-                    {filter}
-                  </span>
-                ))}
-              </div>
-
-              <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 w-full text-center mb-6">Calendar Views</h4>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                {[
-                  { title: "Ideas", color: "border-slate-200 bg-slate-50" },
-                  { title: "Scripts", color: "border-slate-200 bg-white shadow-sm" },
-                  { title: "In Production", color: "border-amber-200 bg-amber-50" },
-                  { title: "In Review", color: "border-purple-200 bg-purple-50" },
-                  { title: "Approved & Scheduled", color: "border-blue-200 bg-blue-50" },
-                  { title: "Published", color: "border-green-200 bg-green-50" }
-                ].map((step, i) => (
-                  <div key={i} className={`p-4 rounded-xl border ${step.color} relative text-center flex items-center justify-center h-20`}>
-                    <h4 className="font-bold text-slate-800 text-sm">{step.title}</h4>
-                    {i < 5 && <ArrowRight className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 text-slate-300 size-5 z-10 bg-white rounded-full" />}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-center">
-              <p className="text-base font-medium text-slate-800">Know what's coming next. Keep your video engine moving.</p>
+            <div className="inline-flex items-center gap-3 bg-white px-4 py-2 rounded-lg border border-slate-200 text-xs shadow-sm">
+              <span className="text-slate-500">Search: <strong className="text-slate-800">CRM software in Dubai</strong></span>
+              <ArrowRight className="size-3 text-slate-300" />
+              <span className="text-green-600 font-medium">High Opp</span>
+              <ArrowRight className="size-3 text-slate-300" />
+              <span className="text-blue-600">Optimize UAE landing page</span>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            10. BRAND CONSISTENCY (Soft Slate Section)
+            13. BILINGUAL SEO (Purple Gradient)
             ========================================================================= */}
-        <section className="bg-slate-100/50 py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-              <div>
-                <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Every video should feel like your brand.</h2>
-                <p className="text-lg font-light text-slate-600 mb-8">
-                  Consistency builds recognition. Video Worker helps your team maintain a recognizable style across every video you create.
-                </p>
-                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-6 flex items-start gap-4">
-                  <Building2 className="size-6 text-blue-500 mt-1 shrink-0" />
-                  <div>
-                    <h4 className="font-medium text-slate-900">Brand Controls</h4>
-                    <p className="text-sm text-slate-600 mt-1">Manage everything from visuals to voice.</p>
-                  </div>
-                </div>
-                <p className="text-base font-medium text-slate-800 border-l-4 border-blue-500 pl-4 py-1">AI creates the video. Your brand makes it yours.</p>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { title: "Logo", desc: "Keep your brand visible." },
-                  { title: "Colours", desc: "Maintain visual consistency." },
-                  { title: "Typography", desc: "Use your preferred brand fonts." },
-                  { title: "Voice", desc: "Keep messaging consistent." },
-                  { title: "Tone", desc: "Define how your brand communicates." },
-                  { title: "CTA", desc: "Use consistent calls to action." }
-                ].map((ctrl, i) => (
-                  <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <h4 className="text-lg font-medium text-slate-900 mb-2">{ctrl.title}</h4>
-                    <p className="text-sm font-light text-slate-600">{ctrl.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            11. ARABIC + ENGLISH (Rich Purple Gradient)
-            ========================================================================= */}
-        <section className="relative py-16 overflow-hidden border-b border-purple-900">
+        <section className="relative py-12 overflow-hidden border-b border-purple-900">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900" />
           
           <div className="relative z-10 mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-purple-300">Bilingual Video Creation</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">Speak to your audience in their language.</h2>
-              <p className="text-lg font-light text-purple-100/80 leading-relaxed">
-                Video Worker is designed for businesses communicating across English and Arabic-speaking markets. Create content that works across languages, cultures, and audiences.
-              </p>
+            <div className="max-w-3xl mx-auto text-center mb-8">
+              <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-purple-300">Bilingual SEO</span>
+              <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-white">One SEO strategy. Two languages. More markets.</h2>
+              <p className="text-sm font-light text-purple-100/80">Search behavior isn't the same in every language. Arabic and English audiences may use different keywords, phrases, and search intent.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto mb-6">
               {[
-                { title: "Arabic Scripts", desc: "Generate video scripts for Arabic audiences." },
-                { title: "English Scripts", desc: "Create professional English video content." },
-                { title: "Bilingual Content", desc: "Adapt campaigns across both languages." },
-                { title: "RTL Support", desc: "Support right-to-left content experiences." },
-                { title: "Hijri Calendar", desc: "Plan content around Hijri dates." },
-                { title: "Ramadan Engine", desc: "Create timely Ramadan campaigns and content." }
+                { title: "Arabic Keyword Research", desc: "Discover search opportunities in Arabic." },
+                { title: "English Keyword Research", desc: "Build strategies for English-speaking audiences." },
+                { title: "Bilingual Content", desc: "Optimize content for both languages." },
+                { title: "RTL SEO", desc: "Support right-to-left website experiences." },
+                { title: "Hijri Search Planning", desc: "Plan around relevant Hijri dates and events." },
+                { title: "Ramadan SEO", desc: "Build seasonal search strategies around Ramadan." }
               ].map((item, i) => (
-                <div key={i} className="bg-white/5 p-6 rounded-[1.5rem] border border-white/10 backdrop-blur-md hover:bg-white/10 transition-colors">
-                  <h3 className="text-lg font-medium text-white mb-2">{item.title}</h3>
-                  <p className="text-sm font-light text-purple-200/70">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="text-center">
-              <p className="text-sm font-medium text-purple-200 bg-purple-900/50 inline-block px-6 py-3 rounded-full border border-purple-700/50">
-                One story. Multiple languages. Wider reach.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            12. APPROVAL WORKFLOW (White Section)
-            ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-              <div className="order-2 lg:order-1 bg-slate-50 p-8 rounded-[2rem] border border-slate-200">
-                <div className="flex flex-col gap-4">
-                  {[
-                    { step: "AI Creates", icon: Wand2 },
-                    { step: "Team Reviews", icon: Users },
-                    { step: "Manager Approves", icon: CheckCircle },
-                    { step: "Video Published", icon: Send }
-                  ].map((s, i) => (
-                    <div key={i} className="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                      <div className="size-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
-                        <s.icon className="size-5 text-blue-600" />
-                      </div>
-                      <span className="font-medium text-slate-800">{s.step}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="order-1 lg:order-2">
-                <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Team Collaboration</span>
-                <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Create faster without losing control.</h2>
-                <p className="text-lg font-light text-slate-600 mb-8">Video production often involves too many handoffs. Video Worker brings your team into one workflow so everyone knows what's happening.</p>
-                
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-8">
-                  {["Video review", "Approval workflow", "Team collaboration", "Content status", "Centralized video library", "Brand controls"].map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                      <Check className="size-4 text-blue-500 shrink-0" />
-                      <span>{f}</span>
-                    </div>
-                  ))}
-                </div>
-                
-                <p className="text-base font-medium text-slate-800 border-l-4 border-blue-500 pl-4 py-1">Move faster while keeping your standards high.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            13. MULTI-PLATFORM & PERFORMANCE (Dark / Light split conceptually, laid out horizontally)
-            ========================================================================= */}
-        <section className="bg-slate-950 py-16 border-b border-slate-800">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-             <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">One video. Multiple destinations.</h2>
-              <p className="text-lg font-light text-slate-400">
-                Your audience isn't on one platform. Create video content that can be adapted across your marketing channels.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
-              {[
-                { title: "Vertical", desc: "For short-form social content." },
-                { title: "Square", desc: "For social feeds." },
-                { title: "Landscape", desc: "For websites and long-form video." }
-              ].map((format, i) => (
-                <div key={i} className="bg-slate-900 p-8 rounded-[1.5rem] border border-slate-800 text-center">
-                  <MonitorSmartphone className="size-10 text-blue-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-medium text-white mb-2">{format.title}</h3>
-                  <p className="text-sm font-light text-slate-400">{format.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-3 text-sm font-medium text-slate-300 max-w-4xl mx-auto mb-10">
-              {["Social media", "Website", "Landing pages", "Product pages", "Presentations", "Campaigns", "Email marketing"].map((useCase, i) => (
-                <span key={i} className="bg-slate-800 px-5 py-2 rounded-full border border-slate-700">
-                  {useCase}
-                </span>
-              ))}
-            </div>
-
-            <div className="text-center">
-               <p className="text-base font-medium text-blue-300 bg-blue-900/30 inline-block px-8 py-3 rounded-full border border-blue-800/50">
-                Create once. Adapt for every screen.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            14. PERFORMANCE (White Section)
-            ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-slate-400">Measure What Matters</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Don't just create videos. Learn from them.</h2>
-              <p className="text-lg font-light text-slate-600">
-                Understand how your video content performs and identify which topics, formats, and messages resonate with your audience.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-6xl mx-auto mb-12">
-              {[
-                { title: "Views", desc: "Understand content reach.", icon: PlayCircle },
-                { title: "Watch Time", desc: "See how long people stay engaged.", icon: Clock },
-                { title: "Completion Rate", desc: "Identify which videos hold attention.", icon: CheckCircle },
-                { title: "Engagement", desc: "Track audience interactions.", icon: MessageSquare },
-                { title: "Conversion", desc: "Understand which content drives action.", icon: Target }
-              ].map((metric, i) => (
-                <div key={i} className="bg-slate-50 p-5 rounded-[1.5rem] border border-slate-100 text-center">
-                  <metric.icon className="size-6 text-blue-500 mx-auto mb-3" />
-                  <h3 className="text-lg font-medium text-slate-900 mb-2">{metric.title}</h3>
-                  <p className="text-xs font-light text-slate-600">{metric.desc}</p>
+                <div key={i} className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-md">
+                  <h3 className="text-sm font-medium text-white mb-1">{item.title}</h3>
+                  <p className="text-xs font-light text-purple-200/70">{item.desc}</p>
                 </div>
               ))}
             </div>
             
-            <div className="text-center">
-              <p className="text-base font-medium text-slate-800 border-l-4 border-blue-500 pl-4 py-1 inline-block">
-                Create better videos by learning from the ones you already made.
-              </p>
+            <div className="text-center text-xs font-medium text-purple-300">
+              Don't translate your SEO strategy. Localize it.
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            15. GROWTH WORKER INTEGRATION (Soft Slate Banner)
+            14, 15, 17. TRACKING, REPORTING & RECOMMENDATIONS
             ========================================================================= */}
-        <section className="bg-slate-50 py-16 border-b border-slate-200">
+        <section className="bg-white py-12 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-[2rem] p-10 sm:p-14 text-center text-white relative overflow-hidden shadow-xl">
-               <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
-               <div className="relative z-10 max-w-4xl mx-auto">
-                 <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight">Your videos become part of your growth engine.</h2>
-                 <p className="text-lg font-light text-blue-100 mb-10">
-                   Video shouldn't operate separately from your marketing strategy. Connect Video Worker with your wider HIVENOX AI workforce to turn video content into a complete growth workflow.
-                 </p>
-                 
-                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10">
-                   {["Content Worker", "Video Worker", "Social Worker", "Growth Worker"].map((worker, i) => (
-                     <div key={i} className="flex items-center gap-4">
-                       <div className="bg-white/10 backdrop-blur border border-white/20 px-6 py-3 rounded-xl font-medium">
-                         {worker}
-                       </div>
-                       {i < 3 && <ArrowRight className="size-5 text-blue-300 hidden md:block" />}
-                       {i < 3 && <ArrowDown className="size-5 text-blue-300 md:hidden" />}
-                     </div>
-                   ))}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              
+              <div className="lg:col-span-1 border-r border-slate-100 pr-4">
+                <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-slate-400">Measure Organic Growth</span>
+                <h2 className="mb-3 text-2xl font-light tracking-tight text-slate-900">Turn SEO data into decisions.</h2>
+                <p className="text-xs font-light text-slate-600 mb-6">SEO reporting shouldn't be a spreadsheet exercise. Bring most important SEO metrics into one clear view.</p>
+                
+                <div className="grid grid-cols-2 gap-2 mb-6">
+                  {["Organic Traffic: +38%", "Organic Leads: +24%", "Ranked: 1,284", "Top 10: 246", "Health: 92/100"].map((s, i) => (
+                     <div key={i} className="bg-slate-50 p-2 text-xs font-medium text-slate-800 rounded border border-slate-100">{s}</div>
+                  ))}
+                </div>
+                <div className="text-xs text-slate-500 font-medium">Know what's growing. Know what's falling. Know what to do next.</div>
+              </div>
+
+              <div className="lg:col-span-1 border-r border-slate-100 pr-4">
+                <h2 className="mb-3 text-2xl font-light tracking-tight text-slate-900 pt-6 lg:pt-0">Know where you stand.</h2>
+                <p className="text-xs font-light text-slate-600 mb-4">Monitor keyword performance and identify meaningful movements over time.</p>
+                
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between items-center bg-green-50 px-3 py-2 rounded text-xs text-green-800 border border-green-100">
+                    <span>Business Automation</span> <span className="font-bold">Pos 14 → 7</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-green-50 px-3 py-2 rounded text-xs text-green-800 border border-green-100">
+                    <span>CRM Software UAE</span> <span className="font-bold">Pos 21 → 11</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-red-50 px-3 py-2 rounded text-xs text-red-800 border border-red-100">
+                    <span>AI Solutions</span> <span className="font-bold">Pos 6 → 9</span>
+                  </div>
+                </div>
+                
+                <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 text-[10px] text-blue-900">
+                  <span className="font-bold block mb-1">AI Recommendation:</span> "Your 'CRM Software UAE' page has entered the top 20. Strengthen internal links."
+                </div>
+              </div>
+
+              <div className="lg:col-span-1">
+                <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-blue-500 pt-6 lg:pt-0">AI-Powered Actions</span>
+                <h2 className="mb-3 text-2xl font-light tracking-tight text-slate-900">Know what to do next.</h2>
+                <p className="text-xs font-light text-slate-600 mb-4">SEO data is useful. Actionable recommendations are better.</p>
+                
+                <div className="space-y-3">
+                  <div className="border-l-4 border-red-500 pl-3 py-1 bg-red-50/50 rounded-r text-xs">
+                    <div className="font-bold text-red-700">High Priority</div>
+                    <div className="text-slate-700">Update title & meta description on /crm-software.</div>
+                  </div>
+                  <div className="border-l-4 border-amber-500 pl-3 py-1 bg-amber-50/50 rounded-r text-xs">
+                    <div className="font-bold text-amber-700">Medium Priority</div>
+                    <div className="text-slate-700">Add internal links from 5 high-authority pages.</div>
+                  </div>
+                  <div className="border-l-4 border-green-500 pl-3 py-1 bg-green-50/50 rounded-r text-xs">
+                    <div className="font-bold text-green-700">Growth Opportunity</div>
+                    <div className="text-slate-700">Create a landing page targeting "CRM software for real estate."</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            18 & 23. CONNECTED WORKFORCE & FLYWHEEL (Soft Gray)
+            ========================================================================= */}
+        <section className="bg-slate-100 py-12 border-b border-slate-200">
+          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8 text-center">
+             <div className="max-w-3xl mx-auto mb-8">
+              <h2 className="mb-3 text-3xl font-light tracking-tight text-slate-900">SEO shouldn't work alone.</h2>
+              <p className="text-sm font-light text-slate-600">The best SEO strategy connects content, social, and growth. HIVENOX AI Workers work together to create a connected growth loop.</p>
+            </div>
+
+            <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-8 text-xs font-medium text-slate-700">
+               {["SEO Worker (Finds)", "Content Worker (Creates)", "Video Worker (Adapts)", "Social Worker (Distributes)", "Growth Worker (Measures)"].map((w, i) => (
+                 <div key={i} className="flex items-center gap-2 sm:gap-4">
+                   <div className="bg-white px-3 py-2 rounded-lg border border-slate-200 shadow-sm">{w}</div>
+                   {i < 4 && <ArrowRight className="size-4 text-slate-400" />}
                  </div>
+               ))}
+            </div>
 
-                 <p className="text-base font-medium text-white mb-8">One idea. One connected AI workforce.</p>
-                 
-                 <a href="/book?plan=growth" className="inline-flex h-12 items-center justify-center bg-white px-8 text-base font-medium text-blue-900 rounded-none transition-all hover:bg-slate-100">
-                    Explore Growth Worker
-                 </a>
-               </div>
+            <div className="bg-white p-4 max-w-4xl mx-auto rounded-xl border border-slate-200 shadow-sm flex flex-wrap justify-center items-center gap-2 text-[10px] uppercase font-bold text-slate-500">
+              <RefreshCw className="size-4 text-blue-500 mr-2" />
+              <span>Research</span> → <span>Create</span> → <span>Publish</span> → <span>Rank</span> → <span>Measure</span> → <span>Improve</span> → <span className="text-blue-600">Repeat</span>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            16. WHO IS VIDEO WORKER FOR? (White Section)
+            19. WHO IS IT FOR & 24. REGIONAL SEO (White Block)
             ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
+        <section className="bg-white py-12 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-14">
-              <h2 className="text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Built for businesses ready to become more visible.</h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <h2 className="text-3xl font-light tracking-tight text-slate-900 text-center mb-8">Built for businesses that want sustainable organic growth.</h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-10">
               {[
-                { title: "Marketing Teams", desc: "Create more video without expanding your production team." },
-                { title: "Founders & Executives", desc: "Turn your knowledge and expertise into thought leadership." },
-                { title: "Agencies", desc: "Produce more video content for clients." },
-                { title: "E-commerce Businesses", desc: "Create product videos and promotional content." },
-                { title: "Professional Services", desc: "Explain complex services through engaging video." },
-                { title: "Educators & Trainers", desc: "Turn knowledge into structured learning content." }
+                { title: "Growing Businesses", desc: "Build organic visibility without a full team." },
+                { title: "Marketing Teams", desc: "Automate repetitive SEO research." },
+                { title: "Agencies", desc: "Manage workflows across multiple clients." },
+                { title: "E-commerce", desc: "Improve product visibility and traffic." },
+                { title: "Local Businesses", desc: "Reach customers searching in your city." },
+                { title: "B2B Companies", desc: "Turn high-intent traffic into leads." },
+                { title: "Prof. Services", desc: "Build authority around your expertise." }
               ].map((item, i) => (
-                <div key={i} className="bg-slate-50 p-6 rounded-[1.5rem] border border-slate-100 hover:shadow-md transition-shadow">
-                  <h3 className="text-xl font-normal text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-sm font-light text-slate-600">{item.desc}</p>
+                <div key={i} className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                  <h3 className="text-sm font-medium text-slate-900 mb-1">{item.title}</h3>
+                  <p className="text-[10px] font-light text-slate-600">{item.desc}</p>
                 </div>
               ))}
             </div>
+
+            <div className="border-t border-slate-100 pt-10 text-center">
+              <h2 className="mb-4 text-2xl font-light tracking-tight text-slate-900">Built for businesses growing across markets.</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto text-left">
+                {[
+                  { title: "Australia", desc: "English SEO strategies for local and national search." },
+                  { title: "UAE", desc: "Bilingual search opportunities across a diverse market." },
+                  { title: "Saudi Arabia", desc: "Arabic-first SEO with local search context." }
+                ].map((region, i) => (
+                  <div key={i} className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                    <Globe className="size-5 text-blue-500 mb-2" />
+                    <h3 className="text-base font-normal text-slate-900 mb-1">{region.title}</h3>
+                    <p className="text-xs font-light text-slate-600">{region.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </section>
 
         {/* =========================================================================
-            17. VS TRADITIONAL VIDEO PRODUCTION (White Section)
+            20. VS TRADITIONAL SEO
             ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
+        <section className="bg-white py-12 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-12">
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">A smarter way to produce video.</h2>
+            <div className="max-w-3xl mx-auto text-center mb-8">
+              <h2 className="mb-4 text-3xl font-light tracking-tight text-slate-900">A smarter way to manage SEO.</h2>
             </div>
 
-            <div className="max-w-5xl mx-auto bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg mb-10">
-              <table className="w-full text-left text-sm sm:text-base">
+            <div className="max-w-4xl mx-auto bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-md mb-6">
+              <table className="w-full text-left text-xs sm:text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-50">
-                    <th className="p-6 font-bold text-slate-900 w-1/2">Traditional Video Production</th>
-                    <th className="p-6 font-bold text-blue-700 w-1/2 bg-blue-50/50 border-l border-slate-200">With Video Worker</th>
+                    <th className="p-4 font-bold text-slate-900 w-1/2">Traditional SEO Workflow</th>
+                    <th className="p-4 font-bold text-blue-700 w-1/2 bg-blue-50/50 border-l border-slate-200">With SEO Worker</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-light text-slate-700">
                   {[
-                    ["Start from scratch", "Start with AI-assisted ideas"],
-                    ["Manual scripting", "AI-assisted scripts"],
-                    ["Separate production tools", "Unified workflow"],
-                    ["Expensive production", "AI-powered production"],
-                    ["Manual repurposing", "Automated content repurposing"],
-                    ["One format at a time", "Multiple formats"],
-                    ["English-focused workflows", "Arabic + English"],
-                    ["Slow production cycles", "Faster content production"]
+                    ["Manual keyword research", "AI-assisted keyword discovery"],
+                    ["Separate SEO tools", "Centralized SEO workflow"],
+                    ["Manual competitor research", "AI competitor intelligence"],
+                    ["Periodic audits", "Continuous monitoring"],
+                    ["Manual content planning", "AI-powered content strategy"],
+                    ["Manual optimization", "AI on-page recommendations"],
+                    ["Spreadsheet rank tracking", "Automated rank monitoring"],
+                    ["Manual reporting", "Automated SEO insights"],
+                    ["One-language SEO", "Arabic + English SEO"],
+                    ["Reactive SEO", "Continuous optimization"]
                   ].map((row, i) => (
                     <tr key={i} className="hover:bg-slate-50/50">
-                      <td className="p-6 text-slate-500">{row[0]}</td>
-                      <td className="p-6 font-medium text-slate-900 bg-blue-50/30 border-l border-slate-100 flex items-center gap-3">
-                        <Check className="size-4 text-blue-500 shrink-0" />
+                      <td className="p-3 sm:p-4 text-slate-500">{row[0]}</td>
+                      <td className="p-3 sm:p-4 font-medium text-slate-900 bg-blue-50/30 border-l border-slate-100 flex items-center gap-2">
+                        <Check className="size-3 text-blue-500 shrink-0" />
                         {row[1]}
                       </td>
                     </tr>
@@ -875,170 +700,127 @@ export default function VideoWorkerPage() {
                 </tbody>
               </table>
             </div>
-
-            <div className="text-center">
-              <p className="text-lg font-light text-slate-600">The goal isn't to remove creativity. It's to remove the friction between an idea and the finished video.</p>
-            </div>
+            <p className="text-center text-sm font-medium text-slate-600">Spend less time collecting SEO data. Spend more time acting on it.</p>
           </div>
         </section>
 
         {/* =========================================================================
-            18. PRICING SECTION (WIDER CARD, Soft Slate)
+            21 & 22. PRICING & ROI (Wider layout)
             ========================================================================= */}
         <section className="bg-slate-50 py-16 border-b border-slate-200">
           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-10">
-              <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-600">Simple Pricing</span>
-              <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-slate-900">Turn your ideas into video.</h2>
+            <div className="max-w-4xl mx-auto text-center mb-8">
+              <span className="mb-3 inline-block text-[10px] font-bold uppercase tracking-widest text-blue-600">Simple Pricing</span>
+              <h2 className="mb-4 text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Build an SEO engine that keeps working.</h2>
             </div>
 
-            {/* Currency / Annual Toggles */}
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <div className="flex flex-wrap justify-center gap-4 mb-10">
               <div className="flex items-center p-1 bg-white border border-slate-200 rounded-none shadow-sm">
-                <button onClick={() => setCurrency("USD")} className={`px-6 py-2.5 text-sm font-medium rounded-none transition-colors ${currency === "USD" ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>USD</button>
-                <button onClick={() => setCurrency("AUD")} className={`px-6 py-2.5 text-sm font-medium rounded-none transition-colors ${currency === "AUD" ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>AUD</button>
+                <button onClick={() => setCurrency("USD")} className={`px-5 py-2 text-xs font-medium rounded-none transition-colors ${currency === "USD" ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>USD</button>
+                <button onClick={() => setCurrency("AUD")} className={`px-5 py-2 text-xs font-medium rounded-none transition-colors ${currency === "AUD" ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>AUD</button>
               </div>
               <div className="flex items-center p-1 bg-white border border-slate-200 rounded-none shadow-sm">
-                <button onClick={() => setIsAnnual(false)} className={`px-6 py-2.5 text-sm font-medium rounded-none transition-colors ${!isAnnual ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>Monthly</button>
-                <button onClick={() => setIsAnnual(true)} className={`px-6 py-2.5 text-sm font-medium rounded-none transition-colors ${isAnnual ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>Annual (Save 20%)</button>
+                <button onClick={() => setIsAnnual(false)} className={`px-5 py-2 text-xs font-medium rounded-none transition-colors ${!isAnnual ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>Monthly</button>
+                <button onClick={() => setIsAnnual(true)} className={`px-5 py-2 text-xs font-medium rounded-none transition-colors ${isAnnual ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:text-slate-900"}`}>Annual (Save 20%)</button>
               </div>
             </div>
 
             {/* WIDER PRICING CARD */}
-            <div className="max-w-3xl mx-auto bg-white rounded-[2.5rem] border-4 border-blue-600 p-8 sm:p-12 shadow-2xl relative">
+            <div className="max-w-4xl mx-auto bg-white rounded-[2rem] border-4 border-blue-600 p-8 sm:p-10 shadow-2xl relative">
               
-              <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-100 pb-8 mb-8 gap-6">
+              <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-100 pb-6 mb-6 gap-4">
                 <div>
-                  <h3 className="text-3xl font-normal text-slate-900 mb-2">Video Worker</h3>
-                  <p className="text-sm font-light text-slate-500">The complete AI video production engine.</p>
+                  <h3 className="text-2xl font-normal text-slate-900 mb-1">SEO Worker</h3>
+                  <p className="text-xs font-light text-slate-500">The complete organic growth engine.</p>
                 </div>
                 <div className="text-left md:text-right">
-                  <div className="text-5xl font-light text-slate-900">
+                  <div className="text-4xl font-light text-slate-900">
                     {getCurrencySymbol()}{calculatePrice(99)}
-                    <span className="text-base font-normal text-slate-500">/month</span>
+                    <span className="text-sm font-normal text-slate-500">/month</span>
                   </div>
-                  <p className="text-xs font-light text-slate-400 mt-2">{isAnnual ? "Billed annually with 20% discount." : "Billed monthly."}</p>
+                  <p className="text-[10px] font-light text-slate-400 mt-1">{isAnnual ? "Billed annually with 20% discount." : "Billed monthly."}</p>
                 </div>
               </div>
               
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-10 text-sm font-light text-slate-700">
+              {/* Features split into 2 columns for wider layout */}
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-8 text-xs font-light text-slate-700">
                 {[
-                  "20 AI videos/month", "AI script generation", "Short-form video creation", "Long-form video workflows",
-                  "AI visual generation", "AI voiceover workflows", "Automatic captions", "Content repurposing",
-                  "Multiple video formats", "Video content calendar", "Brand consistency tools", "Arabic + English", 
-                  "RTL support", "Hijri support", "Ramadan engine", "Video approval workflow", "Performance insights"
+                  "AI keyword research", "Keyword opportunity discovery", "SEO content strategy", 
+                  "On-page SEO optimization", "Technical SEO monitoring", "Automated SEO audits", 
+                  "Competitor analysis", "Content gap analysis", "Local SEO tools", 
+                  "Rank tracking", "SEO performance reporting", "AI SEO recommendations", 
+                  "Arabic + English SEO", "RTL support", "Hijri support", 
+                  "Ramadan SEO engine", "Email + WhatsApp support"
                 ].map((feat, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <Check className="size-4 text-blue-600 shrink-0 mt-0.5" />
+                  <li key={i} className="flex items-start gap-2">
+                    <Check className="size-3.5 text-blue-600 shrink-0 mt-0.5" />
                     <span>{feat}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <a href="/book?plan=video" className="flex-1 flex h-14 items-center justify-center bg-blue-600 rounded-none font-normal text-lg text-white hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl">
+              <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                <a href="/book?plan=seo" className="flex-1 flex h-12 items-center justify-center bg-blue-600 rounded-none font-normal text-base text-white hover:bg-blue-700 transition-colors shadow">
                   Start 7-Day Free Trial
                 </a>
-                <a href="/book" className="flex-1 flex h-14 items-center justify-center border-2 border-slate-300 bg-white rounded-none font-normal text-lg text-slate-800 hover:border-slate-800 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="/book" className="flex-1 flex h-12 items-center justify-center border-2 border-slate-300 bg-white rounded-none font-normal text-base text-slate-800 hover:border-slate-800 hover:bg-slate-800 hover:text-white transition-colors">
                   Book a Demo
                 </a>
               </div>
               
-              <p className="text-center text-sm font-light text-slate-500 mb-8">No credit card required. No lock-in. Cancel anytime.</p>
+              <p className="text-center text-[10px] font-light text-slate-500 mb-6">No credit card required. No lock-in. Cancel anytime.</p>
 
-              <div className="pt-8 border-t border-slate-100 text-center bg-blue-50/50 -mx-8 -mb-12 sm:-mx-12 p-8 rounded-b-[2.2rem]">
-                <p className="text-sm font-medium text-slate-900 mb-2">Need a complete marketing engine?</p>
-                <a href="/book?plan=growth" className="text-sm font-normal text-blue-600 hover:underline">
-                  Combine Video Worker with Growth Worker to connect your video production with content, social publishing, analytics, ROI tracking, and growth strategy. [ Explore Growth Worker → ]
+              <div className="pt-6 border-t border-slate-100 text-center bg-blue-50/50 -mx-8 -mb-10 sm:-mx-10 p-6 rounded-b-[1.7rem]">
+                <p className="text-xs font-medium text-slate-900 mb-1">Want SEO connected to your entire growth operation?</p>
+                <a href="/book?plan=growth" className="text-[10px] font-normal text-blue-600 hover:underline">
+                  Combine SEO Worker with Growth Worker to connect SEO, Content, Social, Video, analytics, ROI tracking, and strategy →
                 </a>
               </div>
             </div>
+            
+            {/* ROI */}
+            <div className="max-w-3xl mx-auto mt-16 text-center">
+              <h2 className="mb-4 text-2xl font-light tracking-tight text-slate-900">What is one new customer from search worth to you?</h2>
+              <p className="text-sm font-light text-slate-600 mb-6">SEO compounds over time. A page that ranks today can continue bringing qualified visitors and opportunities long after the initial work is complete. SEO Worker helps your team build a repeatable organic growth system instead of relying entirely on paid acquisition.</p>
+              
+              <div className="flex justify-center gap-6 text-sm font-medium text-slate-800 bg-white p-4 rounded-xl border border-slate-200 inline-flex shadow-sm">
+                <div><span className="block text-xl text-blue-600 font-light">24/7</span> Organic visibility</div>
+                <div><span className="block text-xl text-blue-600 font-light">Multiple</span> Keyword opps</div>
+                <div><span className="block text-xl text-blue-600 font-light">Continuous</span> Monitoring</div>
+                <div><span className="block text-xl text-blue-600 font-light">One</span> Connected workflow</div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         {/* =========================================================================
-            19. ROI / VALUE SECTION (White Section)
+            25. FAQ (Smaller Section)
             ========================================================================= */}
-        <section className="bg-white py-16 border-b border-slate-200">
-           <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8 text-center">
-            <div className="max-w-4xl mx-auto mb-10">
-              <h2 className="mb-4 text-4xl font-light tracking-tight text-slate-900">What could your business create with more video?</h2>
-              <p className="text-lg font-light text-slate-600">Traditional video production can take days or weeks. Video Worker helps your team move from idea to production faster, allowing you to create more content without adding the same level of production overhead.</p>
-            </div>
+        <section className="bg-white py-10 border-b border-slate-200">
+          <div className="mx-auto max-w-3xl px-5 sm:px-6">
+            <h3 className="mb-6 text-center text-2xl font-light tracking-tight text-slate-900">Frequently Asked Questions</h3>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center max-w-4xl mx-auto mb-8">
+            <div className="space-y-3">
               {[
-                { val: "20", label: "AI videos/month" },
-                { val: "Multiple", label: "Video formats" },
-                { val: "2", label: "Languages" },
-                { val: "1", label: "Connected workflow" }
-              ].map((stat, i) => (
-                <div key={i} className="p-6 border border-slate-100 bg-slate-50 rounded-2xl">
-                  <div className="text-4xl font-light text-blue-600 mb-2">{stat.val}</div>
-                  <div className="text-sm font-medium text-slate-600">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-            
-            <p className="text-base font-medium text-slate-800">More videos. More opportunities to be seen.</p>
-           </div>
-        </section>
-
-        {/* =========================================================================
-            20. REGIONAL SECTION (Dark Slate Section)
-            ========================================================================= */}
-        <section className="bg-slate-950 py-16 border-b border-slate-800">
-          <div className="mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-8 text-center">
-             <div className="max-w-4xl mx-auto mb-12">
-              <h2 className="mb-4 text-4xl font-light tracking-tight text-white">Built for businesses growing across borders.</h2>
-              <p className="text-lg font-light text-slate-400">Whether your audience is in Australia, the UAE, Saudi Arabia, or across international markets, your video content needs to communicate clearly. Video Worker helps your team create bilingual video content that works across markets.</p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
-              {[
-                { title: "Australia", desc: "Professional English video content." },
-                { title: "UAE", desc: "Bilingual content for diverse audiences." },
-                { title: "Saudi Arabia", desc: "Arabic-first content with regional context." }
-              ].map((region, i) => (
-                <div key={i} className="bg-slate-900 p-8 rounded-[1.5rem] border border-slate-800">
-                  <Globe className="size-8 text-blue-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-normal text-white mb-2">{region.title}</h3>
-                  <p className="text-sm font-light text-slate-400">{region.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-sm font-medium uppercase tracking-widest text-slate-500">Create globally. Communicate locally.</p>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            21. FAQ (White Section)
-            ========================================================================= */}
-        <section className="bg-white py-12 border-b border-slate-200">
-          <div className="mx-auto max-w-4xl px-5 sm:px-6">
-            <h3 className="mb-10 text-center text-3xl sm:text-4xl font-light tracking-tight text-slate-900">Frequently Asked Questions</h3>
-            
-            <div className="space-y-4">
-              {[
-                { q: "What is HIVENOX Video Worker?", a: "Video Worker is an AI-powered video production Worker that helps businesses create scripts, videos, short-form content, long-form content, and repurposed video assets." },
-                { q: "How many videos are included?", a: "The plan includes 20 AI videos per month." },
-                { q: "Can I create short-form videos?", a: "Yes. Video Worker supports short-form content designed for social platforms, including reels, shorts, and quick educational videos." },
-                { q: "Can I create long-form videos?", a: "Yes. Video Worker supports longer educational, explainer, product, and thought leadership video workflows." },
-                { q: "Can I turn blogs into videos?", a: "Yes. Video Worker can help transform existing blogs and other content into video scripts and video concepts." },
-                { q: "Does it support Arabic?", a: "Yes. Video Worker supports Arabic and English workflows, along with RTL, Hijri, and Ramadan-ready capabilities." },
-                { q: "Can I add my branding?", a: "Yes. You can maintain consistent branding across your video workflows using brand elements such as logos, colours, typography, messaging, and CTAs." },
-                { q: "Can my team review videos?", a: "Yes. Video Worker includes collaboration and approval workflows to help teams review content before publishing." },
-                { q: "Can I use the videos on different platforms?", a: "Yes. Video Worker supports multiple video formats for social media, websites, landing pages, campaigns, presentations, and other marketing channels." },
-                { q: "Can I try Video Worker for free?", a: "Yes. You can start with a 7-day free trial without a credit card." },
-                { q: "Can Video Worker work with Growth Worker?", a: "Yes. Video Worker can complement Growth Worker by adding AI-powered video creation to your broader content, social, analytics, and growth workflow." }
+                { q: "What is HIVENOX SEO Worker?", a: "SEO Worker is an AI-powered SEO Worker that helps businesses research keywords, build content strategies, optimize pages, monitor technical SEO, track rankings, analyze competitors, and improve organic visibility." },
+                { q: "Can SEO Worker do keyword research?", a: "Yes. SEO Worker helps identify relevant keywords, search intent, long-tail opportunities, commercial keywords, local searches, and content opportunities." },
+                { q: "Can it optimize my website?", a: "SEO Worker provides AI-assisted recommendations for on-page and technical SEO, including metadata, headings, internal linking, content structure, and technical health." },
+                { q: "Does it monitor technical SEO?", a: "Yes. It helps monitor areas such as crawlability, indexing, broken links, redirects, sitemaps, performance, and structured data opportunities." },
+                { q: "Can I track keyword rankings?", a: "Yes. SEO Worker includes keyword rank tracking and helps identify ranking improvements, declines, and new opportunities." },
+                { q: "Does it analyze competitors?", a: "Yes. SEO Worker can help identify competitor keywords, content gaps, ranking opportunities, and areas where your website can compete." },
+                { q: "Does it support local SEO?", a: "Yes. SEO Worker includes local SEO workflows for businesses targeting specific locations and service areas." },
+                { q: "Does it support Arabic SEO?", a: "Yes. SEO Worker supports Arabic and English SEO workflows, including RTL, Hijri, and Ramadan-ready capabilities." },
+                { q: "Can SEO Worker create content?", a: "SEO Worker focuses primarily on SEO strategy and optimization. For full-scale content creation, it works alongside Content Worker." },
+                { q: "What's the difference between SEO Worker and Growth Worker?", a: "SEO Worker focuses specifically on organic search visibility and SEO performance. Growth Worker combines broader marketing capabilities including Social + Content, advanced analytics, ROI tracking, A/B testing, reporting, and strategy." },
+                { q: "Can I try SEO Worker before paying?", a: "Yes. You can start with a 7-day free trial without a credit card." }
               ].map((faq, index) => (
-                <details key={index} className="group overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm transition-all duration-300 hover:border-blue-300 hover:bg-white">
-                  <summary className="flex cursor-pointer items-center justify-between p-5 text-base sm:text-lg font-normal text-slate-900 outline-none list-none [&::-webkit-details-marker]:hidden">
+                <details key={index} className="group overflow-hidden rounded-xl border border-slate-200 bg-slate-50 shadow-sm transition-all duration-300 hover:border-blue-300 hover:bg-white">
+                  <summary className="flex cursor-pointer items-center justify-between p-4 text-sm font-medium text-slate-900 outline-none list-none [&::-webkit-details-marker]:hidden">
                     {faq.q}
-                    <ArrowDown className="size-5 shrink-0 text-blue-500 transition-transform duration-300 group-open:rotate-180 ml-4 bg-blue-100 rounded-full p-1" />
+                    <ArrowDown className="size-4 shrink-0 text-blue-500 transition-transform duration-300 group-open:rotate-180 ml-4" />
                   </summary>
-                  <div className="px-5 pb-5 pt-0 text-sm sm:text-base font-light leading-relaxed text-slate-600">
+                  <div className="px-4 pb-4 pt-0 text-xs font-light leading-relaxed text-slate-600">
                     {faq.a}
                   </div>
                 </details>
@@ -1048,36 +830,34 @@ export default function VideoWorkerPage() {
         </section>
 
         {/* =========================================================================
-            22. FINAL CTA (Blue Background)
+            26. FINAL CTA (Smaller block)
             ========================================================================= */}
-        <section className="py-12 px-5 sm:px-6 lg:px-8 bg-slate-50">
+        <section className="py-10 px-5 sm:px-6 lg:px-8 bg-slate-50">
           <div className="mx-auto max-w-[90rem]">
-            <div className="relative overflow-hidden rounded-[2.5rem] bg-blue-600 px-6 py-16 sm:px-12 sm:py-20 text-center shadow-xl">
-              {/* Decorative blurs */}
-              <div className="absolute top-0 right-0 -mt-20 -mr-20 h-[30rem] w-[30rem] rounded-full bg-blue-500 blur-[100px] opacity-60 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 -mb-20 -ml-20 h-[30rem] w-[30rem] rounded-full bg-blue-800 blur-[100px] opacity-40 pointer-events-none" />
+            <div className="relative overflow-hidden rounded-[1.5rem] bg-blue-600 px-6 py-10 sm:px-10 text-center shadow-lg">
+              <div className="absolute top-0 right-0 -mt-20 -mr-20 h-[20rem] w-[20rem] rounded-full bg-blue-500 blur-[80px] opacity-50 pointer-events-none" />
               
-              <div className="relative z-10 mx-auto max-w-3xl">
-                <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-blue-200 bg-blue-800/30 px-4 py-1.5 rounded-full border border-blue-400/30">
-                  Your AI Video Workforce
+              <div className="relative z-10 mx-auto max-w-2xl">
+                <span className="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-blue-200 bg-blue-800/30 px-3 py-1 rounded-full">
+                  Your AI SEO Team
                 </span>
-                <h2 className="mb-6 text-4xl sm:text-5xl font-light tracking-tight text-white">
-                  Your next video shouldn't take weeks.
+                <h2 className="mb-3 text-3xl font-light tracking-tight text-white">
+                  Stop chasing rankings. Build lasting visibility.
                 </h2>
-                <p className="mb-10 text-lg font-light leading-relaxed text-blue-100">
-                  Turn your ideas, expertise, and existing content into videos your audience can watch, share, and remember. Start creating more video with HIVENOX Video Worker.
+                <p className="mb-6 text-sm font-light text-blue-100">
+                  Let HIVENOX SEO Worker continuously research opportunities, optimize your website, monitor your performance, and help your business grow through organic search.
                 </p>
                 
-                <div className="flex flex-wrap justify-center gap-4 mb-8">
-                  <a href="/book?plan=video" className="inline-flex h-14 items-center justify-center bg-white px-10 text-lg font-normal text-blue-700 rounded-none transition-all hover:bg-slate-100 hover:shadow-lg hover:-translate-y-0.5">
+                <div className="flex flex-wrap justify-center gap-3 mb-4">
+                  <a href="/book?plan=seo" className="inline-flex h-12 items-center justify-center bg-white px-8 text-sm font-medium text-blue-700 rounded-none transition-all hover:bg-slate-100">
                     Start 7-Day Free Trial
                   </a>
-                  <a href="/book" className="inline-flex h-14 items-center justify-center border-2 border-blue-400 bg-transparent px-10 text-lg font-normal text-white rounded-none transition-colors hover:border-white hover:bg-white/10">
+                  <a href="/book" className="inline-flex h-12 items-center justify-center border border-blue-400 bg-transparent px-8 text-sm font-medium text-white rounded-none transition-colors hover:border-white hover:bg-white/10">
                     Book a Demo
                   </a>
                 </div>
 
-                <p className="text-sm font-light text-blue-200">
+                <p className="text-[10px] font-light text-blue-200">
                   No credit card required. Cancel anytime.
                 </p>
               </div>
