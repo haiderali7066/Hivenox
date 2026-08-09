@@ -190,7 +190,7 @@ export default function HeroSection() {
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             className="mt-6 max-w-lg text-lg leading-relaxed text-slate-600 sm:text-xl font-normal"
           >
-            Hivenox unites your ERP, CRM, HR, finance, and AI workers in a single, bilingual system built for scale in Australia, the UAE, and Saudi Arabia.
+            HIVENOX delivers Results-as-a-Service (RaaS) through AI Workers that automate business functions, execute workflows, and produce measurable business outcomes.
           </motion.p>
 
           {/* Action Buttons */}
